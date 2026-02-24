@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Quan_Ly_Nhan_Su.Forms
 {
-    public partial class Trang_Chu : Form
+    public partial class TrangChu : Form
     {
-        public Trang_Chu()
+        public TrangChu()
         {
             InitializeComponent();
         }

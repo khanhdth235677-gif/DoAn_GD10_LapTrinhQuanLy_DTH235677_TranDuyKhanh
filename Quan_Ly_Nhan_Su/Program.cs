@@ -1,3 +1,5 @@
+using Quan_Ly_Nhan_Su.Forms;
+
 namespace Quan_Ly_Nhan_Su
 {
     internal static class Program
@@ -11,7 +13,7 @@ namespace Quan_Ly_Nhan_Su
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Trang_Chu());
+            Application.Run(new TrangChu());
         }
     }
 }
