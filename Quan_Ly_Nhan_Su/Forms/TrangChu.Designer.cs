@@ -28,22 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrangChu));
             panelSidebar = new FlowLayoutPanel();
             label1 = new Label();
             button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
-            button5 = new Button();
-            button6 = new Button();
-            button7 = new Button();
-            button8 = new Button();
+            btnTrangChu = new Button();
+            btnNhanVien = new Button();
+            btnBoPhan = new Button();
+            btnChamCong = new Button();
+            btnBangLuong = new Button();
+            btnDuAn = new Button();
+            btnNghiPhep = new Button();
             panelMain = new Panel();
             panelStatus = new Panel();
-            label2 = new Label();
-            label3 = new Label();
             label4 = new Label();
+            label3 = new Label();
+            label2 = new Label();
+            fadeTimer = new System.Windows.Forms.Timer(components);
             panelSidebar.SuspendLayout();
             panelMain.SuspendLayout();
             panelStatus.SuspendLayout();
@@ -54,13 +56,13 @@
             panelSidebar.BackColor = Color.Gainsboro;
             panelSidebar.Controls.Add(label1);
             panelSidebar.Controls.Add(button1);
-            panelSidebar.Controls.Add(button8);
-            panelSidebar.Controls.Add(button7);
-            panelSidebar.Controls.Add(button6);
-            panelSidebar.Controls.Add(button5);
-            panelSidebar.Controls.Add(button4);
-            panelSidebar.Controls.Add(button3);
-            panelSidebar.Controls.Add(button2);
+            panelSidebar.Controls.Add(btnTrangChu);
+            panelSidebar.Controls.Add(btnNhanVien);
+            panelSidebar.Controls.Add(btnBoPhan);
+            panelSidebar.Controls.Add(btnChamCong);
+            panelSidebar.Controls.Add(btnBangLuong);
+            panelSidebar.Controls.Add(btnDuAn);
+            panelSidebar.Controls.Add(btnNghiPhep);
             panelSidebar.Dock = DockStyle.Left;
             panelSidebar.Location = new Point(0, 0);
             panelSidebar.Name = "panelSidebar";
@@ -81,7 +83,7 @@
             // 
             // button1
             // 
-            button1.BackColor = Color.HotPink;
+            button1.BackColor = Color.MediumAquamarine;
             button1.FlatAppearance.BorderSize = 0;
             button1.FlatStyle = FlatStyle.Flat;
             button1.ForeColor = Color.White;
@@ -93,103 +95,110 @@
             button1.Text = "ADMIN ▼";
             button1.UseVisualStyleBackColor = false;
             // 
-            // button2
+            // btnTrangChu
             // 
-            button2.BackColor = Color.Transparent;
-            button2.FlatAppearance.BorderSize = 0;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Location = new Point(25, 391);
-            button2.Margin = new Padding(25, 3, 3, 3);
-            button2.Name = "button2";
-            button2.Size = new Size(200, 40);
-            button2.TabIndex = 1;
-            button2.Text = "Nghỉ phép";
-            button2.TextAlign = ContentAlignment.MiddleLeft;
-            button2.UseVisualStyleBackColor = false;
+            btnTrangChu.BackColor = Color.Transparent;
+            btnTrangChu.FlatAppearance.BorderSize = 0;
+            btnTrangChu.FlatStyle = FlatStyle.Flat;
+            btnTrangChu.Location = new Point(25, 115);
+            btnTrangChu.Margin = new Padding(25, 3, 3, 3);
+            btnTrangChu.Name = "btnTrangChu";
+            btnTrangChu.Size = new Size(200, 40);
+            btnTrangChu.TabIndex = 7;
+            btnTrangChu.Text = "Trang Chủ";
+            btnTrangChu.TextAlign = ContentAlignment.MiddleLeft;
+            btnTrangChu.UseVisualStyleBackColor = false;
+            btnTrangChu.Click += btnTrangChu_Click;
             // 
-            // button3
+            // btnNhanVien
             // 
-            button3.BackColor = Color.Transparent;
-            button3.FlatAppearance.BorderSize = 0;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.Location = new Point(25, 345);
-            button3.Margin = new Padding(25, 3, 3, 3);
-            button3.Name = "button3";
-            button3.Size = new Size(200, 40);
-            button3.TabIndex = 2;
-            button3.Text = "Dự án";
-            button3.TextAlign = ContentAlignment.MiddleLeft;
-            button3.UseVisualStyleBackColor = false;
+            btnNhanVien.BackColor = Color.Transparent;
+            btnNhanVien.FlatAppearance.BorderSize = 0;
+            btnNhanVien.FlatStyle = FlatStyle.Flat;
+            btnNhanVien.Location = new Point(25, 161);
+            btnNhanVien.Margin = new Padding(25, 3, 3, 3);
+            btnNhanVien.Name = "btnNhanVien";
+            btnNhanVien.Size = new Size(200, 40);
+            btnNhanVien.TabIndex = 6;
+            btnNhanVien.Text = "Nhân viên";
+            btnNhanVien.TextAlign = ContentAlignment.MiddleLeft;
+            btnNhanVien.UseVisualStyleBackColor = false;
+            btnNhanVien.Click += btnNhanVien_Click;
             // 
-            // button4
+            // btnBoPhan
             // 
-            button4.BackColor = Color.Transparent;
-            button4.FlatAppearance.BorderSize = 0;
-            button4.FlatStyle = FlatStyle.Flat;
-            button4.Location = new Point(25, 299);
-            button4.Margin = new Padding(25, 3, 3, 3);
-            button4.Name = "button4";
-            button4.Size = new Size(200, 40);
-            button4.TabIndex = 3;
-            button4.Text = "Bảng lương";
-            button4.TextAlign = ContentAlignment.MiddleLeft;
-            button4.UseVisualStyleBackColor = false;
+            btnBoPhan.BackColor = Color.Transparent;
+            btnBoPhan.FlatAppearance.BorderSize = 0;
+            btnBoPhan.FlatStyle = FlatStyle.Flat;
+            btnBoPhan.Location = new Point(25, 207);
+            btnBoPhan.Margin = new Padding(25, 3, 3, 3);
+            btnBoPhan.Name = "btnBoPhan";
+            btnBoPhan.Size = new Size(200, 40);
+            btnBoPhan.TabIndex = 5;
+            btnBoPhan.Text = "Bộ phận";
+            btnBoPhan.TextAlign = ContentAlignment.MiddleLeft;
+            btnBoPhan.UseVisualStyleBackColor = false;
+            btnBoPhan.Click += btnBoPhan_Click;
             // 
-            // button5
+            // btnChamCong
             // 
-            button5.BackColor = Color.Transparent;
-            button5.FlatAppearance.BorderSize = 0;
-            button5.FlatStyle = FlatStyle.Flat;
-            button5.Location = new Point(25, 253);
-            button5.Margin = new Padding(25, 3, 3, 3);
-            button5.Name = "button5";
-            button5.Size = new Size(200, 40);
-            button5.TabIndex = 4;
-            button5.Text = "Chấm công";
-            button5.TextAlign = ContentAlignment.MiddleLeft;
-            button5.UseVisualStyleBackColor = false;
+            btnChamCong.BackColor = Color.Transparent;
+            btnChamCong.FlatAppearance.BorderSize = 0;
+            btnChamCong.FlatStyle = FlatStyle.Flat;
+            btnChamCong.Location = new Point(25, 253);
+            btnChamCong.Margin = new Padding(25, 3, 3, 3);
+            btnChamCong.Name = "btnChamCong";
+            btnChamCong.Size = new Size(200, 40);
+            btnChamCong.TabIndex = 4;
+            btnChamCong.Text = "Chấm công";
+            btnChamCong.TextAlign = ContentAlignment.MiddleLeft;
+            btnChamCong.UseVisualStyleBackColor = false;
+            btnChamCong.Click += btnChamCong_Click;
             // 
-            // button6
+            // btnBangLuong
             // 
-            button6.BackColor = Color.Transparent;
-            button6.FlatAppearance.BorderSize = 0;
-            button6.FlatStyle = FlatStyle.Flat;
-            button6.Location = new Point(25, 207);
-            button6.Margin = new Padding(25, 3, 3, 3);
-            button6.Name = "button6";
-            button6.Size = new Size(200, 40);
-            button6.TabIndex = 5;
-            button6.Text = "Bộ phận";
-            button6.TextAlign = ContentAlignment.MiddleLeft;
-            button6.UseVisualStyleBackColor = false;
+            btnBangLuong.BackColor = Color.Transparent;
+            btnBangLuong.FlatAppearance.BorderSize = 0;
+            btnBangLuong.FlatStyle = FlatStyle.Flat;
+            btnBangLuong.Location = new Point(25, 299);
+            btnBangLuong.Margin = new Padding(25, 3, 3, 3);
+            btnBangLuong.Name = "btnBangLuong";
+            btnBangLuong.Size = new Size(200, 40);
+            btnBangLuong.TabIndex = 3;
+            btnBangLuong.Text = "Bảng lương";
+            btnBangLuong.TextAlign = ContentAlignment.MiddleLeft;
+            btnBangLuong.UseVisualStyleBackColor = false;
+            btnBangLuong.Click += btnBangLuong_Click;
             // 
-            // button7
+            // btnDuAn
             // 
-            button7.BackColor = Color.Transparent;
-            button7.FlatAppearance.BorderSize = 0;
-            button7.FlatStyle = FlatStyle.Flat;
-            button7.Location = new Point(25, 161);
-            button7.Margin = new Padding(25, 3, 3, 3);
-            button7.Name = "button7";
-            button7.Size = new Size(200, 40);
-            button7.TabIndex = 6;
-            button7.Text = "Nhân viên";
-            button7.TextAlign = ContentAlignment.MiddleLeft;
-            button7.UseVisualStyleBackColor = false;
+            btnDuAn.BackColor = Color.Transparent;
+            btnDuAn.FlatAppearance.BorderSize = 0;
+            btnDuAn.FlatStyle = FlatStyle.Flat;
+            btnDuAn.Location = new Point(25, 345);
+            btnDuAn.Margin = new Padding(25, 3, 3, 3);
+            btnDuAn.Name = "btnDuAn";
+            btnDuAn.Size = new Size(200, 40);
+            btnDuAn.TabIndex = 2;
+            btnDuAn.Text = "Dự án";
+            btnDuAn.TextAlign = ContentAlignment.MiddleLeft;
+            btnDuAn.UseVisualStyleBackColor = false;
+            btnDuAn.Click += btnDuAn_Click;
             // 
-            // button8
+            // btnNghiPhep
             // 
-            button8.BackColor = Color.Transparent;
-            button8.FlatAppearance.BorderSize = 0;
-            button8.FlatStyle = FlatStyle.Flat;
-            button8.Location = new Point(25, 115);
-            button8.Margin = new Padding(25, 3, 3, 3);
-            button8.Name = "button8";
-            button8.Size = new Size(200, 40);
-            button8.TabIndex = 7;
-            button8.Text = "Trang Chủ";
-            button8.TextAlign = ContentAlignment.MiddleLeft;
-            button8.UseVisualStyleBackColor = false;
+            btnNghiPhep.BackColor = Color.Transparent;
+            btnNghiPhep.FlatAppearance.BorderSize = 0;
+            btnNghiPhep.FlatStyle = FlatStyle.Flat;
+            btnNghiPhep.Location = new Point(25, 391);
+            btnNghiPhep.Margin = new Padding(25, 3, 3, 3);
+            btnNghiPhep.Name = "btnNghiPhep";
+            btnNghiPhep.Size = new Size(200, 40);
+            btnNghiPhep.TabIndex = 1;
+            btnNghiPhep.Text = "Nghỉ phép";
+            btnNghiPhep.TextAlign = ContentAlignment.MiddleLeft;
+            btnNghiPhep.UseVisualStyleBackColor = false;
+            btnNghiPhep.Click += btnNghiPhep_Click;
             // 
             // panelMain
             // 
@@ -215,15 +224,15 @@
             panelStatus.Size = new Size(792, 40);
             panelStatus.TabIndex = 0;
             // 
-            // label2
+            // label4
             // 
-            label2.Anchor = AnchorStyles.Left;
-            label2.AutoSize = true;
-            label2.Location = new Point(24, 11);
-            label2.Name = "label2";
-            label2.Size = new Size(131, 20);
-            label2.TabIndex = 0;
-            label2.Text = "Nhân viên: ADMIN";
+            label4.Anchor = AnchorStyles.Right;
+            label4.AutoSize = true;
+            label4.Location = new Point(679, 11);
+            label4.Name = "label4";
+            label4.Size = new Size(85, 20);
+            label4.TabIndex = 2;
+            label4.Text = "24/02/2024";
             // 
             // label3
             // 
@@ -235,15 +244,20 @@
             label3.TabIndex = 1;
             label3.Text = "Quyền hạn: Quản trị hệ thống";
             // 
-            // label4
+            // label2
             // 
-            label4.Anchor = AnchorStyles.Right;
-            label4.AutoSize = true;
-            label4.Location = new Point(679, 11);
-            label4.Name = "label4";
-            label4.Size = new Size(85, 20);
-            label4.TabIndex = 2;
-            label4.Text = "24/02/2024";
+            label2.Anchor = AnchorStyles.Left;
+            label2.AutoSize = true;
+            label2.Location = new Point(24, 11);
+            label2.Name = "label2";
+            label2.Size = new Size(131, 20);
+            label2.TabIndex = 0;
+            label2.Text = "Nhân viên: ADMIN";
+            // 
+            // fadeTimer
+            // 
+            fadeTimer.Interval = 20;
+            fadeTimer.Tick += fadeTimer_Tick;
             // 
             // TrangChu
             // 
@@ -253,7 +267,8 @@
             Controls.Add(panelMain);
             Controls.Add(panelSidebar);
             Name = "TrangChu";
-            Text = "TrangChu";
+            Text = "Trang chủ ";
+            Load += MainForm_Load;
             panelSidebar.ResumeLayout(false);
             panelMain.ResumeLayout(false);
             panelStatus.ResumeLayout(false);
@@ -266,17 +281,18 @@
         private FlowLayoutPanel panelSidebar;
         private Label label1;
         private Button button1;
-        private Button button8;
-        private Button button7;
-        private Button button6;
-        private Button button5;
-        private Button button4;
-        private Button button3;
-        private Button button2;
+        private Button btnTrangChu;
+        private Button btnNhanVien;
+        private Button btnBoPhan;
+        private Button btnChamCong;
+        private Button btnBangLuong;
+        private Button btnDuAn;
+        private Button btnNghiPhep;
         private Panel panelMain;
         private Panel panelStatus;
         private Label label2;
         private Label label4;
         private Label label3;
+        private System.Windows.Forms.Timer fadeTimer;
     }
 }
