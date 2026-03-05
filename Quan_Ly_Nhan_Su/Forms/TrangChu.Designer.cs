@@ -40,6 +40,7 @@
             btnBangLuong = new Button();
             btnDuAn = new Button();
             btnNghiPhep = new Button();
+            btnThoat = new Button();
             panelMain = new Panel();
             panelStatus = new Panel();
             label4 = new Label();
@@ -63,6 +64,7 @@
             panelSidebar.Controls.Add(btnBangLuong);
             panelSidebar.Controls.Add(btnDuAn);
             panelSidebar.Controls.Add(btnNghiPhep);
+            panelSidebar.Controls.Add(btnThoat);
             panelSidebar.Dock = DockStyle.Left;
             panelSidebar.Location = new Point(0, 0);
             panelSidebar.Name = "panelSidebar";
@@ -200,6 +202,21 @@
             btnNghiPhep.UseVisualStyleBackColor = false;
             btnNghiPhep.Click += btnNghiPhep_Click;
             // 
+            // btnThoat
+            // 
+            btnThoat.BackColor = Color.Transparent;
+            btnThoat.FlatAppearance.BorderSize = 0;
+            btnThoat.FlatStyle = FlatStyle.Flat;
+            btnThoat.Location = new Point(25, 437);
+            btnThoat.Margin = new Padding(25, 3, 3, 3);
+            btnThoat.Name = "btnThoat";
+            btnThoat.Size = new Size(200, 40);
+            btnThoat.TabIndex = 8;
+            btnThoat.Text = "Thoát";
+            btnThoat.TextAlign = ContentAlignment.MiddleLeft;
+            btnThoat.UseVisualStyleBackColor = false;
+            btnThoat.Click += btnThoat_Click;
+            // 
             // panelMain
             // 
             panelMain.BackColor = Color.White;
@@ -266,8 +283,11 @@
             ClientSize = new Size(1042, 515);
             Controls.Add(panelMain);
             Controls.Add(panelSidebar);
+            IsMdiContainer = true;
             Name = "TrangChu";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Trang chủ ";
+            WindowState = FormWindowState.Maximized;
             Load += MainForm_Load;
             panelSidebar.ResumeLayout(false);
             panelMain.ResumeLayout(false);
@@ -294,5 +314,6 @@
         private Label label4;
         private Label label3;
         private System.Windows.Forms.Timer fadeTimer;
+        private Button btnThoat;
     }
 }

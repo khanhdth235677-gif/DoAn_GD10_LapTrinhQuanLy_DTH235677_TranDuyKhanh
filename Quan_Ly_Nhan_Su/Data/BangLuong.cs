@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Quan_Ly_Nhan_Su.Data
 {
@@ -12,13 +13,22 @@ namespace Quan_Ly_Nhan_Su.Data
 
         public int NhanVienID { get; set; }
 
-        public int Thang { get; set; }
-        public int Nam { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal LuongCoBan { get; set; }
 
-        public decimal TongLuong { get; set; }
-        public decimal Thuong { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
         public decimal PhuCap { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Thuong { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
         public decimal KhauTru { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal TongLuong { get; set; }
+
+        public DateTime ThangNam { get; set; }
 
         public virtual NhanVien NhanVien { get; set; } = null!;
     }

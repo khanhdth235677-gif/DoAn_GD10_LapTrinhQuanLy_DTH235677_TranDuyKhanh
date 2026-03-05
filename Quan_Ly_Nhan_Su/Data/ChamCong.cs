@@ -9,13 +9,11 @@ namespace Quan_Ly_Nhan_Su.Data
     public class ChamCong
     {
         public int ID { get; set; }
-
         public int NhanVienID { get; set; }
-
         public DateTime Ngay { get; set; }
+        public string? TrangThai { get; set; }
 
-        public TimeSpan? GioVao { get; set; }
-        public TimeSpan? GioRa { get; set; }
+        public int GioTangCa { get; set; }   // số giờ tăng ca
 
         public virtual NhanVien NhanVien { get; set; } = null!;
     }

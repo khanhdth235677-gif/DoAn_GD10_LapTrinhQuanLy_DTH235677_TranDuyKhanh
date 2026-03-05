@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Quan_Ly_Nhan_Su.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +14,15 @@ namespace Quan_Ly_Nhan_Su.Forms
 {
     public partial class NhanVien : Form
     {
+        #region 1. Khai báo biến và Khởi tạo Form
+        // Khởi tạo đối tượng kết nối cơ sở dữ liệu LINQ to SQL
+        QLNSDataContext context = new QLNSDataContext();
+        bool xuLyThem = false;
+        int id; // Lưu ID nhân viên đang chọn
+
+        // Đường dẫn thư mục ảnh
+        BindingSource bindingSource = new BindingSource();
+        string imagesFolder = Path.Combine(Application.StartupPath, @"..\..\..\Images");
         public NhanVien()
         {
             InitializeComponent();
@@ -20,36 +30,865 @@ namespace Quan_Ly_Nhan_Su.Forms
 
         private void NhanVien_Load(object sender, EventArgs e)
         {
-            StyleGrid();
-        }
+            // Gọi các hàm khởi tạo giao diện và nạp dữ liệu khi form mở lên
+            StyleGrid();      // Định dạng DataGridView
+            LoadPhongBan();   // Nạp ComboBox tìm kiếm
+            LoadNhanVien();   // Nạp bảng danh sách chính
+            LoadChucVu();     // Nạp ComboBox chức vụ tìm kiếm
 
+            // Nạp dữ liệu cho các control bên Tab Chi tiết
+            LoadPhongBanCT();
+            LoadChucVuCT();
+            LoadNhanVienCT();
+
+            // Nạp dữ liệu cho Tab Nhân viên - Dự án
+            LoadPhongBanDA();
+            LoadDuAnDA();
+            HienThiDanhSach();
+            BatTatChucNang(false);
+        }
+        /// <summary>
+        /// Tùy chỉnh giao diện hiển thị cho DataGridView (Màu sắc, Font chữ)
+        /// </summary>
         private void StyleGrid()
         {
             dgvNhanVien.BorderStyle = BorderStyle.None;
             dgvNhanVien.EnableHeadersVisualStyles = false;
 
             dgvNhanVien.ColumnHeadersDefaultCellStyle.BackColor = Color.Gainsboro;
-            dgvNhanVien.ColumnHeadersDefaultCellStyle.Font =
-                new Font("Segoe UI", 10, FontStyle.Bold);
+            dgvNhanVien.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
 
-            dgvNhanVien.DefaultCellStyle.Font =
-                new Font("Segoe UI", 10);
+            dgvNhanVien.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+            dgvNhanVien.DefaultCellStyle.SelectionBackColor = Color.LightGray;
 
-            dgvNhanVien.DefaultCellStyle.SelectionBackColor =
-                Color.LightGray;
+            dgvNhanVien.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 245, 245);
+        }
+        #endregion
 
-            dgvNhanVien.AlternatingRowsDefaultCellStyle.BackColor =
-                Color.FromArgb(245, 245, 245);
+        #region 2. Xử lý Dữ liệu & Tìm kiếm (Tab Danh sách)
+
+        // Nạp danh sách chức vụ không trùng lặp từ bảng Nhân viên vào ComboBox
+        void LoadChucVu()
+        {
+            var data = context.NhanVien
+                .Where(x => x.ChucVu != null && x.ChucVu != "")
+                .Select(x => x.ChucVu)
+                .Distinct()
+                .ToList();
+
+            cbChucVu.DataSource = data;
+            cbChucVu.SelectedIndex = -1;
         }
 
-        private void dgvNhanVien_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        // Nạp danh sách Phòng ban từ database
+        void LoadPhongBan()
         {
+            var data = context.PhongBan
+             .Select(x => new { x.ID, x.TenPhongBan }).ToList();
 
+            cbPhong.DataSource = data;
+            cbPhong.DisplayMember = "TenPhongBan";
+            cbPhong.ValueMember = "ID";
+            cbPhong.SelectedIndex = -1;
         }
 
-        private void panelHeader_Paint(object sender, PaintEventArgs e)
+        // Truy vấn dữ liệu nhân viên kết hợp với tên phòng ban (Join)
+        void LoadNhanVien()
         {
+            var data = context.NhanVien
+               .Join(context.PhongBan, nv => nv.PhongBanID, pb => pb.ID, (nv, pb) => new
+               {
+                   ID = "NV" + nv.ID.ToString("D3"), // Định dạng mã: NV001, NV002...
+                   TenPhongBan = pb.TenPhongBan,
+                   HoTen = nv.HoTen,
+                   NgaySinh = nv.NgaySinh,
+                   DiaChi = nv.DiaChi,
+                   GioiTinh = nv.GioiTinh,
+                   DanToc = nv.DanToc,
+                   CCCD = nv.CCCD,
+                   NoiCap = nv.NoiCap,
+                   ChucVu = nv.ChucVu
+               }).ToList();
 
+            dgvNhanVien.AutoGenerateColumns = false;
+            dgvNhanVien.DataSource = data;
+            dgvNhanVien.Columns["NgaySinh"].DefaultCellStyle.Format = "dd/MM/yyyy";
+        }
+
+        // Hàm xử lý tìm kiếm đa điều kiện (Họ tên, Phòng ban, Chức vụ)
+        void TimKiem()
+        {
+            var query = context.NhanVien
+                .Join(context.PhongBan, nv => nv.PhongBanID, pb => pb.ID, (nv, pb) => new { nv, pb })
+                .AsQueryable();
+
+            if (cbPhong.SelectedValue != null)
+            {
+                int phongID = Convert.ToInt32(cbPhong.SelectedValue);
+                query = query.Where(x => x.nv.PhongBanID == phongID);
+            }
+
+            if (!string.IsNullOrWhiteSpace(cbChucVu.Text))
+            {
+                string chucVu = cbChucVu.Text;
+                query = query.Where(x => x.nv.ChucVu.Contains(chucVu));
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtHoTen.Text))
+            {
+                string hoTen = txtHoTen.Text;
+                query = query.Where(x => x.nv.HoTen.Contains(hoTen));
+            }
+
+            var data = query.Select(x => new
+            {
+                ID = x.nv.ID,
+                TenPhongBan = x.pb.TenPhongBan,
+                HoTen = x.nv.HoTen,
+                NgaySinh = x.nv.NgaySinh,
+                DiaChi = x.nv.DiaChi,
+                GioiTinh = x.nv.GioiTinh,
+                DanToc = x.nv.DanToc,
+                CCCD = x.nv.CCCD,
+                NoiCap = x.nv.NoiCap,
+                ChucVu = x.nv.ChucVu
+            }).ToList();
+
+            dgvNhanVien.AutoGenerateColumns = false;
+            dgvNhanVien.DataSource = data;
+        }
+
+        void ResetForm()
+        {
+            cbChucVu.SelectedIndex = -1;
+            cbPhong.SelectedIndex = -1;
+            txtHoTen.Clear();
+            LoadNhanVien();
+        }
+        #endregion
+
+        #region 3. Sự kiện Click Nút (Tab Danh sách)
+        private void btnTimKiem_Click(object sender, EventArgs e) => TimKiem();
+
+        private void btnLamMoi_Click(object sender, EventArgs e) => ResetForm();
+
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            if (dgvNhanVien.CurrentRow == null) return;
+
+            if (MessageBox.Show("Xác nhận xóa?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                return;
+
+            string maNV = dgvNhanVien.CurrentRow.Cells["ID"].Value.ToString();
+            int id = int.Parse(maNV.Replace("NV", ""));
+            var nv = context.NhanVien.Find(id);
+
+            if (nv != null)
+            {
+                context.NhanVien.Remove(nv);
+                context.SaveChanges();
+            }
+            LoadNhanVien();
+        }
+
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            ResetFormCT();
+            txtMaNVCT.Clear();
+            tabControl1.SelectedTab = tabNhanVienChiTiet; // Chuyển sang Tab nhập liệu
+        }
+
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            if (dgvNhanVien.CurrentRow == null)
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên cần sửa!");
+                return;
+            }
+
+            string ID = dgvNhanVien.CurrentRow.Cells["ID"].Value.ToString();
+            int id = int.Parse(ID.Replace("NV", ""));
+
+            var nv = context.NhanVien.Find(id);
+            if (nv == null) return;
+
+            // Đưa dữ liệu từ DB lên các control ở Tab Chi tiết
+            txtMaNVCT.Text = "NV" + nv.ID.ToString("D3");
+            txtHoTenCT.Text = nv.HoTen;
+            txtDiaChiCT.Text = nv.DiaChi;
+            txtDanTocCT.Text = nv.DanToc;
+            txtCCCDCT.Text = nv.CCCD;
+            txtNoiCapCT.Text = nv.NoiCap;
+            cbPhongBanCT.SelectedValue = nv.PhongBanID;
+            cbChucVuCT.Text = nv.ChucVu;
+            dtpNgaySinhCT.Value = nv.NgaySinh;
+            if (nv.GioiTinh == "Nam") radNamCT.Checked = true; else radNuCT.Checked = true;
+
+            tabControl1.SelectedTab = tabNhanVienChiTiet;
+        }
+        #endregion
+
+        #region 4. Tab Nhân viên Chi tiết (Logic Thêm/Sửa/Lưu)
+        void LoadPhongBanCT()
+        {
+            var phong = context.PhongBan.Select(pb => new { pb.ID, pb.TenPhongBan }).ToList();
+            cbPhongBanCT.DataSource = phong;
+            cbPhongBanCT.DisplayMember = "TenPhongBan";
+            cbPhongBanCT.ValueMember = "ID";
+        }
+
+        void LoadChucVuCT()
+        {
+            var chucvu = context.NhanVien.Select(nv => nv.ChucVu).Distinct().ToList();
+            cbChucVuCT.DataSource = chucvu;
+        }
+
+        void LoadNhanVienCT()
+        {
+            var data = context.NhanVien.Join(context.PhongBan, nv => nv.PhongBanID, pb => pb.ID, (nv, pb) => new
+            {
+                ID = "NV" + nv.ID.ToString("D3"),
+                TenPhongBan = pb.TenPhongBan,
+                HoTen = nv.HoTen,
+                NgaySinh = nv.NgaySinh,
+                DiaChi = nv.DiaChi,
+                GioiTinh = nv.GioiTinh,
+                DanToc = nv.DanToc,
+                CCCD = nv.CCCD,
+                NoiCap = nv.NoiCap,
+                ChucVu = nv.ChucVu
+            }).ToList();
+
+            dgvChiTietNhanVien.AutoGenerateColumns = false;
+            dgvChiTietNhanVien.DataSource = data;
+            dgvChiTietNhanVien.Columns["NgaySinhCT"].DefaultCellStyle.Format = "dd/MM/yyyy";
+        }
+
+        void ResetFormCT()
+        {
+            txtMaNVCT.Clear();
+            txtHoTenCT.Clear();
+            txtDiaChiCT.Clear();
+            txtDanTocCT.Clear();
+            txtCCCDCT.Clear();
+            txtNoiCapCT.Clear();
+            cbPhongBanCT.SelectedIndex = 0;
+            cbChucVuCT.SelectedIndex = -1;
+            radNamCT.Checked = true;
+            dtpNgaySinhCT.Value = DateTime.Now;
+        }
+
+        private void btnLuu_Click(object sender, EventArgs e)
+        {
+            // Kiểm tra ràng buộc dữ liệu đầu vào
+            if (string.IsNullOrWhiteSpace(txtHoTenCT.Text)) { MessageBox.Show("Vui lòng nhập họ tên!"); txtHoTenCT.Focus(); return; }
+            if (string.IsNullOrWhiteSpace(txtCCCDCT.Text)) { MessageBox.Show("Vui lòng nhập CCCD!"); txtCCCDCT.Focus(); return; }
+            if (cbPhongBanCT.SelectedValue == null) { MessageBox.Show("Vui lòng chọn phòng ban!"); cbPhongBanCT.Focus(); return; }
+
+            // Kiểm tra trùng CCCD khi thêm mới
+            var checkCCCD = context.NhanVien.FirstOrDefault(x => x.CCCD == txtCCCDCT.Text);
+            if (checkCCCD != null && txtMaNVCT.Text == "") { MessageBox.Show("CCCD đã tồn tại!"); return; }
+            if (txtCCCDCT.Text.Length != 12) { MessageBox.Show("CCCD phải đủ 12 số!"); return; }
+
+            if (string.IsNullOrWhiteSpace(txtMaNVCT.Text))
+            {
+                // Logic THÊM MỚI
+                var nv = new Data.NhanVien();
+                nv.HoTen = txtHoTenCT.Text;
+                nv.DiaChi = txtDiaChiCT.Text;
+                nv.DanToc = txtDanTocCT.Text;
+                nv.CCCD = txtCCCDCT.Text;
+                nv.NoiCap = txtNoiCapCT.Text;
+                nv.ChucVu = cbChucVuCT.Text;
+                nv.NgaySinh = dtpNgaySinhCT.Value;
+                nv.GioiTinh = radNamCT.Checked ? "Nam" : "Nữ";
+                nv.PhongBanID = Convert.ToInt32(cbPhongBanCT.SelectedValue);
+                context.NhanVien.Add(nv);
+            }
+            else
+            {
+                // Logic CẬP NHẬT (SỬA)
+                int id = int.Parse(txtMaNVCT.Text.Replace("NV", ""));
+                var nv = context.NhanVien.Find(id);
+                if (nv == null) return;
+
+                nv.HoTen = txtHoTenCT.Text;
+                nv.DiaChi = txtDiaChiCT.Text;
+                nv.DanToc = txtDanTocCT.Text;
+                nv.CCCD = txtCCCDCT.Text;
+                nv.NoiCap = txtNoiCapCT.Text;
+                nv.ChucVu = cbChucVuCT.Text;
+                nv.NgaySinh = dtpNgaySinhCT.Value;
+                nv.GioiTinh = radNamCT.Checked ? "Nam" : "Nữ";
+                nv.PhongBanID = Convert.ToInt32(cbPhongBanCT.SelectedValue);
+            }
+
+            context.SaveChanges(); // Lưu thay đổi xuống Database
+            MessageBox.Show("Lưu thành công!");
+            LoadNhanVien();
+            LoadNhanVienCT();
+            tabControl1.SelectedTab = tabDanhSachNhanVien;
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e) => ResetFormCT();
+
+        private void btnQuayLai_Click(object sender, EventArgs e) => tabControl1.SelectedTab = tabDanhSachNhanVien;
+
+        private void dgvChiTietNhanVien_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvChiTietNhanVien.CurrentRow == null) return;
+            txtMaNVCT.Text = dgvChiTietNhanVien.CurrentRow.Cells["IDCT"].Value.ToString();
+            txtHoTenCT.Text = dgvChiTietNhanVien.CurrentRow.Cells["HoTenCT"].Value.ToString();
+        }
+        #endregion
+
+        #region 5. Custom UI (Vẽ TabControl)
+        /// <summary>
+        /// Tự vẽ tiêu đề Tab để có hiệu ứng gạch chân và màu sắc hiện đại hơn
+        /// </summary>
+        private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            TabPage tabPage = tabControl1.TabPages[e.Index];
+            Rectangle tabRect = tabControl1.GetTabRect(e.Index);
+            bool isSelected = (e.Index == tabControl1.SelectedIndex);
+
+            g.FillRectangle(new SolidBrush(Color.White), tabRect);
+            Color textColor = isSelected ? Color.Teal : Color.Gray;
+
+            TextRenderer.DrawText(g, tabPage.Text, new Font("Segoe UI", 10, FontStyle.Bold),
+                tabRect, textColor, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+
+            if (isSelected)
+            {
+                Pen pen = new Pen(Color.Teal, 3);
+                g.DrawLine(pen, tabRect.Left + 10, tabRect.Bottom - 2, tabRect.Right - 10, tabRect.Bottom - 2);
+            }
+        }
+        #endregion
+        //Nhân viên - dự án 
+        #region Nhân viên - Dự án (Code mới hoàn chỉnh)
+
+        // Hàm bật tắt các control để tránh người dùng bấm nhầm khi đang nhập liệu
+        private void BatTatChucNang(bool giaTri)
+        {
+            btnLuu.Enabled = giaTri;
+            btnHuyBo.Enabled = giaTri;
+
+            // Các trường nhập liệu
+            txtHoTen.Enabled = giaTri;
+            cbTenPhongBanDA.Enabled = giaTri;
+            cbDuAn.Enabled = giaTri;
+            cbVaiTro.Enabled = giaTri;
+            txtGiaTri.Enabled = giaTri;
+
+            // Các nút chức năng
+            btnThem.Enabled = !giaTri;
+            btnSua.Enabled = !giaTri;
+            btnXoa.Enabled = !giaTri;
+            btnDoiAnh.Enabled = giaTri; // Chỉ cho đổi ảnh khi đang Thêm hoặc Sửa
+            btnXoay.Enabled = giaTri;
+        }
+        private void LoadPhongBanDA()
+        {
+            cbTenPhongBanDA.DataSource = context.PhongBan.ToList();
+            cbTenPhongBanDA.DisplayMember = "TenPhongBan";
+            cbTenPhongBanDA.ValueMember = "ID";
+            cbTenPhongBanDA.SelectedIndex = -1;
+        }
+
+        private void LoadDuAnDA()
+        {
+            cbDuAn.DataSource = context.DuAn.ToList();
+            cbDuAn.DisplayMember = "TenDuAn";
+            cbDuAn.ValueMember = "ID";
+            cbDuAn.SelectedIndex = -1;
+        }
+
+        private void HienThiDanhSach()
+        {
+            var data = context.PhanCongDuAn
+                .Join(context.NhanVien, pc => pc.NhanVienID, nv => nv.ID, (pc, nv) => new { pc, nv })
+                .Join(context.DuAn, x => x.pc.DuAnID, da => da.ID, (x, da) => new { x.pc, x.nv, da })
+                .Join(context.PhongBan, x => x.nv.PhongBanID, pb => pb.ID, (x, pb) => new
+                {
+                    ID = x.pc.ID,
+                    NhanVienID = x.nv.ID,
+                    MaNV = "NV" + x.nv.ID.ToString("D3"),
+                    HoTen = x.nv.HoTen ?? "",
+                    TenPhongBan = pb.TenPhongBan ?? "",
+                    TenDuAn = x.da.TenDuAn ?? "",
+                    VaiTro = x.pc.VaiTro ?? "",
+                    GiaTri = x.pc.GiaTri,
+                    HinhAnh = x.nv.HinhAnh
+                })
+                .ToList();
+
+            dgvNhanVienDuAn.AutoGenerateColumns = false;
+
+            // Cột ẩn dùng cho logic (sửa, xóa, lấy ID...)
+            dgvNhanVienDuAn.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colID",
+                DataPropertyName = "ID",
+                Visible = false
+            });
+            dgvNhanVienDuAn.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colNhanVienID",
+                DataPropertyName = "NhanVienID",
+                Visible = false
+            });
+
+            // Gán dữ liệu
+            dgvNhanVienDuAn.DataSource = data;
+
+            // Xử lý hiển thị ảnh nhỏ (resize 48x48 để gọn gàng)
+            foreach (DataGridViewRow row in dgvNhanVienDuAn.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                string fileName = row.Cells["HinhAnh"].Value?.ToString();
+                if (string.IsNullOrWhiteSpace(fileName)) continue;
+
+                string fullPath = Path.Combine(imagesFolder, fileName);
+                if (File.Exists(fullPath))
+                {
+                    try
+                    {
+                        using (var original = Image.FromFile(fullPath))
+                        {
+                            row.Cells["HinhAnh"].Value = new Bitmap(original, 48, 48);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Optional: log lỗi nếu cần
+                        // Console.WriteLine("Lỗi load ảnh: " + ex.Message);
+                    }
+                }
+            }
+
+            // Tùy chọn: điều chỉnh độ rộng cột tự động nếu muốn
+            // dgvNhanVienDuAn.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+        }
+
+        // Hiển thị ảnh trong grid
+        private void dgvNhanVienDuAn_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvNhanVienDuAn.Columns[e.ColumnIndex].Name == "HinhAnh" && e.Value != null)
+            {
+                string fileName = e.Value.ToString();
+                if (string.IsNullOrWhiteSpace(fileName)) return;
+
+                string fullPath = Path.Combine(imagesFolder, fileName);
+                if (File.Exists(fullPath))
+                {
+                    try
+                    {
+                        using (Image img = Image.FromFile(fullPath))
+                        {
+                            e.Value = new Bitmap(img, new Size(48, 48));  // kích thước nhỏ gọn
+                        }
+                        e.FormattingApplied = true;
+                    }
+                    catch { }
+                }
+            }
+        }
+
+        // ====================== NÚT THÊM ======================
+        private void btnThemDA_Click(object sender, EventArgs e)
+        {
+            xuLyThem = true;
+            BatTatChucNang(true);
+
+            // Tự động tạo mã NV mới (tăng dần)
+            int maxID = 0;
+            if (context.NhanVien.Any())
+            {
+                maxID = context.NhanVien.Max(nv => nv.ID);
+            }
+            string maMoi = "NV" + (maxID + 1).ToString("D3");  // NV001 → NV002 → ...
+
+            txtMaNV.Text = maMoi;
+            txtHoTenNV.Clear();              // Để người dùng nhập tên mới
+            cbTenPhongBanDA.SelectedIndex = -1;  // Reset phòng ban
+            cbDuAn.SelectedIndex = -1;
+            cbVaiTro.SelectedIndex = -1;
+            txtGiaTri.Clear();
+
+            // Reset ảnh
+            picHinhAnh.Image = null;
+            picHinhAnh.ImageLocation = null;
+
+            // Focus vào ô nhập tên nhân viên
+            txtHoTenNV.Focus();
+
+            // Optional: Thông báo để người dùng biết đang tạo nhân viên mới
+            MessageBox.Show($"Đang thêm nhân viên mới với mã: {maMoi}\nVui lòng nhập đầy đủ thông tin!",
+                            "Thêm mới", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        // ====================== NÚT SỬA ======================
+        private void btnSuaDA_Click(object sender, EventArgs e)
+        {
+            if (dgvNhanVienDuAn.CurrentRow == null)
+            {
+                MessageBox.Show("Vui lòng chọn dòng cần sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            xuLyThem = false;
+            BatTatChucNang(true);
+
+            DataGridViewRow row = dgvNhanVienDuAn.CurrentRow;
+
+            // Đổ dữ liệu từ dòng được chọn
+            txtMaNV.Text = row.Cells["MaNV"].Value?.ToString() ?? "";
+            txtMaNV.ReadOnly = true; // Không cho sửa mã khi sửa
+
+            txtHoTenNV.Text = row.Cells["HoTenColumn"].Value?.ToString() ?? "";           // ← tên cột Họ tên NV
+            cbTenPhongBanDA.Text = row.Cells["TenPhongBanColumn"].Value?.ToString() ?? ""; // ← tên cột Phòng ban
+
+            // Dự án: dùng cột ẩn colDuAnID
+            if (row.Cells["colID"] != null && row.Cells["colID"].Value != null)
+            {
+                cbDuAn.SelectedValue = Convert.ToInt32(row.Cells["colID"].Value);
+            }
+            else
+            {
+                cbDuAn.SelectedIndex = -1;
+            }
+            cbDuAn.Text = row.Cells["TenDuAn"].Value?.ToString() ?? "";
+            cbVaiTro.Text = row.Cells["VaiTro"].Value?.ToString() ?? "";
+            txtGiaTri.Text = row.Cells["GiaTri"].Value?.ToString() ?? "";
+
+            // Ảnh
+            string hinh = row.Cells["HinhAnh"].Value?.ToString();
+            if (!string.IsNullOrEmpty(hinh))
+            {
+                string fullPath = Path.Combine(imagesFolder, hinh);
+                if (File.Exists(fullPath))
+                {
+                    picHinhAnh.ImageLocation = fullPath;
+                    picHinhAnh.SizeMode = PictureBoxSizeMode.Zoom;
+                }
+                else
+                {
+                    picHinhAnh.Image = null;
+                }
+            }
+            else
+            {
+                picHinhAnh.Image = null;
+            }
+
+            // Lưu ID phân công để sửa
+            id = Convert.ToInt32(row.Cells["colID"].Value ?? 0);
+        }
+
+        // ====================== NÚT LƯU ======================
+        private void btnLuuDA_Click(object sender, EventArgs e)
+        {
+            if (!KiemTraDuLieu()) return;
+
+            try
+            {
+                if (xuLyThem)
+                {
+                    // 1. Kiểm tra phòng ban hợp lệ để tránh lỗi FK (Foreign Key)
+                    if (cbTenPhongBanDA.SelectedValue == null)
+                    {
+                        MessageBox.Show("Vui lòng chọn Phòng ban hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    int selectedPBID = Convert.ToInt32(cbTenPhongBanDA.SelectedValue);
+
+                    // 2. Tạo đối tượng NhanVien (Chỉ rõ Namespace để tránh trùng với tên cột HoTen)
+                    // Thay 'Quan_Ly_Nhan_Su.Data' bằng namespace thực tế của project bạn
+                    var nvDb = new Quan_Ly_Nhan_Su.Data.NhanVien
+                    {
+                        HoTen = txtHoTenNV.Text.Trim(),
+                        PhongBanID = selectedPBID
+                    };
+                    // 3. Xử lý lưu tên file ảnh (nếu người dùng có chọn ảnh)
+                    if (!string.IsNullOrEmpty(picHinhAnh.ImageLocation))
+                    {
+                        string sourcePath = picHinhAnh.ImageLocation;
+                        string fileName = Path.GetFileName(sourcePath);
+                        nvDb.HinhAnh = fileName; // Chỉ lưu tên file vào DB
+
+                        // Copy ảnh vào thư mục Images của project nếu chưa có
+                        string destPath = Path.Combine(imagesFolder, fileName);
+                        if (!File.Exists(destPath))
+                        {
+                            File.Copy(sourcePath, destPath);
+                        }
+                    }
+                    context.NhanVien.Add(nvDb);
+                    context.SaveChanges(); // Lưu để SQL sinh ra ID tự động
+
+                    // 3. Lấy ID vừa sinh ra để tạo Phân Công
+                    int nhanVienIDMoi = nvDb.ID;
+
+                    var pcMoi = new Quan_Ly_Nhan_Su.Data.PhanCongDuAn
+                    {
+                        NhanVienID = nhanVienIDMoi,
+                        DuAnID = Convert.ToInt32(cbDuAn.SelectedValue),
+                        VaiTro = cbVaiTro.Text.Trim(),
+                        GiaTri = Convert.ToInt32(txtGiaTri.Text)
+                    };
+
+                    context.PhanCongDuAn.Add(pcMoi);
+                }
+                else
+                {
+                    // SỬA: Cập nhật phân công cũ
+                    var pc = context.PhanCongDuAn.Find(id);
+                    if (pc == null)
+                    {
+                        MessageBox.Show("Không tìm thấy dữ liệu để sửa!", "Lỗi");
+                        return;
+                    }
+
+                    pc.DuAnID = Convert.ToInt32(cbDuAn.SelectedValue);
+                    pc.VaiTro = cbVaiTro.Text.Trim();
+                    pc.GiaTri = Convert.ToInt32(txtGiaTri.Text);
+
+                    // Cập nhật lại thông tin nhân viên liên quan
+                    int nhanVienID = int.Parse(txtMaNV.Text.Replace("NV", ""));
+                    var nv = context.NhanVien.Find(nhanVienID);
+                    if (nv != null)
+                    {
+                        nv.HoTen = txtHoTenNV.Text.Trim();
+                        if (cbTenPhongBanDA.SelectedValue != null)
+                            nv.PhongBanID = Convert.ToInt32(cbTenPhongBanDA.SelectedValue);
+                    }
+                }
+
+                context.SaveChanges();
+                MessageBox.Show("Lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                HienThiDanhSach();
+                BatTatChucNang(false);
+                xuLyThem = false;
+                ResetFormPhanCong();
+            }
+            catch (Exception ex)
+            {
+                // Hiển thị chi tiết lỗi InnerException nếu có (giúp debug lỗi SQL nhanh hơn)
+                string errorDetail = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                MessageBox.Show("Lỗi khi lưu: " + errorDetail, "Lỗi hệ thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // ====================== NÚT XÓA ======================
+        private void btnXoaDA_Click(object sender, EventArgs e)
+        {
+            if (dgvNhanVienDuAn.CurrentRow == null)
+            {
+                MessageBox.Show("Vui lòng chọn dòng cần xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (MessageBox.Show("Xác nhận xóa phân công này?", "Xác nhận",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                return;
+
+            int phanCongID = Convert.ToInt32(dgvNhanVienDuAn.CurrentRow.Cells["colID"].Value);
+            var pc = context.PhanCongDuAn.Find(phanCongID);
+            if (pc != null)
+            {
+                context.PhanCongDuAn.Remove(pc);
+                context.SaveChanges();
+                MessageBox.Show("Đã xóa thành công!");
+            }
+            HienThiDanhSach();
+        }
+
+        // ====================== NÚT HỦY ======================
+        private void btnHuyBo_Click(object sender, EventArgs e)   // ← tên nút theo giao diện của bạn
+        {
+            ResetFormPhanCong();
+            BatTatChucNang(false);
+            xuLyThem = false;
+        }
+
+        // ====================== NÚT ĐỔI ẢNH ======================
+        private void btnDoiAnh_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtMaNV.Text))
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên trước khi đổi ảnh!",
+                    "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter = "Image Files|*.jpg;*.png;*.jpeg;*.gif";
+            openFile.Title = "Chọn ảnh nhân viên";
+
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                string sourcePath = openFile.FileName;
+                string fileName = Path.GetFileName(sourcePath);           // chỉ lấy tên file
+                string destPath = Path.Combine(imagesFolder, fileName);
+
+                // Copy ảnh vào thư mục Images (để sau này grid vẫn hiển thị được)
+                try
+                {
+                    File.Copy(sourcePath, destPath, true);   // ghi đè nếu đã có
+                }
+                catch { }
+
+                // Hiển thị ngay trên PictureBox
+                picHinhAnh.ImageLocation = destPath;
+
+                // Lưu tên ảnh vào bảng NhanVien (để dữ liệu được lưu vĩnh viễn)
+                int nhanVienID = int.Parse(txtMaNV.Text.Replace("NV", ""));
+                var nv = context.NhanVien.Find(nhanVienID);
+                if (nv != null)
+                {
+                    nv.HinhAnh = fileName;
+                    context.SaveChanges();
+
+                    MessageBox.Show("Đổi ảnh thành công và đã lưu vào database!",
+                        "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    HienThiDanhSach();   // reload grid để thấy ảnh mới
+                }
+            }
+        }
+
+        // ====================== HÀM HỖ TRỢ ======================
+        private bool KiemTraDuLieu()
+        {
+            if (string.IsNullOrWhiteSpace(txtMaNV.Text))
+            {
+                MessageBox.Show("Chưa chọn nhân viên!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (cbDuAn.SelectedValue == null)
+            {
+                MessageBox.Show("Chưa chọn dự án!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(txtGiaTri.Text))
+            {
+                MessageBox.Show("Chưa nhập giá trị!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
+        }
+
+        private void ThemPhanCong()
+        {
+            var pc = new PhanCongDuAn
+            {
+                NhanVienID = Convert.ToInt32(dgvNhanVienDuAn.CurrentRow.Cells["colNhanVienID"].Value),
+                DuAnID = Convert.ToInt32(cbDuAn.SelectedValue),
+                VaiTro = cbVaiTro.Text.Trim(),
+                GiaTri = Convert.ToInt32(txtGiaTri.Text)
+            };
+            context.PhanCongDuAn.Add(pc);
+        }
+
+        private void CapNhatPhanCong()
+        {
+            var pc = context.PhanCongDuAn.Find(id);
+            if (pc == null) return;
+
+            pc.DuAnID = Convert.ToInt32(cbDuAn.SelectedValue);
+            pc.VaiTro = cbVaiTro.Text.Trim();
+            pc.GiaTri = Convert.ToInt32(txtGiaTri.Text);
+        }
+
+        private void ResetFormPhanCong()
+        {
+            txtMaNV.Clear();
+            txtHoTenNV.Clear();
+            cbTenPhongBanDA.SelectedIndex = -1;
+            cbDuAn.SelectedIndex = -1;
+            cbVaiTro.SelectedIndex = -1;
+            txtGiaTri.Clear();
+            picHinhAnh.ImageLocation = null;
+            picHinhAnh.Image = null;
+        }
+
+        #endregion
+
+        private void dgvNhanVienDuAn_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Bỏ qua nếu click vào header hoặc không có dòng nào
+            if (e.RowIndex < 0 || dgvNhanVienDuAn.CurrentRow == null) return;
+
+            DataGridViewRow row = dgvNhanVienDuAn.CurrentRow;
+
+            // Đổ dữ liệu lên các ô nhập liệu
+            txtMaNV.Text = row.Cells["MaNV"].Value?.ToString() ?? "";
+            txtHoTenNV.Text = row.Cells["HoTenColumn"].Value?.ToString() ?? "";
+            cbTenPhongBanDA.Text = row.Cells["TenPhongBanColumn"].Value?.ToString() ?? "";
+            // ComboBox Dự án - dùng cột ẩn để lấy ID dự án
+            // → Kiểm tra tên cột ẩn chính xác (thường là "colDuAnID" hoặc "DuAnID")
+            string colDuAnID_Name = "colDuAnID";  // ← Nếu tên cột khác, sửa ở đây (ví dụ: "DuAnID", "colDuAn", "DuAnColumn")
+
+            if (dgvNhanVienDuAn.Columns.Contains(colDuAnID_Name) &&
+                row.Cells[colDuAnID_Name].Value != null &&
+                row.Cells[colDuAnID_Name].Value != DBNull.Value)
+            {
+                cbDuAn.SelectedValue = Convert.ToInt32(row.Cells[colDuAnID_Name].Value);
+            }
+            else
+            {
+                cbDuAn.SelectedIndex = -1;  // Không tìm thấy → reset
+            }
+            cbVaiTro.Text = row.Cells["VaiTro"].Value?.ToString() ?? "";
+            txtGiaTri.Text = row.Cells["GiaTri"].Value?.ToString() ?? "";
+            // Hiển thị ảnh vào PictureBox
+            string fileName = row.Cells["HinhAnh"].Value?.ToString();
+            if (!string.IsNullOrWhiteSpace(fileName))
+            {
+                string fullPath = Path.Combine(imagesFolder, fileName);
+                if (File.Exists(fullPath))
+                {
+                    try
+                    {
+                        picHinhAnh.ImageLocation = fullPath;
+                        picHinhAnh.SizeMode = PictureBoxSizeMode.Zoom; // hoặc StretchImage nếu muốn
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Không thể load ảnh: " + ex.Message);
+                        picHinhAnh.Image = null;
+                    }
+                }
+                else
+                {
+                    picHinhAnh.Image = null; // hoặc ảnh mặc định
+                }
+            }
+            else
+            {
+                picHinhAnh.Image = null;
+            }
+
+            // Optional: Chuyển trạng thái sang "Sửa" (nếu bạn muốn tự động sẵn sàng sửa)
+            // xuLyThem = false;
+            // BatTatChucNang(true);
+            // id = Convert.ToInt32(row.Cells["colID"].Value); // lưu ID phân công để sửa
+        }
+
+        private void btnHuyBo_Click_1(object sender, EventArgs e)
+        {
+            ResetFormPhanCong();
+            BatTatChucNang(false);
+            xuLyThem = false;
+            if (dgvNhanVienDuAn.CurrentRow != null)
+            {
+                dgvNhanVienDuAn.CurrentRow.Selected = false;
+            }
         }
     }
 }

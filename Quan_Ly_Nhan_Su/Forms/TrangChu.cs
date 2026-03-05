@@ -12,7 +12,7 @@ namespace Quan_Ly_Nhan_Su.Forms
 {
     public partial class TrangChu : Form
     {
-       
+
         private double fadeOpacity = 0;
         private Button currentButton;
         private Form activeForm = null;
@@ -67,7 +67,7 @@ namespace Quan_Ly_Nhan_Su.Forms
                         newForm = new DuAn();
                         break;
                     case "BangLuong":
-                        newForm = new BangLuong();
+                        newForm = new FormBangLuong();
                         break;
                     case "NghiPhep":
                         newForm = new NghiPhep();
@@ -164,6 +164,11 @@ namespace Quan_Ly_Nhan_Su.Forms
             }
 
             activeForm.Opacity = fadeOpacity;
+        }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            this.Close();   
         }
     }
 }

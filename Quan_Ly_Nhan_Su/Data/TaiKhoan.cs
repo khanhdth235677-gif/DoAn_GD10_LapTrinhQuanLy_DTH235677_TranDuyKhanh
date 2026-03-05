@@ -11,14 +11,8 @@ namespace Quan_Ly_Nhan_Su.Data
     public class TaiKhoan
     {
         public int ID { get; set; }
-
-        public string TenDangNhap { get; set; } = string.Empty;
-        public string MatKhau { get; set; } = string.Empty;
-
-        public bool LaQuanTri { get; set; }
-
-        public int NhanVienID { get; set; }
-
-        public virtual NhanVien NhanVien { get; set; } = null!;
+        public string? TenDangNhap { get; set; }
+        public string? MatKhau { get; set; }
+        public string? Quyen { get; set; }
     }
 }

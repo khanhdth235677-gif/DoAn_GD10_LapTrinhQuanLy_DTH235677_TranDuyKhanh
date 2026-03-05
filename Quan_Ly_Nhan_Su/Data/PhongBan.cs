@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,14 +11,9 @@ namespace Quan_Ly_Nhan_Su.Data
     public class PhongBan
     {
         public int ID { get; set; }
-
-        [Required]
-        [StringLength(200)]
-        public string TenPhongBan { get; set; } = string.Empty;
-
+        public string? TenPhongBan { get; set; }
         public string? MoTa { get; set; }
 
-        // Navigation
-        public virtual ICollection<NhanVien> NhanVien { get; set; } = new List<NhanVien>();
+        public virtual ObservableCollectionListSource<NhanVien> NhanVien { get; } = new();
     }
 }
