@@ -66,14 +66,26 @@
             button6 = new Button();
             button5 = new Button();
             btnHuyBo = new Button();
-            button3 = new Button();
             btnSua = new Button();
+            btnXoa = new Button();
             btnThem = new Button();
             panelHeader2 = new Panel();
             label1 = new Label();
             tabPhanCongDuAn = new TabPage();
             panelMain = new Panel();
-            dataGridView1 = new DataGridView();
+            dgvPhanCongDuAn = new DataGridView();
+            MaDA1 = new DataGridViewTextBoxColumn();
+            TenDA1 = new DataGridViewTextBoxColumn();
+            KhachHang1 = new DataGridViewTextBoxColumn();
+            TenNVQL1 = new DataGridViewTextBoxColumn();
+            PhongBan1 = new DataGridViewTextBoxColumn();
+            NgayBD1 = new DataGridViewTextBoxColumn();
+            NgayKTTT1 = new DataGridViewTextBoxColumn();
+            NgayKTDK1 = new DataGridViewTextBoxColumn();
+            GiaTri1 = new DataGridViewTextBoxColumn();
+            TienDo1 = new DataGridViewTextBoxColumn();
+            TinhTrang1 = new DataGridViewCheckBoxColumn();
+            GhiChu1 = new DataGridViewTextBoxColumn();
             panelButton1 = new Panel();
             btnQuayLai = new Button();
             btnLamMoi = new Button();
@@ -82,7 +94,6 @@
             txtGhiChu = new TextBox();
             label16 = new Label();
             label15 = new Label();
-            txtTienDo = new TextBox();
             cbPhongBan = new ComboBox();
             label14 = new Label();
             cbTenNhanVienQL = new ComboBox();
@@ -103,18 +114,7 @@
             label4 = new Label();
             panelHeader = new Panel();
             label2 = new Label();
-            MaDA1 = new DataGridViewTextBoxColumn();
-            TenDA1 = new DataGridViewTextBoxColumn();
-            KhachHang1 = new DataGridViewTextBoxColumn();
-            TenNVQL1 = new DataGridViewTextBoxColumn();
-            PhongBan1 = new DataGridViewTextBoxColumn();
-            NgayBD1 = new DataGridViewTextBoxColumn();
-            NgayKTTT1 = new DataGridViewTextBoxColumn();
-            NgayKTDK1 = new DataGridViewTextBoxColumn();
-            GiaTri1 = new DataGridViewTextBoxColumn();
-            TienDo1 = new DataGridViewTextBoxColumn();
-            TinhTrang1 = new DataGridViewCheckBoxColumn();
-            GhiChu1 = new DataGridViewTextBoxColumn();
+            cbTienDo = new ComboBox();
             tabControl1.SuspendLayout();
             tabDanhSachDuAn.SuspendLayout();
             panelMain2.SuspendLayout();
@@ -124,7 +124,7 @@
             panelHeader2.SuspendLayout();
             tabPhanCongDuAn.SuspendLayout();
             panelMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvPhanCongDuAn).BeginInit();
             panelButton1.SuspendLayout();
             panelInput.SuspendLayout();
             panelHeader.SuspendLayout();
@@ -271,9 +271,12 @@
             // 
             // TinhTrang
             // 
+            TinhTrang.DataPropertyName = "TinhTrang";
+            TinhTrang.FalseValue = "false";
             TinhTrang.HeaderText = "Tình trạng";
             TinhTrang.MinimumWidth = 6;
             TinhTrang.Name = "TinhTrang";
+            TinhTrang.TrueValue = "true";
             // 
             // GhiChu
             // 
@@ -372,8 +375,8 @@
             panelButton.Controls.Add(button6);
             panelButton.Controls.Add(button5);
             panelButton.Controls.Add(btnHuyBo);
-            panelButton.Controls.Add(button3);
             panelButton.Controls.Add(btnSua);
+            panelButton.Controls.Add(btnXoa);
             panelButton.Controls.Add(btnThem);
             panelButton.Dock = DockStyle.Bottom;
             panelButton.Location = new Point(3, 359);
@@ -421,32 +424,33 @@
             btnHuyBo.UseVisualStyleBackColor = false;
             btnHuyBo.Click += btnHuyBo_Click;
             // 
-            // button3
-            // 
-            button3.BackColor = Color.DeepPink;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            button3.ForeColor = Color.White;
-            button3.Location = new Point(312, 8);
-            button3.Name = "button3";
-            button3.Size = new Size(115, 35);
-            button3.TabIndex = 10;
-            button3.Text = "Sửa dự án ";
-            button3.UseVisualStyleBackColor = false;
-            // 
             // btnSua
             // 
             btnSua.BackColor = Color.DeepPink;
             btnSua.FlatStyle = FlatStyle.Flat;
             btnSua.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnSua.ForeColor = Color.White;
-            btnSua.Location = new Point(172, 8);
+            btnSua.Location = new Point(312, 8);
             btnSua.Name = "btnSua";
-            btnSua.Size = new Size(118, 35);
-            btnSua.TabIndex = 9;
-            btnSua.Text = "Xóa dự án ";
+            btnSua.Size = new Size(115, 35);
+            btnSua.TabIndex = 10;
+            btnSua.Text = "Sửa dự án ";
             btnSua.UseVisualStyleBackColor = false;
             btnSua.Click += btnSua_Click;
+            // 
+            // btnXoa
+            // 
+            btnXoa.BackColor = Color.DeepPink;
+            btnXoa.FlatStyle = FlatStyle.Flat;
+            btnXoa.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            btnXoa.ForeColor = Color.White;
+            btnXoa.Location = new Point(172, 8);
+            btnXoa.Name = "btnXoa";
+            btnXoa.Size = new Size(118, 35);
+            btnXoa.TabIndex = 9;
+            btnXoa.Text = "Xóa dự án ";
+            btnXoa.UseVisualStyleBackColor = false;
+            btnXoa.Click += btnXoa_Click;
             // 
             // btnThem
             // 
@@ -500,30 +504,128 @@
             // 
             // panelMain
             // 
-            panelMain.Controls.Add(dataGridView1);
+            panelMain.Controls.Add(dgvPhanCongDuAn);
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(3, 312);
             panelMain.Name = "panelMain";
             panelMain.Size = new Size(786, 97);
             panelMain.TabIndex = 32;
             // 
-            // dataGridView1
+            // dgvPhanCongDuAn
             // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { MaDA1, TenDA1, KhachHang1, TenNVQL1, PhongBan1, NgayBD1, NgayKTTT1, NgayKTDK1, GiaTri1, TienDo1, TinhTrang1, GhiChu1 });
-            dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.Location = new Point(0, 0);
-            dataGridView1.MultiSelect = false;
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(786, 97);
-            dataGridView1.TabIndex = 6;
+            dgvPhanCongDuAn.AllowUserToAddRows = false;
+            dgvPhanCongDuAn.AllowUserToDeleteRows = false;
+            dgvPhanCongDuAn.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvPhanCongDuAn.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvPhanCongDuAn.Columns.AddRange(new DataGridViewColumn[] { MaDA1, TenDA1, KhachHang1, TenNVQL1, PhongBan1, NgayBD1, NgayKTTT1, NgayKTDK1, GiaTri1, TienDo1, TinhTrang1, GhiChu1 });
+            dgvPhanCongDuAn.Dock = DockStyle.Fill;
+            dgvPhanCongDuAn.EnableHeadersVisualStyles = false;
+            dgvPhanCongDuAn.Location = new Point(0, 0);
+            dgvPhanCongDuAn.MultiSelect = false;
+            dgvPhanCongDuAn.Name = "dgvPhanCongDuAn";
+            dgvPhanCongDuAn.RowHeadersVisible = false;
+            dgvPhanCongDuAn.RowHeadersWidth = 51;
+            dgvPhanCongDuAn.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvPhanCongDuAn.Size = new Size(786, 97);
+            dgvPhanCongDuAn.TabIndex = 6;
+            dgvPhanCongDuAn.CellClick += dgvPhanCongDuAn_CellClick;
+            // 
+            // MaDA1
+            // 
+            MaDA1.DataPropertyName = "MaDA";
+            MaDA1.HeaderText = "Mã DA";
+            MaDA1.MinimumWidth = 6;
+            MaDA1.Name = "MaDA1";
+            // 
+            // TenDA1
+            // 
+            TenDA1.DataPropertyName = "TenDA";
+            TenDA1.HeaderText = "Tên DA";
+            TenDA1.MinimumWidth = 6;
+            TenDA1.Name = "TenDA1";
+            // 
+            // KhachHang1
+            // 
+            KhachHang1.DataPropertyName = "KhachHang";
+            KhachHang1.HeaderText = "Khách hàng";
+            KhachHang1.MinimumWidth = 6;
+            KhachHang1.Name = "KhachHang1";
+            // 
+            // TenNVQL1
+            // 
+            TenNVQL1.DataPropertyName = "TenNVQL";
+            TenNVQL1.HeaderText = "Tên NV QL";
+            TenNVQL1.MinimumWidth = 6;
+            TenNVQL1.Name = "TenNVQL1";
+            // 
+            // PhongBan1
+            // 
+            PhongBan1.DataPropertyName = "PhongBan";
+            PhongBan1.HeaderText = "Phòng ban ";
+            PhongBan1.MinimumWidth = 6;
+            PhongBan1.Name = "PhongBan1";
+            // 
+            // NgayBD1
+            // 
+            NgayBD1.DataPropertyName = "NgayBD";
+            dataGridViewCellStyle6.Format = "dd/MM/yyy";
+            NgayBD1.DefaultCellStyle = dataGridViewCellStyle6;
+            NgayBD1.HeaderText = "Ngày BD";
+            NgayBD1.MinimumWidth = 6;
+            NgayBD1.Name = "NgayBD1";
+            // 
+            // NgayKTTT1
+            // 
+            NgayKTTT1.DataPropertyName = "NgayKTTT";
+            dataGridViewCellStyle7.Format = "dd/MM/yyy";
+            NgayKTTT1.DefaultCellStyle = dataGridViewCellStyle7;
+            NgayKTTT1.HeaderText = "Ngày KTTT";
+            NgayKTTT1.MinimumWidth = 6;
+            NgayKTTT1.Name = "NgayKTTT1";
+            // 
+            // NgayKTDK1
+            // 
+            NgayKTDK1.DataPropertyName = "NgayKTDK";
+            dataGridViewCellStyle8.Format = "dd/MM/yyy";
+            NgayKTDK1.DefaultCellStyle = dataGridViewCellStyle8;
+            NgayKTDK1.HeaderText = "Ngày KTDK";
+            NgayKTDK1.MinimumWidth = 6;
+            NgayKTDK1.Name = "NgayKTDK1";
+            // 
+            // GiaTri1
+            // 
+            GiaTri1.DataPropertyName = "GiaTri";
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle9.Format = "N0";
+            GiaTri1.DefaultCellStyle = dataGridViewCellStyle9;
+            GiaTri1.HeaderText = "Giá trị";
+            GiaTri1.MinimumWidth = 6;
+            GiaTri1.Name = "GiaTri1";
+            // 
+            // TienDo1
+            // 
+            TienDo1.DataPropertyName = "TienDo";
+            dataGridViewCellStyle10.Format = "0\\\\%";
+            TienDo1.DefaultCellStyle = dataGridViewCellStyle10;
+            TienDo1.HeaderText = "Tiến độ";
+            TienDo1.MinimumWidth = 6;
+            TienDo1.Name = "TienDo1";
+            // 
+            // TinhTrang1
+            // 
+            TinhTrang1.DataPropertyName = "TinhTrang";
+            TinhTrang1.FalseValue = "false";
+            TinhTrang1.HeaderText = "Tình trạng";
+            TinhTrang1.MinimumWidth = 6;
+            TinhTrang1.Name = "TinhTrang1";
+            TinhTrang1.TrueValue = "true";
+            // 
+            // GhiChu1
+            // 
+            GhiChu1.DataPropertyName = "GhiChu";
+            GhiChu1.HeaderText = "Ghi chú ";
+            GhiChu1.MinimumWidth = 6;
+            GhiChu1.Name = "GhiChu1";
             // 
             // panelButton1
             // 
@@ -548,6 +650,7 @@
             btnQuayLai.TabIndex = 62;
             btnQuayLai.Text = "Quay lại";
             btnQuayLai.UseVisualStyleBackColor = false;
+            btnQuayLai.Click += btnQuayLai_Click;
             // 
             // btnLamMoi
             // 
@@ -579,10 +682,10 @@
             // 
             // panelInput
             // 
+            panelInput.Controls.Add(cbTienDo);
             panelInput.Controls.Add(txtGhiChu);
             panelInput.Controls.Add(label16);
             panelInput.Controls.Add(label15);
-            panelInput.Controls.Add(txtTienDo);
             panelInput.Controls.Add(cbPhongBan);
             panelInput.Controls.Add(label14);
             panelInput.Controls.Add(cbTenNhanVienQL);
@@ -632,15 +735,9 @@
             label15.TabIndex = 58;
             label15.Text = "Tiến độ";
             // 
-            // txtTienDo
-            // 
-            txtTienDo.Location = new Point(558, 116);
-            txtTienDo.Name = "txtTienDo";
-            txtTienDo.Size = new Size(194, 27);
-            txtTienDo.TabIndex = 57;
-            // 
             // cbPhongBan
             // 
+            cbPhongBan.DropDownStyle = ComboBoxStyle.DropDownList;
             cbPhongBan.FormattingEnabled = true;
             cbPhongBan.Location = new Point(137, 115);
             cbPhongBan.Name = "cbPhongBan";
@@ -658,6 +755,7 @@
             // 
             // cbTenNhanVienQL
             // 
+            cbTenNhanVienQL.DropDownStyle = ComboBoxStyle.DropDownList;
             cbTenNhanVienQL.FormattingEnabled = true;
             cbTenNhanVienQL.Location = new Point(137, 81);
             cbTenNhanVienQL.Name = "cbTenNhanVienQL";
@@ -812,99 +910,14 @@
             label2.TabIndex = 0;
             label2.Text = "Phân công dự án";
             // 
-            // MaDA1
+            // cbTienDo
             // 
-            MaDA1.DataPropertyName = "MaDA";
-            MaDA1.HeaderText = "Mã DA";
-            MaDA1.MinimumWidth = 6;
-            MaDA1.Name = "MaDA1";
-            // 
-            // TenDA1
-            // 
-            TenDA1.DataPropertyName = "TenDA";
-            TenDA1.HeaderText = "Tên DA";
-            TenDA1.MinimumWidth = 6;
-            TenDA1.Name = "TenDA1";
-            // 
-            // KhachHang1
-            // 
-            KhachHang1.DataPropertyName = "KhachHang";
-            KhachHang1.HeaderText = "Khách hàng";
-            KhachHang1.MinimumWidth = 6;
-            KhachHang1.Name = "KhachHang1";
-            // 
-            // TenNVQL1
-            // 
-            TenNVQL1.DataPropertyName = "TenNVQL";
-            TenNVQL1.HeaderText = "Tên NV QL";
-            TenNVQL1.MinimumWidth = 6;
-            TenNVQL1.Name = "TenNVQL1";
-            // 
-            // PhongBan1
-            // 
-            PhongBan1.DataPropertyName = "PhongBan";
-            PhongBan1.HeaderText = "Phòng ban ";
-            PhongBan1.MinimumWidth = 6;
-            PhongBan1.Name = "PhongBan1";
-            // 
-            // NgayBD1
-            // 
-            NgayBD1.DataPropertyName = "NgayBD";
-            dataGridViewCellStyle6.Format = "dd/MM/yyy";
-            NgayBD1.DefaultCellStyle = dataGridViewCellStyle6;
-            NgayBD1.HeaderText = "Ngày BD";
-            NgayBD1.MinimumWidth = 6;
-            NgayBD1.Name = "NgayBD1";
-            // 
-            // NgayKTTT1
-            // 
-            NgayKTTT1.DataPropertyName = "NgayKTTT";
-            dataGridViewCellStyle7.Format = "dd/MM/yyy";
-            NgayKTTT1.DefaultCellStyle = dataGridViewCellStyle7;
-            NgayKTTT1.HeaderText = "Ngày KTTT";
-            NgayKTTT1.MinimumWidth = 6;
-            NgayKTTT1.Name = "NgayKTTT1";
-            // 
-            // NgayKTDK1
-            // 
-            NgayKTDK1.DataPropertyName = "NgayKTDK";
-            dataGridViewCellStyle8.Format = "dd/MM/yyy";
-            NgayKTDK1.DefaultCellStyle = dataGridViewCellStyle8;
-            NgayKTDK1.HeaderText = "Ngày KTDK";
-            NgayKTDK1.MinimumWidth = 6;
-            NgayKTDK1.Name = "NgayKTDK1";
-            // 
-            // GiaTri1
-            // 
-            GiaTri1.DataPropertyName = "GiaTri";
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle9.Format = "N0";
-            GiaTri1.DefaultCellStyle = dataGridViewCellStyle9;
-            GiaTri1.HeaderText = "Giá trị";
-            GiaTri1.MinimumWidth = 6;
-            GiaTri1.Name = "GiaTri1";
-            // 
-            // TienDo1
-            // 
-            TienDo1.DataPropertyName = "TienDo";
-            dataGridViewCellStyle10.Format = "0\\\\%";
-            TienDo1.DefaultCellStyle = dataGridViewCellStyle10;
-            TienDo1.HeaderText = "Tiến độ";
-            TienDo1.MinimumWidth = 6;
-            TienDo1.Name = "TienDo1";
-            // 
-            // TinhTrang1
-            // 
-            TinhTrang1.HeaderText = "Tình trạng";
-            TinhTrang1.MinimumWidth = 6;
-            TinhTrang1.Name = "TinhTrang1";
-            // 
-            // GhiChu1
-            // 
-            GhiChu1.DataPropertyName = "GhiChu";
-            GhiChu1.HeaderText = "Ghi chú ";
-            GhiChu1.MinimumWidth = 6;
-            GhiChu1.Name = "GhiChu1";
+            cbTienDo.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbTienDo.FormattingEnabled = true;
+            cbTienDo.Location = new Point(558, 115);
+            cbTienDo.Name = "cbTienDo";
+            cbTienDo.Size = new Size(194, 28);
+            cbTienDo.TabIndex = 61;
             // 
             // DuAn
             // 
@@ -926,7 +939,7 @@
             panelHeader2.PerformLayout();
             tabPhanCongDuAn.ResumeLayout(false);
             panelMain.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvPhanCongDuAn).EndInit();
             panelButton1.ResumeLayout(false);
             panelInput.ResumeLayout(false);
             panelInput.PerformLayout();
@@ -948,8 +961,8 @@
         private Button button6;
         private Button button5;
         private Button btnHuyBo;
-        private Button button3;
         private Button btnSua;
+        private Button btnXoa;
         private Button btnThem;
         private Panel panelInput;
         private CheckBox chkHoanThanh;
@@ -975,6 +988,21 @@
         private Label label11;
         private ComboBox cbMaDA;
         private Label label12;
+        private Label label8;
+        private DateTimePicker dtNgayBD;
+        private Label label13;
+        private ComboBox cbTenNhanVienQL;
+        private Label label3;
+        private ComboBox cbPhongBan;
+        private Label label14;
+        private TextBox txtGhiChu;
+        private Label label16;
+        private Label label15;
+        private Button btnLuu;
+        private Button btnQuayLai;
+        private Panel panelButton1;
+        private Panel panelMain;
+        private DataGridView dgvPhanCongDuAn;
         private DataGridViewTextBoxColumn MaDA;
         private DataGridViewTextBoxColumn TenDA;
         private DataGridViewTextBoxColumn KhachHang;
@@ -987,22 +1015,6 @@
         private DataGridViewTextBoxColumn TienDo;
         private DataGridViewCheckBoxColumn TinhTrang;
         private DataGridViewTextBoxColumn GhiChu;
-        private Label label8;
-        private DateTimePicker dtNgayBD;
-        private Label label13;
-        private ComboBox cbTenNhanVienQL;
-        private Label label3;
-        private ComboBox cbPhongBan;
-        private Label label14;
-        private TextBox txtGhiChu;
-        private Label label16;
-        private Label label15;
-        private TextBox txtTienDo;
-        private Button btnLuu;
-        private Button btnQuayLai;
-        private Panel panelButton1;
-        private Panel panelMain;
-        private DataGridView dataGridView1;
         private DataGridViewTextBoxColumn MaDA1;
         private DataGridViewTextBoxColumn TenDA1;
         private DataGridViewTextBoxColumn KhachHang1;
@@ -1015,5 +1027,6 @@
         private DataGridViewTextBoxColumn TienDo1;
         private DataGridViewCheckBoxColumn TinhTrang1;
         private DataGridViewTextBoxColumn GhiChu1;
+        private ComboBox cbTienDo;
     }
 }
