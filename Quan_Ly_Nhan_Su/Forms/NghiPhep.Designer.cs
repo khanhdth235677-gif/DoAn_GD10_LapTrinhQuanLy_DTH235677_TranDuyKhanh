@@ -31,16 +31,17 @@
             panelHeader = new Panel();
             label1 = new Label();
             panelInput = new Panel();
+            txtTrangThai = new TextBox();
+            btnLuu = new Button();
             btnTimKiem = new Button();
-            btnXuat = new Button();
+            btnHuy = new Button();
             btnXoa = new Button();
             btnTuChoi = new Button();
             btnDuyet = new Button();
             btnThem = new Button();
             dtNgayKT = new DateTimePicker();
             dtNgayBD = new DateTimePicker();
-            cbTenNV = new ComboBox();
-            cbTrangThai = new ComboBox();
+            cbNhanVien = new ComboBox();
             txtLyDo = new TextBox();
             label6 = new Label();
             label5 = new Label();
@@ -50,7 +51,7 @@
             panelMain = new Panel();
             dgvNghiPhep = new DataGridView();
             MaNghiPhep = new DataGridViewTextBoxColumn();
-            MaNhanVien = new DataGridViewTextBoxColumn();
+            MaNV = new DataGridViewTextBoxColumn();
             TenNhanVien = new DataGridViewTextBoxColumn();
             TuNgay = new DataGridViewTextBoxColumn();
             DenNgay = new DataGridViewTextBoxColumn();
@@ -85,16 +86,17 @@
             // 
             // panelInput
             // 
+            panelInput.Controls.Add(txtTrangThai);
+            panelInput.Controls.Add(btnLuu);
             panelInput.Controls.Add(btnTimKiem);
-            panelInput.Controls.Add(btnXuat);
+            panelInput.Controls.Add(btnHuy);
             panelInput.Controls.Add(btnXoa);
             panelInput.Controls.Add(btnTuChoi);
             panelInput.Controls.Add(btnDuyet);
             panelInput.Controls.Add(btnThem);
             panelInput.Controls.Add(dtNgayKT);
             panelInput.Controls.Add(dtNgayBD);
-            panelInput.Controls.Add(cbTenNV);
-            panelInput.Controls.Add(cbTrangThai);
+            panelInput.Controls.Add(cbNhanVien);
             panelInput.Controls.Add(txtLyDo);
             panelInput.Controls.Add(label6);
             panelInput.Controls.Add(label5);
@@ -107,6 +109,28 @@
             panelInput.Size = new Size(800, 188);
             panelInput.TabIndex = 4;
             // 
+            // txtTrangThai
+            // 
+            txtTrangThai.Location = new Point(148, 51);
+            txtTrangThai.Name = "txtTrangThai";
+            txtTrangThai.ReadOnly = true;
+            txtTrangThai.Size = new Size(203, 27);
+            txtTrangThai.TabIndex = 17;
+            // 
+            // btnLuu
+            // 
+            btnLuu.BackColor = Color.DeepPink;
+            btnLuu.FlatStyle = FlatStyle.Flat;
+            btnLuu.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            btnLuu.ForeColor = Color.White;
+            btnLuu.Location = new Point(298, 137);
+            btnLuu.Name = "btnLuu";
+            btnLuu.Size = new Size(94, 35);
+            btnLuu.TabIndex = 16;
+            btnLuu.Text = "Lưu";
+            btnLuu.UseVisualStyleBackColor = false;
+            btnLuu.Click += btnLuu_Click;
+            // 
             // btnTimKiem
             // 
             btnTimKiem.Location = new Point(644, 88);
@@ -115,19 +139,21 @@
             btnTimKiem.TabIndex = 15;
             btnTimKiem.Text = "Tìm kiếm ";
             btnTimKiem.UseVisualStyleBackColor = true;
+            btnTimKiem.Click += btnTimKiem_Click;
             // 
-            // btnXuat
+            // btnHuy
             // 
-            btnXuat.BackColor = Color.DeepPink;
-            btnXuat.FlatStyle = FlatStyle.Flat;
-            btnXuat.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnXuat.ForeColor = Color.White;
-            btnXuat.Location = new Point(644, 137);
-            btnXuat.Name = "btnXuat";
-            btnXuat.Size = new Size(94, 35);
-            btnXuat.TabIndex = 14;
-            btnXuat.Text = "Xuất Excel";
-            btnXuat.UseVisualStyleBackColor = false;
+            btnHuy.BackColor = Color.DeepPink;
+            btnHuy.FlatStyle = FlatStyle.Flat;
+            btnHuy.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            btnHuy.ForeColor = Color.White;
+            btnHuy.Location = new Point(644, 137);
+            btnHuy.Name = "btnHuy";
+            btnHuy.Size = new Size(94, 35);
+            btnHuy.TabIndex = 14;
+            btnHuy.Text = "Hủy bỏ";
+            btnHuy.UseVisualStyleBackColor = false;
+            btnHuy.Click += btnHuy_Click;
             // 
             // btnXoa
             // 
@@ -135,12 +161,13 @@
             btnXoa.FlatStyle = FlatStyle.Flat;
             btnXoa.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnXoa.ForeColor = Color.White;
-            btnXoa.Location = new Point(504, 137);
+            btnXoa.Location = new Point(535, 137);
             btnXoa.Name = "btnXoa";
             btnXoa.Size = new Size(94, 35);
             btnXoa.TabIndex = 13;
             btnXoa.Text = "Xóa ";
             btnXoa.UseVisualStyleBackColor = false;
+            btnXoa.Click += btnXoa_Click;
             // 
             // btnTuChoi
             // 
@@ -148,12 +175,13 @@
             btnTuChoi.FlatStyle = FlatStyle.Flat;
             btnTuChoi.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnTuChoi.ForeColor = Color.White;
-            btnTuChoi.Location = new Point(358, 137);
+            btnTuChoi.Location = new Point(418, 137);
             btnTuChoi.Name = "btnTuChoi";
             btnTuChoi.Size = new Size(94, 35);
             btnTuChoi.TabIndex = 12;
             btnTuChoi.Text = "Từ chối ";
             btnTuChoi.UseVisualStyleBackColor = false;
+            btnTuChoi.Click += btnTuChoi_Click;
             // 
             // btnDuyet
             // 
@@ -161,12 +189,13 @@
             btnDuyet.FlatStyle = FlatStyle.Flat;
             btnDuyet.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnDuyet.ForeColor = Color.White;
-            btnDuyet.Location = new Point(211, 137);
+            btnDuyet.Location = new Point(172, 137);
             btnDuyet.Name = "btnDuyet";
             btnDuyet.Size = new Size(94, 35);
             btnDuyet.TabIndex = 11;
             btnDuyet.Text = "Duyệt";
             btnDuyet.UseVisualStyleBackColor = false;
+            btnDuyet.Click += btnDuyet_Click;
             // 
             // btnThem
             // 
@@ -180,6 +209,7 @@
             btnThem.TabIndex = 10;
             btnThem.Text = "Thêm ";
             btnThem.UseVisualStyleBackColor = false;
+            btnThem.Click += btnThem_Click;
             // 
             // dtNgayKT
             // 
@@ -197,21 +227,13 @@
             dtNgayBD.Size = new Size(203, 27);
             dtNgayBD.TabIndex = 8;
             // 
-            // cbTenNV
+            // cbNhanVien
             // 
-            cbTenNV.FormattingEnabled = true;
-            cbTenNV.Location = new Point(148, 9);
-            cbTenNV.Name = "cbTenNV";
-            cbTenNV.Size = new Size(203, 28);
-            cbTenNV.TabIndex = 7;
-            // 
-            // cbTrangThai
-            // 
-            cbTrangThai.FormattingEnabled = true;
-            cbTrangThai.Location = new Point(148, 48);
-            cbTrangThai.Name = "cbTrangThai";
-            cbTrangThai.Size = new Size(203, 28);
-            cbTrangThai.TabIndex = 6;
+            cbNhanVien.FormattingEnabled = true;
+            cbNhanVien.Location = new Point(148, 9);
+            cbNhanVien.Name = "cbNhanVien";
+            cbNhanVien.Size = new Size(203, 28);
+            cbNhanVien.TabIndex = 7;
             // 
             // txtLyDo
             // 
@@ -276,42 +298,49 @@
             // 
             // dgvNghiPhep
             // 
+            dgvNghiPhep.AllowUserToAddRows = false;
+            dgvNghiPhep.AllowUserToDeleteRows = false;
             dgvNghiPhep.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvNghiPhep.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvNghiPhep.Columns.AddRange(new DataGridViewColumn[] { MaNghiPhep, MaNhanVien, TenNhanVien, TuNgay, DenNgay, LyDo, TrangThai });
+            dgvNghiPhep.Columns.AddRange(new DataGridViewColumn[] { MaNghiPhep, MaNV, TenNhanVien, TuNgay, DenNgay, LyDo, TrangThai });
             dgvNghiPhep.Dock = DockStyle.Fill;
+            dgvNghiPhep.EnableHeadersVisualStyles = false;
             dgvNghiPhep.Location = new Point(0, 0);
+            dgvNghiPhep.MultiSelect = false;
             dgvNghiPhep.Name = "dgvNghiPhep";
             dgvNghiPhep.RowHeadersVisible = false;
             dgvNghiPhep.RowHeadersWidth = 51;
+            dgvNghiPhep.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvNghiPhep.Size = new Size(800, 212);
             dgvNghiPhep.TabIndex = 6;
+            dgvNghiPhep.CellClick += dgvNghiPhep_CellClick;
             // 
             // MaNghiPhep
             // 
             MaNghiPhep.DataPropertyName = "MaNghiPhep";
-            MaNghiPhep.HeaderText = "Mã nghỉ phép";
+            MaNghiPhep.HeaderText = "Mã Đơn";
             MaNghiPhep.MinimumWidth = 6;
             MaNghiPhep.Name = "MaNghiPhep";
             // 
-            // MaNhanVien
+            // MaNV
             // 
-            MaNhanVien.DataPropertyName = "MaNhanVien";
-            MaNhanVien.HeaderText = "Mã NV";
-            MaNhanVien.MinimumWidth = 6;
-            MaNhanVien.Name = "MaNhanVien";
+            MaNV.DataPropertyName = "MaNV";
+            MaNV.HeaderText = "Mã nhân viên ";
+            MaNV.MinimumWidth = 6;
+            MaNV.Name = "MaNV";
+            MaNV.Visible = false;
             // 
             // TenNhanVien
             // 
             TenNhanVien.DataPropertyName = "TenNhanVien";
-            TenNhanVien.HeaderText = "Tên nhân viên ";
+            TenNhanVien.HeaderText = "Họ và tên ";
             TenNhanVien.MinimumWidth = 6;
             TenNhanVien.Name = "TenNhanVien";
             // 
             // TuNgay
             // 
             TuNgay.DataPropertyName = "TuNgay";
-            TuNgay.HeaderText = "Từ ngày ";
+            TuNgay.HeaderText = "Từ ngày";
             TuNgay.MinimumWidth = 6;
             TuNgay.Name = "TuNgay";
             // 
@@ -325,14 +354,14 @@
             // LyDo
             // 
             LyDo.DataPropertyName = "LyDo";
-            LyDo.HeaderText = "Lý do ";
+            LyDo.HeaderText = "Lý do";
             LyDo.MinimumWidth = 6;
             LyDo.Name = "LyDo";
             // 
             // TrangThai
             // 
             TrangThai.DataPropertyName = "TrangThai";
-            TrangThai.HeaderText = "Trạng Thái ";
+            TrangThai.HeaderText = "Trạng thái ";
             TrangThai.MinimumWidth = 6;
             TrangThai.Name = "TrangThai";
             // 
@@ -346,6 +375,7 @@
             Controls.Add(panelHeader);
             Name = "NghiPhep";
             Text = "NghiPhep";
+            Load += NghiPhep_Load;
             panelHeader.ResumeLayout(false);
             panelHeader.PerformLayout();
             panelInput.ResumeLayout(false);
@@ -360,15 +390,14 @@
         private Panel panelHeader;
         private Label label1;
         private Panel panelInput;
-        private Button btnXuat;
+        private Button btnHuy;
         private Button btnXoa;
         private Button btnTuChoi;
         private Button btnDuyet;
         private Button btnThem;
         private DateTimePicker dtNgayKT;
         private DateTimePicker dtNgayBD;
-        private ComboBox cbTenNV;
-        private ComboBox cbTrangThai;
+        private ComboBox cbNhanVien;
         private TextBox txtLyDo;
         private Label label6;
         private Label label5;
@@ -378,12 +407,14 @@
         private Button btnTimKiem;
         private Panel panelMain;
         private DataGridView dgvNghiPhep;
+        private Button btnLuu;
         private DataGridViewTextBoxColumn MaNghiPhep;
-        private DataGridViewTextBoxColumn MaNhanVien;
+        private DataGridViewTextBoxColumn MaNV;
         private DataGridViewTextBoxColumn TenNhanVien;
         private DataGridViewTextBoxColumn TuNgay;
         private DataGridViewTextBoxColumn DenNgay;
         private DataGridViewTextBoxColumn LyDo;
         private DataGridViewTextBoxColumn TrangThai;
+        private TextBox txtTrangThai;
     }
 }
