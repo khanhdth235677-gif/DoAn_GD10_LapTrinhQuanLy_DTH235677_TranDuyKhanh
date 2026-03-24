@@ -102,6 +102,7 @@
             // 
             // txtHoTenNV
             // 
+            txtHoTenNV.Anchor = AnchorStyles.None;
             txtHoTenNV.Location = new Point(555, 12);
             txtHoTenNV.Name = "txtHoTenNV";
             txtHoTenNV.ReadOnly = true;
@@ -110,6 +111,7 @@
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.None;
             label3.AutoSize = true;
             label3.Location = new Point(442, 19);
             label3.Name = "label3";
@@ -119,6 +121,7 @@
             // 
             // btnTimKiem
             // 
+            btnTimKiem.Anchor = AnchorStyles.None;
             btnTimKiem.BackColor = Color.DeepPink;
             btnTimKiem.FlatStyle = FlatStyle.Flat;
             btnTimKiem.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -133,6 +136,7 @@
             // 
             // btnReset
             // 
+            btnReset.Anchor = AnchorStyles.None;
             btnReset.BackColor = Color.DeepPink;
             btnReset.FlatStyle = FlatStyle.Flat;
             btnReset.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -147,6 +151,7 @@
             // 
             // btnXuat
             // 
+            btnXuat.Anchor = AnchorStyles.None;
             btnXuat.BackColor = Color.DeepPink;
             btnXuat.FlatStyle = FlatStyle.Flat;
             btnXuat.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -157,9 +162,11 @@
             btnXuat.TabIndex = 14;
             btnXuat.Text = "Xuất Excel ";
             btnXuat.UseVisualStyleBackColor = false;
+            btnXuat.Click += btnXuat_Click;
             // 
             // btnSua
             // 
+            btnSua.Anchor = AnchorStyles.None;
             btnSua.BackColor = Color.DeepPink;
             btnSua.FlatStyle = FlatStyle.Flat;
             btnSua.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -174,6 +181,7 @@
             // 
             // btnXoa
             // 
+            btnXoa.Anchor = AnchorStyles.None;
             btnXoa.BackColor = Color.DeepPink;
             btnXoa.FlatStyle = FlatStyle.Flat;
             btnXoa.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -188,6 +196,7 @@
             // 
             // btnThem
             // 
+            btnThem.Anchor = AnchorStyles.None;
             btnThem.BackColor = Color.DeepPink;
             btnThem.FlatStyle = FlatStyle.Flat;
             btnThem.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -202,6 +211,7 @@
             // 
             // txtMoTa
             // 
+            txtMoTa.Anchor = AnchorStyles.None;
             txtMoTa.Location = new Point(164, 96);
             txtMoTa.Name = "txtMoTa";
             txtMoTa.Size = new Size(573, 27);
@@ -209,6 +219,7 @@
             // 
             // cbTenPhongBan
             // 
+            cbTenPhongBan.Anchor = AnchorStyles.None;
             cbTenPhongBan.FormattingEnabled = true;
             cbTenPhongBan.Location = new Point(164, 53);
             cbTenPhongBan.Name = "cbTenPhongBan";
@@ -217,6 +228,7 @@
             // 
             // txtID
             // 
+            txtID.Anchor = AnchorStyles.None;
             txtID.Location = new Point(164, 12);
             txtID.Name = "txtID";
             txtID.ReadOnly = true;
@@ -225,6 +237,7 @@
             // 
             // label5
             // 
+            label5.Anchor = AnchorStyles.None;
             label5.AutoSize = true;
             label5.Location = new Point(96, 103);
             label5.Name = "label5";
@@ -234,6 +247,7 @@
             // 
             // cbTenBoPhan
             // 
+            cbTenBoPhan.Anchor = AnchorStyles.None;
             cbTenBoPhan.AutoSize = true;
             cbTenBoPhan.Location = new Point(53, 61);
             cbTenBoPhan.Name = "cbTenBoPhan";
@@ -243,6 +257,7 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.None;
             label2.AutoSize = true;
             label2.Location = new Point(55, 19);
             label2.Name = "label2";

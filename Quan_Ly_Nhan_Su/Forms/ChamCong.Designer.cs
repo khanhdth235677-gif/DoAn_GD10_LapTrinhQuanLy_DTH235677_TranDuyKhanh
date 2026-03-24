@@ -48,6 +48,7 @@
             cbNhanVien = new ComboBox();
             label2 = new Label();
             panelButton = new Panel();
+            btnXuat = new Button();
             btnLuu = new Button();
             btnSua = new Button();
             btnLamMoi = new Button();
@@ -116,6 +117,7 @@
             // 
             // dtpThang
             // 
+            dtpThang.Anchor = AnchorStyles.None;
             dtpThang.CustomFormat = "MM/yyyy";
             dtpThang.Format = DateTimePickerFormat.Custom;
             dtpThang.Location = new Point(569, 12);
@@ -127,6 +129,7 @@
             // 
             // label9
             // 
+            label9.Anchor = AnchorStyles.None;
             label9.AutoSize = true;
             label9.Location = new Point(461, 18);
             label9.Name = "label9";
@@ -136,6 +139,7 @@
             // 
             // lblTongTangCa
             // 
+            lblTongTangCa.Anchor = AnchorStyles.None;
             lblTongTangCa.AutoSize = true;
             lblTongTangCa.Location = new Point(609, 138);
             lblTongTangCa.Name = "lblTongTangCa";
@@ -145,6 +149,7 @@
             // 
             // lblNgayCongThucTe
             // 
+            lblNgayCongThucTe.Anchor = AnchorStyles.None;
             lblNgayCongThucTe.AutoSize = true;
             lblNgayCongThucTe.Location = new Point(609, 99);
             lblNgayCongThucTe.Name = "lblNgayCongThucTe";
@@ -154,6 +159,7 @@
             // 
             // lblNgayCongMacDinh
             // 
+            lblNgayCongMacDinh.Anchor = AnchorStyles.None;
             lblNgayCongMacDinh.AutoSize = true;
             lblNgayCongMacDinh.Location = new Point(609, 58);
             lblNgayCongMacDinh.Name = "lblNgayCongMacDinh";
@@ -163,6 +169,7 @@
             // 
             // label8
             // 
+            label8.Anchor = AnchorStyles.None;
             label8.AutoSize = true;
             label8.Location = new Point(452, 138);
             label8.Name = "label8";
@@ -172,6 +179,7 @@
             // 
             // label7
             // 
+            label7.Anchor = AnchorStyles.None;
             label7.AutoSize = true;
             label7.Location = new Point(443, 99);
             label7.Name = "label7";
@@ -181,6 +189,7 @@
             // 
             // label6
             // 
+            label6.Anchor = AnchorStyles.None;
             label6.AutoSize = true;
             label6.Location = new Point(428, 58);
             label6.Name = "label6";
@@ -191,6 +200,7 @@
             // 
             // numTangCa
             // 
+            numTangCa.Anchor = AnchorStyles.None;
             numTangCa.Location = new Point(140, 133);
             numTangCa.Name = "numTangCa";
             numTangCa.Size = new Size(185, 27);
@@ -198,6 +208,7 @@
             // 
             // cbTrangThai
             // 
+            cbTrangThai.Anchor = AnchorStyles.None;
             cbTrangThai.FormattingEnabled = true;
             cbTrangThai.Items.AddRange(new object[] { "đã chấm công", "nghỉ", "nghỉ phép" });
             cbTrangThai.Location = new Point(140, 91);
@@ -207,6 +218,7 @@
             // 
             // dtpNgay
             // 
+            dtpNgay.Anchor = AnchorStyles.None;
             dtpNgay.CustomFormat = "dd/MM/yyyy";
             dtpNgay.Format = DateTimePickerFormat.Custom;
             dtpNgay.Location = new Point(140, 53);
@@ -216,6 +228,7 @@
             // 
             // label5
             // 
+            label5.Anchor = AnchorStyles.None;
             label5.AutoSize = true;
             label5.Location = new Point(20, 140);
             label5.Name = "label5";
@@ -225,6 +238,7 @@
             // 
             // label4
             // 
+            label4.Anchor = AnchorStyles.None;
             label4.AutoSize = true;
             label4.Location = new Point(20, 99);
             label4.Name = "label4";
@@ -234,6 +248,7 @@
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.None;
             label3.AutoSize = true;
             label3.Location = new Point(20, 60);
             label3.Name = "label3";
@@ -243,6 +258,7 @@
             // 
             // cbNhanVien
             // 
+            cbNhanVien.Anchor = AnchorStyles.None;
             cbNhanVien.FormattingEnabled = true;
             cbNhanVien.Location = new Point(140, 11);
             cbNhanVien.Name = "cbNhanVien";
@@ -252,6 +268,7 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.None;
             label2.AutoSize = true;
             label2.Location = new Point(20, 19);
             label2.Name = "label2";
@@ -262,24 +279,41 @@
             // panelButton
             // 
             panelButton.BackColor = Color.Transparent;
+            panelButton.Controls.Add(btnXuat);
             panelButton.Controls.Add(btnLuu);
             panelButton.Controls.Add(btnSua);
             panelButton.Controls.Add(btnLamMoi);
             panelButton.Controls.Add(btnThem);
             panelButton.Controls.Add(btnXoa);
             panelButton.Dock = DockStyle.Right;
-            panelButton.Location = new Point(594, 234);
+            panelButton.Location = new Point(631, 234);
             panelButton.Name = "panelButton";
-            panelButton.Size = new Size(180, 234);
+            panelButton.Size = new Size(143, 234);
             panelButton.TabIndex = 3;
+            // 
+            // btnXuat
+            // 
+            btnXuat.Anchor = AnchorStyles.None;
+            btnXuat.BackColor = Color.DeepPink;
+            btnXuat.FlatStyle = FlatStyle.Flat;
+            btnXuat.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            btnXuat.ForeColor = Color.White;
+            btnXuat.Location = new Point(27, 191);
+            btnXuat.Name = "btnXuat";
+            btnXuat.Size = new Size(94, 29);
+            btnXuat.TabIndex = 5;
+            btnXuat.Text = "Xuất";
+            btnXuat.UseVisualStyleBackColor = false;
+            btnXuat.Click += btnXuat_Click;
             // 
             // btnLuu
             // 
+            btnLuu.Anchor = AnchorStyles.None;
             btnLuu.BackColor = Color.DeepPink;
             btnLuu.FlatStyle = FlatStyle.Flat;
             btnLuu.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnLuu.ForeColor = Color.White;
-            btnLuu.Location = new Point(46, 202);
+            btnLuu.Location = new Point(27, 156);
             btnLuu.Name = "btnLuu";
             btnLuu.Size = new Size(94, 29);
             btnLuu.TabIndex = 4;
@@ -289,11 +323,12 @@
             // 
             // btnSua
             // 
+            btnSua.Anchor = AnchorStyles.None;
             btnSua.BackColor = Color.DeepPink;
             btnSua.FlatStyle = FlatStyle.Flat;
             btnSua.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnSua.ForeColor = Color.White;
-            btnSua.Location = new Point(46, 162);
+            btnSua.Location = new Point(27, 121);
             btnSua.Name = "btnSua";
             btnSua.Size = new Size(94, 29);
             btnSua.TabIndex = 3;
@@ -303,11 +338,12 @@
             // 
             // btnLamMoi
             // 
+            btnLamMoi.Anchor = AnchorStyles.None;
             btnLamMoi.BackColor = Color.DeepPink;
             btnLamMoi.FlatStyle = FlatStyle.Flat;
             btnLamMoi.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnLamMoi.ForeColor = Color.White;
-            btnLamMoi.Location = new Point(46, 116);
+            btnLamMoi.Location = new Point(27, 86);
             btnLamMoi.Name = "btnLamMoi";
             btnLamMoi.Size = new Size(94, 29);
             btnLamMoi.TabIndex = 2;
@@ -317,11 +353,12 @@
             // 
             // btnThem
             // 
+            btnThem.Anchor = AnchorStyles.None;
             btnThem.BackColor = Color.DeepPink;
             btnThem.FlatStyle = FlatStyle.Flat;
             btnThem.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnThem.ForeColor = Color.White;
-            btnThem.Location = new Point(46, 71);
+            btnThem.Location = new Point(27, 51);
             btnThem.Name = "btnThem";
             btnThem.Size = new Size(94, 29);
             btnThem.TabIndex = 1;
@@ -331,11 +368,12 @@
             // 
             // btnXoa
             // 
+            btnXoa.Anchor = AnchorStyles.None;
             btnXoa.BackColor = Color.DeepPink;
             btnXoa.FlatStyle = FlatStyle.Flat;
             btnXoa.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnXoa.ForeColor = Color.White;
-            btnXoa.Location = new Point(46, 26);
+            btnXoa.Location = new Point(27, 16);
             btnXoa.Name = "btnXoa";
             btnXoa.Size = new Size(94, 29);
             btnXoa.TabIndex = 0;
@@ -349,7 +387,7 @@
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(0, 234);
             panelMain.Name = "panelMain";
-            panelMain.Size = new Size(594, 234);
+            panelMain.Size = new Size(631, 234);
             panelMain.TabIndex = 4;
             // 
             // dgvChamCong
@@ -367,7 +405,7 @@
             dgvChamCong.RowHeadersVisible = false;
             dgvChamCong.RowHeadersWidth = 51;
             dgvChamCong.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvChamCong.Size = new Size(594, 234);
+            dgvChamCong.Size = new Size(631, 234);
             dgvChamCong.TabIndex = 5;
             // 
             // ID
@@ -465,5 +503,6 @@
         private DataGridViewTextBoxColumn GioTangCa;
         private DateTimePicker dtpThang;
         private Label label9;
+        private Button btnXuat;
     }
 }

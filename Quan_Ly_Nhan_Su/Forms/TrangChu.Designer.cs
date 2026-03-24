@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrangChu));
             panelSidebar = new FlowLayoutPanel();
             label1 = new Label();
-            button1 = new Button();
+            btnQuyen = new Button();
             btnTrangChu = new Button();
             btnNhanVien = new Button();
             btnBoPhan = new Button();
@@ -43,20 +43,21 @@
             btnThoat = new Button();
             panelMain = new Panel();
             panelStatus = new Panel();
-            label4 = new Label();
-            label3 = new Label();
-            label2 = new Label();
-            fadeTimer = new System.Windows.Forms.Timer(components);
+            lblUser = new Label();
+            lblTime = new Label();
+            pictureBox1 = new PictureBox();
+            timer1 = new System.Windows.Forms.Timer(components);
             panelSidebar.SuspendLayout();
             panelMain.SuspendLayout();
             panelStatus.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panelSidebar
             // 
             panelSidebar.BackColor = Color.Gainsboro;
             panelSidebar.Controls.Add(label1);
-            panelSidebar.Controls.Add(button1);
+            panelSidebar.Controls.Add(btnQuyen);
             panelSidebar.Controls.Add(btnTrangChu);
             panelSidebar.Controls.Add(btnNhanVien);
             panelSidebar.Controls.Add(btnBoPhan);
@@ -83,19 +84,21 @@
             label1.Text = "QLNS";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // button1
+            // btnQuyen
             // 
-            button1.BackColor = Color.MediumAquamarine;
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(25, 69);
-            button1.Margin = new Padding(25, 3, 3, 3);
-            button1.Name = "button1";
-            button1.Size = new Size(200, 40);
-            button1.TabIndex = 1;
-            button1.Text = "ADMIN ▼";
-            button1.UseVisualStyleBackColor = false;
+            btnQuyen.BackColor = Color.MediumAquamarine;
+            btnQuyen.Enabled = false;
+            btnQuyen.FlatAppearance.BorderSize = 0;
+            btnQuyen.FlatStyle = FlatStyle.Flat;
+            btnQuyen.ForeColor = Color.White;
+            btnQuyen.Location = new Point(25, 69);
+            btnQuyen.Margin = new Padding(25, 3, 3, 3);
+            btnQuyen.Name = "btnQuyen";
+            btnQuyen.Size = new Size(200, 40);
+            btnQuyen.TabIndex = 1;
+            btnQuyen.Text = "ADMIN ▼";
+            btnQuyen.UseVisualStyleBackColor = false;
+            btnQuyen.Click += btnQuyen_Click;
             // 
             // btnTrangChu
             // 
@@ -107,7 +110,7 @@
             btnTrangChu.Name = "btnTrangChu";
             btnTrangChu.Size = new Size(200, 40);
             btnTrangChu.TabIndex = 7;
-            btnTrangChu.Text = "Trang Chủ";
+            btnTrangChu.Text = "🏠 Trang chủ";
             btnTrangChu.TextAlign = ContentAlignment.MiddleLeft;
             btnTrangChu.UseVisualStyleBackColor = false;
             btnTrangChu.Click += btnTrangChu_Click;
@@ -122,7 +125,7 @@
             btnNhanVien.Name = "btnNhanVien";
             btnNhanVien.Size = new Size(200, 40);
             btnNhanVien.TabIndex = 6;
-            btnNhanVien.Text = "Nhân viên";
+            btnNhanVien.Text = "👤 Nhân viên";
             btnNhanVien.TextAlign = ContentAlignment.MiddleLeft;
             btnNhanVien.UseVisualStyleBackColor = false;
             btnNhanVien.Click += btnNhanVien_Click;
@@ -137,7 +140,7 @@
             btnBoPhan.Name = "btnBoPhan";
             btnBoPhan.Size = new Size(200, 40);
             btnBoPhan.TabIndex = 5;
-            btnBoPhan.Text = "Bộ phận";
+            btnBoPhan.Text = "🏢 Bộ phận";
             btnBoPhan.TextAlign = ContentAlignment.MiddleLeft;
             btnBoPhan.UseVisualStyleBackColor = false;
             btnBoPhan.Click += btnBoPhan_Click;
@@ -152,7 +155,7 @@
             btnChamCong.Name = "btnChamCong";
             btnChamCong.Size = new Size(200, 40);
             btnChamCong.TabIndex = 4;
-            btnChamCong.Text = "Chấm công";
+            btnChamCong.Text = "⏱ Chấm công";
             btnChamCong.TextAlign = ContentAlignment.MiddleLeft;
             btnChamCong.UseVisualStyleBackColor = false;
             btnChamCong.Click += btnChamCong_Click;
@@ -167,7 +170,7 @@
             btnBangLuong.Name = "btnBangLuong";
             btnBangLuong.Size = new Size(200, 40);
             btnBangLuong.TabIndex = 3;
-            btnBangLuong.Text = "Bảng lương";
+            btnBangLuong.Text = "💰 Bảng lương";
             btnBangLuong.TextAlign = ContentAlignment.MiddleLeft;
             btnBangLuong.UseVisualStyleBackColor = false;
             btnBangLuong.Click += btnBangLuong_Click;
@@ -182,7 +185,7 @@
             btnDuAn.Name = "btnDuAn";
             btnDuAn.Size = new Size(200, 40);
             btnDuAn.TabIndex = 2;
-            btnDuAn.Text = "Dự án";
+            btnDuAn.Text = "📁 Dự án";
             btnDuAn.TextAlign = ContentAlignment.MiddleLeft;
             btnDuAn.UseVisualStyleBackColor = false;
             btnDuAn.Click += btnDuAn_Click;
@@ -197,7 +200,7 @@
             btnNghiPhep.Name = "btnNghiPhep";
             btnNghiPhep.Size = new Size(200, 40);
             btnNghiPhep.TabIndex = 1;
-            btnNghiPhep.Text = "Nghỉ phép";
+            btnNghiPhep.Text = "📅 Nghỉ phép";
             btnNghiPhep.TextAlign = ContentAlignment.MiddleLeft;
             btnNghiPhep.UseVisualStyleBackColor = false;
             btnNghiPhep.Click += btnNghiPhep_Click;
@@ -212,7 +215,7 @@
             btnThoat.Name = "btnThoat";
             btnThoat.Size = new Size(200, 40);
             btnThoat.TabIndex = 8;
-            btnThoat.Text = "Thoát";
+            btnThoat.Text = "🚪 Thoát";
             btnThoat.TextAlign = ContentAlignment.MiddleLeft;
             btnThoat.UseVisualStyleBackColor = false;
             btnThoat.Click += btnThoat_Click;
@@ -220,9 +223,9 @@
             // panelMain
             // 
             panelMain.BackColor = Color.White;
-            panelMain.BackgroundImage = (Image)resources.GetObject("panelMain.BackgroundImage");
             panelMain.BackgroundImageLayout = ImageLayout.Zoom;
             panelMain.Controls.Add(panelStatus);
+            panelMain.Controls.Add(pictureBox1);
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(250, 0);
             panelMain.Name = "panelMain";
@@ -232,49 +235,47 @@
             // panelStatus
             // 
             panelStatus.BackColor = Color.WhiteSmoke;
-            panelStatus.Controls.Add(label4);
-            panelStatus.Controls.Add(label3);
-            panelStatus.Controls.Add(label2);
+            panelStatus.Controls.Add(lblUser);
+            panelStatus.Controls.Add(lblTime);
             panelStatus.Dock = DockStyle.Bottom;
             panelStatus.Location = new Point(0, 475);
             panelStatus.Name = "panelStatus";
             panelStatus.Size = new Size(792, 40);
             panelStatus.TabIndex = 0;
             // 
-            // label4
+            // lblUser
             // 
-            label4.Anchor = AnchorStyles.Right;
-            label4.AutoSize = true;
-            label4.Location = new Point(679, 11);
-            label4.Name = "label4";
-            label4.Size = new Size(85, 20);
-            label4.TabIndex = 2;
-            label4.Text = "24/02/2024";
+            lblUser.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lblUser.AutoSize = true;
+            lblUser.Location = new Point(26, 14);
+            lblUser.Name = "lblUser";
+            lblUser.Size = new Size(0, 20);
+            lblUser.TabIndex = 1;
             // 
-            // label3
+            // lblTime
             // 
-            label3.Anchor = AnchorStyles.None;
-            label3.AutoSize = true;
-            label3.Location = new Point(283, 11);
-            label3.Name = "label3";
-            label3.Size = new Size(202, 20);
-            label3.TabIndex = 1;
-            label3.Text = "Quyền hạn: Quản trị hệ thống";
+            lblTime.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            lblTime.AutoSize = true;
+            lblTime.Location = new Point(730, 11);
+            lblTime.Name = "lblTime";
+            lblTime.Size = new Size(0, 20);
+            lblTime.TabIndex = 0;
             // 
-            // label2
+            // pictureBox1
             // 
-            label2.Anchor = AnchorStyles.Left;
-            label2.AutoSize = true;
-            label2.Location = new Point(24, 11);
-            label2.Name = "label2";
-            label2.Size = new Size(131, 20);
-            label2.TabIndex = 0;
-            label2.Text = "Nhân viên: ADMIN";
+            pictureBox1.Dock = DockStyle.Fill;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(0, 0);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(792, 515);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 1;
+            pictureBox1.TabStop = false;
             // 
-            // fadeTimer
+            // timer1
             // 
-            fadeTimer.Interval = 20;
-            fadeTimer.Tick += fadeTimer_Tick;
+            timer1.Interval = 1000;
+            timer1.Tick += timer1_Tick;
             // 
             // TrangChu
             // 
@@ -293,6 +294,7 @@
             panelMain.ResumeLayout(false);
             panelStatus.ResumeLayout(false);
             panelStatus.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -300,7 +302,7 @@
 
         private FlowLayoutPanel panelSidebar;
         private Label label1;
-        private Button button1;
+        private Button btnQuyen;
         private Button btnTrangChu;
         private Button btnNhanVien;
         private Button btnBoPhan;
@@ -310,10 +312,11 @@
         private Button btnNghiPhep;
         private Panel panelMain;
         private Panel panelStatus;
-        private Label label2;
-        private Label label4;
-        private Label label3;
-        private System.Windows.Forms.Timer fadeTimer;
         private Button btnThoat;
+        private Label lblTime;
+        private System.Windows.Forms.Timer timer1;
+        private PictureBox pictureBox1;
+        private Label lblUser;
+        private Label lblQuyen;
     }
 }

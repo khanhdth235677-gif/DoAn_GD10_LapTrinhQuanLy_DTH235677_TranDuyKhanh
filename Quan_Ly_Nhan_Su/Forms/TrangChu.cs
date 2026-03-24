@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Quan_Ly_Nhan_Su.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,7 +13,6 @@ namespace Quan_Ly_Nhan_Su.Forms
 {
     public partial class TrangChu : Form
     {
-
         private double fadeOpacity = 0;
         private Button currentButton;
         private Form activeForm = null;
@@ -93,7 +93,6 @@ namespace Quan_Ly_Nhan_Su.Forms
 
             fadeOpacity = 0;
             activeForm.Opacity = 0;
-            fadeTimer.Start();
         }
         public TrangChu()
         {
@@ -102,7 +101,39 @@ namespace Quan_Ly_Nhan_Su.Forms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            timer1.Start();
+            lblUser.Text = "Xin chào: " + Session.TenDangNhap;
+            // 🔥 HIỂN THỊ QUYỀN TRÊN BUTTON
+            btnQuyen.Text = "👤 " + Session.Quyen;
+            if (Session.Quyen == "Quản trị viên")
+            {
+                btnQuyen.BackColor = Color.Green;
+                btnQuyen.ForeColor = Color.White;
+            }
+            else
+            {
+                btnQuyen.BackColor = Color.DodgerBlue;
+                btnQuyen.ForeColor = Color.White;
+            }
+            PhanQuyen();
+        }
+        void PhanQuyen()
+        {
+            // 🔥 NHÂN VIÊN → BỊ HẠN CHẾ
+            if (Session.Quyen == "Nhân viên")
+            {
+                // ❌ Không được vào chức năng quan trọng
+                btnBangLuong.Enabled = false;
+                btnDuAn.Enabled = false;
 
+                // ✔ Chỉ được xem
+            }
+
+            // 🔥 QUẢN TRỊ → FULL
+            if (Session.Quyen == "Quản trị viên")
+            {
+                // không cần làm gì → full quyền
+            }
         }
 
         private void btnNhanVien_Click(object sender, EventArgs e)
@@ -146,29 +177,19 @@ namespace Quan_Ly_Nhan_Su.Forms
             ActivateButton(sender);
             OpenChildForm("NghiPhep");
         }
-
-        private void fadeTimer_Tick(object sender, EventArgs e)
-        {
-            if (activeForm == null)
-            {
-                fadeTimer.Stop();
-                return;
-            }
-
-            fadeOpacity += 0.05;
-
-            if (fadeOpacity >= 1)
-            {
-                fadeOpacity = 1;
-                fadeTimer.Stop();
-            }
-
-            activeForm.Opacity = fadeOpacity;
-        }
-
         private void btnThoat_Click(object sender, EventArgs e)
         {
-            this.Close();   
+            this.Close();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            lblTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+        }
+
+        private void btnQuyen_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Quyền của bạn: " + Session.Quyen);
         }
     }
 }

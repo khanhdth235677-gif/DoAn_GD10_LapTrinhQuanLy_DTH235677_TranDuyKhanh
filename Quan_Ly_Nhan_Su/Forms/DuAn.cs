@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualBasic.Logging;
+﻿using ClosedXML.Excel;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic.Logging;
 using Quan_Ly_Nhan_Su.Data;
 using System;
 using System.Collections.Generic;
@@ -36,7 +38,7 @@ namespace Quan_Ly_Nhan_Su.Forms
         {
             dgvDanhSachDuAn.AutoGenerateColumns = false;
             dgvPhanCongDuAn.AutoGenerateColumns = false;
-
+            UIStyle.ApplyStyle(this);
             // Load dữ liệu cho các ComboBox
             LoadComboTimKiem();
             LoadComboPhongBanDS();
@@ -521,5 +523,110 @@ namespace Quan_Ly_Nhan_Su.Forms
         }
 
         #endregion
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Xuất danh sách dự án";
+            saveFileDialog.Filter = "Excel (*.xlsx)|*.xlsx";
+            saveFileDialog.FileName = "DuAn_" + DateTime.Now.ToString("dd_MM_yyyy");
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    var dsDuAn = context.DuAn
+                        .Include(da => da.PhongBan)
+                        .Include(da => da.NguoiQuanLy)
+                        .ToList();
+
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        var sheet = wb.Worksheets.Add("DuAn");
+
+                        // Header
+                        sheet.Cell(1, 1).Value = "Mã DA";
+                        sheet.Cell(1, 2).Value = "Tên DA";
+                        sheet.Cell(1, 3).Value = "Khách hàng";
+                        sheet.Cell(1, 4).Value = "Quản lý";
+                        sheet.Cell(1, 5).Value = "Phòng ban";
+                        sheet.Cell(1, 6).Value = "Ngày bắt đầu";
+                        sheet.Cell(1, 7).Value = "Ngày KT dự kiến";
+                        sheet.Cell(1, 8).Value = "Ngày KT thực tế";
+                        sheet.Cell(1, 9).Value = "Giá trị";
+                        sheet.Cell(1, 10).Value = "Tiến độ (%)";
+                        sheet.Cell(1, 11).Value = "Tình trạng";
+                        sheet.Cell(1, 12).Value = "Ghi chú";
+
+                        var header = sheet.Range("A1:L1");
+                        header.Style.Font.Bold = true;
+                        header.Style.Fill.BackgroundColor = XLColor.LightGray;
+                        header.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                        int row = 2;
+
+                        foreach (var da in dsDuAn)
+                        {
+                            sheet.Cell(row, 1).Value = da.MaDuAn;
+                            sheet.Cell(row, 2).Value = da.TenDuAn;
+                            sheet.Cell(row, 3).Value = da.KhachHang;
+                            sheet.Cell(row, 4).Value = da.NguoiQuanLy?.HoTen;
+                            sheet.Cell(row, 5).Value = da.PhongBan?.TenPhongBan;
+
+                            sheet.Cell(row, 6).Value = da.NgayBatDau?.ToString("dd/MM/yyyy");
+                            sheet.Cell(row, 7).Value = da.NgayKetThucDuKien?.ToString("dd/MM/yyyy");
+                            sheet.Cell(row, 8).Value = da.NgayKetThucThucTe?.ToString("dd/MM/yyyy");
+
+                            sheet.Cell(row, 9).Value = da.GiaTriHopDong;
+                            sheet.Cell(row, 10).Value = da.TienDo;
+
+                            // ===== CHECKBOX TÌNH TRẠNG =====
+                            bool hoanThanh = da.TinhTrang == "Hoàn thành";
+
+                            var cellTrangThai = sheet.Cell(row, 11);
+                            cellTrangThai.Value = hoanThanh ? "✔ Hoàn thành" : "✘ Chưa hoàn thành";
+
+                            // Tô màu
+                            if (hoanThanh)
+                                cellTrangThai.Style.Fill.BackgroundColor = XLColor.LightGreen;
+                            else
+                                cellTrangThai.Style.Fill.BackgroundColor = XLColor.LightPink;
+                            // ================================
+
+                            sheet.Cell(row, 12).Value = da.GhiChu;
+
+                            // Format tiền
+                            sheet.Cell(row, 9).Style.NumberFormat.Format = "#,##0 \"đ\"";
+
+                            // Format tiến độ %
+                            sheet.Cell(row, 10).Style.NumberFormat.Format = "0\"%\"";
+
+                            // Căn giữa tình trạng + tiến độ
+                            cellTrangThai.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                            sheet.Cell(row, 10).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                            row++;
+                        }
+
+                        // Border
+                        var range = sheet.Range($"A1:L{row - 1}");
+                        range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+                        sheet.Columns().AdjustToContents();
+
+                        wb.SaveAs(saveFileDialog.FileName);
+
+                        MessageBox.Show("Xuất Excel dự án thành công!",
+                            "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }

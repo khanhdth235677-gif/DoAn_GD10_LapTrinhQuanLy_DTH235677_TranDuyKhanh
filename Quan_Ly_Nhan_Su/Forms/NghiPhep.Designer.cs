@@ -31,6 +31,7 @@
             panelHeader = new Panel();
             label1 = new Label();
             panelInput = new Panel();
+            btnXuat = new Button();
             txtTrangThai = new TextBox();
             btnLuu = new Button();
             btnTimKiem = new Button();
@@ -86,6 +87,7 @@
             // 
             // panelInput
             // 
+            panelInput.Controls.Add(btnXuat);
             panelInput.Controls.Add(txtTrangThai);
             panelInput.Controls.Add(btnLuu);
             panelInput.Controls.Add(btnTimKiem);
@@ -109,8 +111,24 @@
             panelInput.Size = new Size(800, 188);
             panelInput.TabIndex = 4;
             // 
+            // btnXuat
+            // 
+            btnXuat.Anchor = AnchorStyles.None;
+            btnXuat.BackColor = Color.DeepPink;
+            btnXuat.FlatStyle = FlatStyle.Flat;
+            btnXuat.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            btnXuat.ForeColor = Color.White;
+            btnXuat.Location = new Point(694, 137);
+            btnXuat.Name = "btnXuat";
+            btnXuat.Size = new Size(94, 35);
+            btnXuat.TabIndex = 18;
+            btnXuat.Text = "Xuất";
+            btnXuat.UseVisualStyleBackColor = false;
+            btnXuat.Click += btnXuat_Click;
+            // 
             // txtTrangThai
             // 
+            txtTrangThai.Anchor = AnchorStyles.None;
             txtTrangThai.Location = new Point(148, 51);
             txtTrangThai.Name = "txtTrangThai";
             txtTrangThai.ReadOnly = true;
@@ -119,11 +137,12 @@
             // 
             // btnLuu
             // 
+            btnLuu.Anchor = AnchorStyles.None;
             btnLuu.BackColor = Color.DeepPink;
             btnLuu.FlatStyle = FlatStyle.Flat;
             btnLuu.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnLuu.ForeColor = Color.White;
-            btnLuu.Location = new Point(298, 137);
+            btnLuu.Location = new Point(246, 137);
             btnLuu.Name = "btnLuu";
             btnLuu.Size = new Size(94, 35);
             btnLuu.TabIndex = 16;
@@ -133,6 +152,7 @@
             // 
             // btnTimKiem
             // 
+            btnTimKiem.Anchor = AnchorStyles.None;
             btnTimKiem.Location = new Point(644, 88);
             btnTimKiem.Name = "btnTimKiem";
             btnTimKiem.Size = new Size(94, 29);
@@ -143,11 +163,12 @@
             // 
             // btnHuy
             // 
+            btnHuy.Anchor = AnchorStyles.None;
             btnHuy.BackColor = Color.DeepPink;
             btnHuy.FlatStyle = FlatStyle.Flat;
             btnHuy.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnHuy.ForeColor = Color.White;
-            btnHuy.Location = new Point(644, 137);
+            btnHuy.Location = new Point(586, 137);
             btnHuy.Name = "btnHuy";
             btnHuy.Size = new Size(94, 35);
             btnHuy.TabIndex = 14;
@@ -157,11 +178,12 @@
             // 
             // btnXoa
             // 
+            btnXoa.Anchor = AnchorStyles.None;
             btnXoa.BackColor = Color.DeepPink;
             btnXoa.FlatStyle = FlatStyle.Flat;
             btnXoa.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnXoa.ForeColor = Color.White;
-            btnXoa.Location = new Point(535, 137);
+            btnXoa.Location = new Point(472, 137);
             btnXoa.Name = "btnXoa";
             btnXoa.Size = new Size(94, 35);
             btnXoa.TabIndex = 13;
@@ -171,11 +193,12 @@
             // 
             // btnTuChoi
             // 
+            btnTuChoi.Anchor = AnchorStyles.None;
             btnTuChoi.BackColor = Color.DeepPink;
             btnTuChoi.FlatStyle = FlatStyle.Flat;
             btnTuChoi.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnTuChoi.ForeColor = Color.White;
-            btnTuChoi.Location = new Point(418, 137);
+            btnTuChoi.Location = new Point(361, 137);
             btnTuChoi.Name = "btnTuChoi";
             btnTuChoi.Size = new Size(94, 35);
             btnTuChoi.TabIndex = 12;
@@ -185,11 +208,12 @@
             // 
             // btnDuyet
             // 
+            btnDuyet.Anchor = AnchorStyles.None;
             btnDuyet.BackColor = Color.DeepPink;
             btnDuyet.FlatStyle = FlatStyle.Flat;
             btnDuyet.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnDuyet.ForeColor = Color.White;
-            btnDuyet.Location = new Point(172, 137);
+            btnDuyet.Location = new Point(134, 137);
             btnDuyet.Name = "btnDuyet";
             btnDuyet.Size = new Size(94, 35);
             btnDuyet.TabIndex = 11;
@@ -199,11 +223,12 @@
             // 
             // btnThem
             // 
+            btnThem.Anchor = AnchorStyles.None;
             btnThem.BackColor = Color.DeepPink;
             btnThem.FlatStyle = FlatStyle.Flat;
             btnThem.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             btnThem.ForeColor = Color.White;
-            btnThem.Location = new Point(55, 137);
+            btnThem.Location = new Point(20, 137);
             btnThem.Name = "btnThem";
             btnThem.Size = new Size(94, 35);
             btnThem.TabIndex = 10;
@@ -213,6 +238,7 @@
             // 
             // dtNgayKT
             // 
+            dtNgayKT.Anchor = AnchorStyles.None;
             dtNgayKT.Format = DateTimePickerFormat.Short;
             dtNgayKT.Location = new Point(535, 49);
             dtNgayKT.Name = "dtNgayKT";
@@ -221,6 +247,7 @@
             // 
             // dtNgayBD
             // 
+            dtNgayBD.Anchor = AnchorStyles.None;
             dtNgayBD.Format = DateTimePickerFormat.Short;
             dtNgayBD.Location = new Point(535, 10);
             dtNgayBD.Name = "dtNgayBD";
@@ -229,6 +256,7 @@
             // 
             // cbNhanVien
             // 
+            cbNhanVien.Anchor = AnchorStyles.None;
             cbNhanVien.FormattingEnabled = true;
             cbNhanVien.Location = new Point(148, 9);
             cbNhanVien.Name = "cbNhanVien";
@@ -237,6 +265,7 @@
             // 
             // txtLyDo
             // 
+            txtLyDo.Anchor = AnchorStyles.None;
             txtLyDo.Location = new Point(148, 88);
             txtLyDo.Name = "txtLyDo";
             txtLyDo.Size = new Size(471, 27);
@@ -244,6 +273,7 @@
             // 
             // label6
             // 
+            label6.Anchor = AnchorStyles.None;
             label6.AutoSize = true;
             label6.Location = new Point(440, 56);
             label6.Name = "label6";
@@ -253,6 +283,7 @@
             // 
             // label5
             // 
+            label5.Anchor = AnchorStyles.None;
             label5.AutoSize = true;
             label5.Location = new Point(446, 17);
             label5.Name = "label5";
@@ -262,6 +293,7 @@
             // 
             // label4
             // 
+            label4.Anchor = AnchorStyles.None;
             label4.AutoSize = true;
             label4.Location = new Point(86, 95);
             label4.Name = "label4";
@@ -271,6 +303,7 @@
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.None;
             label3.AutoSize = true;
             label3.Location = new Point(55, 56);
             label3.Name = "label3";
@@ -280,6 +313,7 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.None;
             label2.AutoSize = true;
             label2.Location = new Point(55, 17);
             label2.Name = "label2";
@@ -416,5 +450,6 @@
         private DataGridViewTextBoxColumn LyDo;
         private DataGridViewTextBoxColumn TrangThai;
         private TextBox txtTrangThai;
+        private Button btnXuat;
     }
 }

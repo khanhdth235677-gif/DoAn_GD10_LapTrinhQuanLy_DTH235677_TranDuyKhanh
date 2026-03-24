@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ClosedXML.Excel;
+using Microsoft.EntityFrameworkCore;
 
 namespace Quan_Ly_Nhan_Su.Forms
 {
@@ -30,6 +32,7 @@ namespace Quan_Ly_Nhan_Su.Forms
 
         private void NhanVien_Load(object sender, EventArgs e)
         {
+            UIStyle.ApplyStyle(this);
             // Gọi các hàm khởi tạo giao diện và nạp dữ liệu khi form mở lên
             StyleGrid();      // Định dạng DataGridView
             LoadPhongBan();   // Nạp ComboBox tìm kiếm
@@ -46,6 +49,15 @@ namespace Quan_Ly_Nhan_Su.Forms
             LoadDuAnDA();
             HienThiDanhSach();
             BatTatChucNang(false);
+            if (Session.Quyen == "Nhân viên")
+            {
+                btnThem.Enabled = false;
+                btnSua.Enabled = false;
+                btnXoa.Enabled = false;
+                btnThemDA.Enabled = false;
+                btnSuaDA.Enabled = false;
+                btnXoaDA.Enabled = false;
+            }
         }
         /// <summary>
         /// Tùy chỉnh giao diện hiển thị cho DataGridView (Màu sắc, Font chữ)
@@ -366,8 +378,8 @@ namespace Quan_Ly_Nhan_Su.Forms
             }
         }
         #endregion
-        //Nhân viên - dự án 
-        #region Nhân viên - Dự án (Code mới hoàn chỉnh)
+
+        #region 6. Nhân viên - Dự án (Code mới hoàn chỉnh)
 
         // Hàm bật tắt các control để tránh người dùng bấm nhầm khi đang nhập liệu
         private void BatTatChucNang(bool giaTri)
@@ -819,6 +831,7 @@ namespace Quan_Ly_Nhan_Su.Forms
 
         #endregion
 
+        #region 7. Tab Nhân viên - Dự án - Sự kiện CellClick (đổ dữ liệu khi click dòng)
         private void dgvNhanVienDuAn_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // Bỏ qua nếu click vào header hoặc không có dòng nào
@@ -879,7 +892,9 @@ namespace Quan_Ly_Nhan_Su.Forms
             // BatTatChucNang(true);
             // id = Convert.ToInt32(row.Cells["colID"].Value); // lưu ID phân công để sửa
         }
+        #endregion
 
+        #region 8. Tab Nhân viên - Dự án - Nút Hủy / Reset form
         private void btnHuyBo_Click_1(object sender, EventArgs e)
         {
             ResetFormPhanCong();
@@ -890,5 +905,143 @@ namespace Quan_Ly_Nhan_Su.Forms
                 dgvNhanVienDuAn.CurrentRow.Selected = false;
             }
         }
+        #endregion
+
+        #region 9. Xuất Excel - Danh sách nhân viên (btnExcel_Click)
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Xuất danh sách nhân viên ra Excel";
+            saveFileDialog.Filter = "Tập tin Excel|*.xlsx";
+            saveFileDialog.FileName = "NhanVien_" + DateTime.Now.ToString("dd_MM_yyyy") + ".xlsx";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    DataTable table = new DataTable();
+
+                    table.Columns.AddRange(new DataColumn[]
+                    {
+            new DataColumn("MaNV"),
+            new DataColumn("TenPhong"),
+            new DataColumn("HoTen"),
+            new DataColumn("NgaySinh"),
+            new DataColumn("DiaChi"),
+            new DataColumn("GioiTinh"),
+            new DataColumn("DanToc"),
+            new DataColumn("CCCD"),
+            new DataColumn("NoiCap"),
+            new DataColumn("ChucVu")
+                    });
+
+                    var dsNhanVien = context.NhanVien
+                        .Include(nv => nv.PhongBan)
+                        .ToList();
+
+
+                    foreach (var nv in dsNhanVien)
+                    {
+                        table.Rows.Add(
+                            nv.ID,
+                            nv.PhongBan?.TenPhongBan,     // nếu có liên kết bảng Phòng
+                            nv.HoTen,
+                            nv.NgaySinh.ToString("dd/MM/yyyy"),
+                            nv.DiaChi,
+                            nv.GioiTinh,
+                            nv.DanToc,
+                            nv.CCCD,
+                            nv.NoiCap,
+                            nv.ChucVu   // nếu có liên kết bảng Chức vụ
+                        );
+                    }
+
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        var sheet = wb.Worksheets.Add(table, "NhanVien");
+
+                        // 🔥 Format đẹp hơn
+                        sheet.Row(1).Style.Font.Bold = true; // tiêu đề in đậm
+                        sheet.Columns().AdjustToContents(); // auto size
+
+                        wb.SaveAs(saveFileDialog.FileName);
+
+                        MessageBox.Show("Xuất Excel thành công!",
+                            "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        #endregion
+
+        #region 10. Xuất Excel - Nhân viên theo dự án (btnXuatDA_Click)
+        private void btnXuatDA_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Xuất Nhân viên - Dự án";
+            saveFileDialog.Filter = "Excel (*.xlsx)|*.xlsx";
+            saveFileDialog.FileName = "NhanVien_DuAn_" + DateTime.Now.ToString("dd_MM_yyyy");
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    DataTable table = new DataTable();
+
+                    table.Columns.Add("MaNV");
+                    table.Columns.Add("HoTen");
+                    table.Columns.Add("PhongBan");
+                    table.Columns.Add("DuAn");
+                    table.Columns.Add("VaiTro");
+                    table.Columns.Add("GiaTri");
+                    table.Columns.Add("HinhAnh");
+
+                    // 🔥 Include để lấy dữ liệu liên kết
+                    var ds = context.PhanCongDuAn
+                        .Include(pc => pc.NhanVien)
+                            .ThenInclude(nv => nv.PhongBan)
+                        .Include(pc => pc.DuAn)
+                        .ToList();
+
+                    foreach (var pc in ds)
+                    {
+                        table.Rows.Add(
+                            pc.NhanVien?.ID,
+                            pc.NhanVien?.HoTen,
+                            pc.NhanVien?.PhongBan?.TenPhongBan,
+                            pc.DuAn?.TenDuAn,
+                            pc.VaiTro,
+                            pc.GiaTri,
+                            pc.NhanVien?.HinhAnh // có thể là đường dẫn ảnh
+                        );
+                    }
+
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        var sheet = wb.Worksheets.Add(table, "NhanVien_DuAn");
+
+                        // 🔥 Format đẹp
+                        sheet.Row(1).Style.Font.Bold = true;
+                        sheet.Columns().AdjustToContents();
+
+                        wb.SaveAs(saveFileDialog.FileName);
+
+                        MessageBox.Show("Xuất Excel thành công!",
+                            "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        #endregion
     }
 }

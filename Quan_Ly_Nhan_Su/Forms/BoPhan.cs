@@ -2,23 +2,28 @@
 using System;
 using System.Linq;
 using System.Windows.Forms;
+using ClosedXML.Excel;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace Quan_Ly_Nhan_Su.Forms
 {
     public partial class BoPhan : Form
     {
+        #region ===== Khai báo biến =====
         QLNSDataContext context = new QLNSDataContext();
         int id = 0;
         bool xuLyThem = false;
+        #endregion
+
+        #region ===== Khởi tạo =====
         public BoPhan()
         {
             InitializeComponent();
         }
+        #endregion
 
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
+        #region ===== Load dữ liệu =====
         void LoadBoPhan()
         {
             dgvBoPhan.AutoGenerateColumns = false;
@@ -45,7 +50,9 @@ namespace Quan_Ly_Nhan_Su.Forms
             cbTenPhongBan.ValueMember = "ID";
             cbTenPhongBan.SelectedIndex = -1;
         }
+        #endregion
 
+        #region ===== Xử lý form =====
         void ResetForm()
         {
             txtID.Clear();
@@ -55,11 +62,22 @@ namespace Quan_Ly_Nhan_Su.Forms
             dgvBoPhan.ClearSelection();
             id = 0;
         }
+
         private void BoPhan_Load(object sender, EventArgs e)
         {
+            UIStyle.ApplyStyle(this);
             LoadBoPhan();
             LoadComboBoPhan();
+            if (Session.Quyen == "Nhân viên")
+            {
+                btnThem.Enabled = false;
+                btnSua.Enabled = false;
+                btnXoa.Enabled = false;
+            }
         }
+        #endregion
+
+        #region ===== Thêm =====
         private void btnThem_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(cbTenPhongBan.Text))
@@ -79,7 +97,9 @@ namespace Quan_Ly_Nhan_Su.Forms
             LoadComboBoPhan();
             ResetForm();
         }
+        #endregion
 
+        #region ===== Xóa =====
         private void btnXoa_Click(object sender, EventArgs e)
         {
             if (id == 0)
@@ -104,13 +124,9 @@ namespace Quan_Ly_Nhan_Su.Forms
             LoadBoPhan();
             ResetForm();
         }
+        #endregion
 
-        private void btnReset_Click(object sender, EventArgs e)
-        {
-            ResetForm();
-            LoadBoPhan();
-        }
-
+        #region ===== Sửa =====
         private void btnSua_Click(object sender, EventArgs e)
         {
             if (id == 0)
@@ -132,6 +148,17 @@ namespace Quan_Ly_Nhan_Su.Forms
             LoadBoPhan();
             ResetForm();
         }
+        #endregion
+
+        #region ===== Reset =====
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            ResetForm();
+            LoadBoPhan();
+        }
+        #endregion
+
+        #region ===== Tìm kiếm =====
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
             string tenPB = cbTenPhongBan.Text.Trim();
@@ -151,7 +178,9 @@ namespace Quan_Ly_Nhan_Su.Forms
 
             dgvBoPhan.DataSource = ds.ToList();
         }
+        #endregion
 
+        #region ===== DataGridView =====
         private void dgvBoPhan_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -166,5 +195,71 @@ namespace Quan_Ly_Nhan_Su.Forms
                 txtHoTenNV.Text = row.Cells["HoTen"].Value?.ToString();
             }
         }
+        #endregion
+
+        #region ===== Xuất Excel =====
+        private void btnXuat_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Xuất danh sách phòng ban";
+            saveFileDialog.Filter = "Excel (*.xlsx)|*.xlsx";
+            saveFileDialog.FileName = "PhongBan_" + DateTime.Now.ToString("dd_MM_yyyy");
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    DataTable table = new DataTable();
+
+                    table.Columns.Add("MaBoPhan");
+                    table.Columns.Add("TenPhongBan");
+                    table.Columns.Add("HoTenNhanVien");
+                    table.Columns.Add("MoTa");
+
+                    var dsPhongBan = context.PhongBan
+                                            .Include(pb => pb.NhanVien)
+                                            .ToList();
+
+                    foreach (var pb in dsPhongBan)
+                    {
+                        string danhSachNV = string.Join(", ",
+                            pb.NhanVien.Select(nv => nv.HoTen));
+
+                        table.Rows.Add(
+                            pb.ID,
+                            pb.TenPhongBan,
+                            danhSachNV,
+                            pb.MoTa
+                        );
+                    }
+
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        var sheet = wb.Worksheets.Add(table, "PhongBan");
+
+                        sheet.Row(1).Style.Font.Bold = true;
+                        sheet.Columns().AdjustToContents();
+
+                        wb.SaveAs(saveFileDialog.FileName);
+
+                        MessageBox.Show("Xuất Excel thành công!",
+                            "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        #endregion
+
+        #region ===== Sự kiện khác =====
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
     }
 }

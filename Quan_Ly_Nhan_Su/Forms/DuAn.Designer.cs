@@ -91,6 +91,7 @@
             btnLamMoi = new Button();
             btnLuu = new Button();
             panelInput = new Panel();
+            cbTienDo = new ComboBox();
             txtGhiChu = new TextBox();
             label16 = new Label();
             label15 = new Label();
@@ -114,7 +115,6 @@
             label4 = new Label();
             panelHeader = new Panel();
             label2 = new Label();
-            cbTienDo = new ComboBox();
             tabControl1.SuspendLayout();
             tabDanhSachDuAn.SuspendLayout();
             panelMain2.SuspendLayout();
@@ -140,7 +140,7 @@
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(800, 450);
+            tabControl1.Size = new Size(1003, 450);
             tabControl1.SizeMode = TabSizeMode.Fixed;
             tabControl1.TabIndex = 0;
             tabControl1.DrawItem += tabControl1_DrawItem;
@@ -302,6 +302,7 @@
             // 
             // cbTenPhongBan
             // 
+            cbTenPhongBan.Anchor = AnchorStyles.None;
             cbTenPhongBan.BackColor = Color.White;
             cbTenPhongBan.FlatStyle = FlatStyle.Flat;
             cbTenPhongBan.Font = new Font("Segoe UI", 10.2F);
@@ -313,6 +314,7 @@
             // 
             // btnTimKiem
             // 
+            btnTimKiem.Anchor = AnchorStyles.None;
             btnTimKiem.Location = new Point(687, 21);
             btnTimKiem.Name = "btnTimKiem";
             btnTimKiem.Size = new Size(94, 29);
@@ -323,6 +325,7 @@
             // 
             // label7
             // 
+            label7.Anchor = AnchorStyles.None;
             label7.AutoSize = true;
             label7.Location = new Point(443, 26);
             label7.Name = "label7";
@@ -332,6 +335,7 @@
             // 
             // cbTenDA
             // 
+            cbTenDA.Anchor = AnchorStyles.None;
             cbTenDA.BackColor = Color.White;
             cbTenDA.FlatStyle = FlatStyle.Flat;
             cbTenDA.Font = new Font("Segoe UI", 10.2F);
@@ -343,6 +347,7 @@
             // 
             // label11
             // 
+            label11.Anchor = AnchorStyles.None;
             label11.AutoSize = true;
             label11.Location = new Point(233, 26);
             label11.Name = "label11";
@@ -352,6 +357,7 @@
             // 
             // cbMaDA
             // 
+            cbMaDA.Anchor = AnchorStyles.None;
             cbMaDA.BackColor = Color.White;
             cbMaDA.FlatStyle = FlatStyle.Flat;
             cbMaDA.Font = new Font("Segoe UI", 10.2F);
@@ -363,6 +369,7 @@
             // 
             // label12
             // 
+            label12.Anchor = AnchorStyles.None;
             label12.AutoSize = true;
             label12.Location = new Point(5, 26);
             label12.Name = "label12";
@@ -386,6 +393,7 @@
             // 
             // button6
             // 
+            button6.Anchor = AnchorStyles.None;
             button6.BackColor = Color.DeepPink;
             button6.FlatStyle = FlatStyle.Flat;
             button6.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -396,9 +404,11 @@
             button6.TabIndex = 13;
             button6.Text = "Xuất ";
             button6.UseVisualStyleBackColor = false;
+            button6.Click += button6_Click;
             // 
             // button5
             // 
+            button5.Anchor = AnchorStyles.None;
             button5.BackColor = Color.DeepPink;
             button5.FlatStyle = FlatStyle.Flat;
             button5.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -412,6 +422,7 @@
             // 
             // btnHuyBo
             // 
+            btnHuyBo.Anchor = AnchorStyles.None;
             btnHuyBo.BackColor = Color.DeepPink;
             btnHuyBo.FlatStyle = FlatStyle.Flat;
             btnHuyBo.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -426,6 +437,7 @@
             // 
             // btnSua
             // 
+            btnSua.Anchor = AnchorStyles.None;
             btnSua.BackColor = Color.DeepPink;
             btnSua.FlatStyle = FlatStyle.Flat;
             btnSua.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -440,6 +452,7 @@
             // 
             // btnXoa
             // 
+            btnXoa.Anchor = AnchorStyles.None;
             btnXoa.BackColor = Color.DeepPink;
             btnXoa.FlatStyle = FlatStyle.Flat;
             btnXoa.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -454,6 +467,7 @@
             // 
             // btnThem
             // 
+            btnThem.Anchor = AnchorStyles.None;
             btnThem.BackColor = Color.DeepPink;
             btnThem.FlatStyle = FlatStyle.Flat;
             btnThem.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -497,7 +511,7 @@
             tabPhanCongDuAn.Location = new Point(4, 34);
             tabPhanCongDuAn.Name = "tabPhanCongDuAn";
             tabPhanCongDuAn.Padding = new Padding(3);
-            tabPhanCongDuAn.Size = new Size(792, 412);
+            tabPhanCongDuAn.Size = new Size(995, 412);
             tabPhanCongDuAn.TabIndex = 1;
             tabPhanCongDuAn.Text = "Phân công dự án ";
             tabPhanCongDuAn.UseVisualStyleBackColor = true;
@@ -508,7 +522,7 @@
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(3, 312);
             panelMain.Name = "panelMain";
-            panelMain.Size = new Size(786, 97);
+            panelMain.Size = new Size(989, 97);
             panelMain.TabIndex = 32;
             // 
             // dgvPhanCongDuAn
@@ -526,7 +540,7 @@
             dgvPhanCongDuAn.RowHeadersVisible = false;
             dgvPhanCongDuAn.RowHeadersWidth = 51;
             dgvPhanCongDuAn.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvPhanCongDuAn.Size = new Size(786, 97);
+            dgvPhanCongDuAn.Size = new Size(989, 97);
             dgvPhanCongDuAn.TabIndex = 6;
             dgvPhanCongDuAn.CellClick += dgvPhanCongDuAn_CellClick;
             // 
@@ -635,16 +649,17 @@
             panelButton1.Dock = DockStyle.Top;
             panelButton1.Location = new Point(3, 265);
             panelButton1.Name = "panelButton1";
-            panelButton1.Size = new Size(786, 47);
+            panelButton1.Size = new Size(989, 47);
             panelButton1.TabIndex = 31;
             // 
             // btnQuayLai
             // 
+            btnQuayLai.Anchor = AnchorStyles.None;
             btnQuayLai.BackColor = Color.DeepPink;
             btnQuayLai.FlatStyle = FlatStyle.Flat;
             btnQuayLai.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnQuayLai.ForeColor = Color.White;
-            btnQuayLai.Location = new Point(533, 6);
+            btnQuayLai.Location = new Point(634, 6);
             btnQuayLai.Name = "btnQuayLai";
             btnQuayLai.Size = new Size(94, 35);
             btnQuayLai.TabIndex = 62;
@@ -654,11 +669,12 @@
             // 
             // btnLamMoi
             // 
+            btnLamMoi.Anchor = AnchorStyles.None;
             btnLamMoi.BackColor = Color.DeepPink;
             btnLamMoi.FlatStyle = FlatStyle.Flat;
             btnLamMoi.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnLamMoi.ForeColor = Color.White;
-            btnLamMoi.Location = new Point(356, 6);
+            btnLamMoi.Location = new Point(457, 6);
             btnLamMoi.Name = "btnLamMoi";
             btnLamMoi.Size = new Size(94, 35);
             btnLamMoi.TabIndex = 42;
@@ -668,11 +684,12 @@
             // 
             // btnLuu
             // 
+            btnLuu.Anchor = AnchorStyles.None;
             btnLuu.BackColor = Color.DeepPink;
             btnLuu.FlatStyle = FlatStyle.Flat;
             btnLuu.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnLuu.ForeColor = Color.White;
-            btnLuu.Location = new Point(188, 6);
+            btnLuu.Location = new Point(289, 6);
             btnLuu.Name = "btnLuu";
             btnLuu.Size = new Size(94, 35);
             btnLuu.TabIndex = 61;
@@ -707,20 +724,32 @@
             panelInput.Dock = DockStyle.Top;
             panelInput.Location = new Point(3, 48);
             panelInput.Name = "panelInput";
-            panelInput.Size = new Size(786, 217);
+            panelInput.Size = new Size(989, 217);
             panelInput.TabIndex = 29;
+            // 
+            // cbTienDo
+            // 
+            cbTienDo.Anchor = AnchorStyles.None;
+            cbTienDo.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbTienDo.FormattingEnabled = true;
+            cbTienDo.Location = new Point(659, 115);
+            cbTienDo.Name = "cbTienDo";
+            cbTienDo.Size = new Size(278, 28);
+            cbTienDo.TabIndex = 61;
             // 
             // txtGhiChu
             // 
-            txtGhiChu.Location = new Point(137, 182);
+            txtGhiChu.Anchor = AnchorStyles.None;
+            txtGhiChu.Location = new Point(179, 182);
             txtGhiChu.Name = "txtGhiChu";
-            txtGhiChu.Size = new Size(615, 27);
+            txtGhiChu.Size = new Size(758, 27);
             txtGhiChu.TabIndex = 60;
             // 
             // label16
             // 
+            label16.Anchor = AnchorStyles.None;
             label16.AutoSize = true;
-            label16.Location = new Point(44, 189);
+            label16.Location = new Point(86, 189);
             label16.Name = "label16";
             label16.Size = new Size(62, 20);
             label16.TabIndex = 59;
@@ -728,8 +757,9 @@
             // 
             // label15
             // 
+            label15.Anchor = AnchorStyles.None;
             label15.AutoSize = true;
-            label15.Location = new Point(462, 123);
+            label15.Location = new Point(563, 123);
             label15.Name = "label15";
             label15.Size = new Size(59, 20);
             label15.TabIndex = 58;
@@ -737,17 +767,19 @@
             // 
             // cbPhongBan
             // 
+            cbPhongBan.Anchor = AnchorStyles.None;
             cbPhongBan.DropDownStyle = ComboBoxStyle.DropDownList;
             cbPhongBan.FormattingEnabled = true;
-            cbPhongBan.Location = new Point(137, 115);
+            cbPhongBan.Location = new Point(179, 115);
             cbPhongBan.Name = "cbPhongBan";
-            cbPhongBan.Size = new Size(194, 28);
+            cbPhongBan.Size = new Size(278, 28);
             cbPhongBan.TabIndex = 56;
             // 
             // label14
             // 
+            label14.Anchor = AnchorStyles.None;
             label14.AutoSize = true;
-            label14.Location = new Point(22, 123);
+            label14.Location = new Point(64, 123);
             label14.Name = "label14";
             label14.Size = new Size(84, 20);
             label14.TabIndex = 55;
@@ -755,17 +787,19 @@
             // 
             // cbTenNhanVienQL
             // 
+            cbTenNhanVienQL.Anchor = AnchorStyles.None;
             cbTenNhanVienQL.DropDownStyle = ComboBoxStyle.DropDownList;
             cbTenNhanVienQL.FormattingEnabled = true;
-            cbTenNhanVienQL.Location = new Point(137, 81);
+            cbTenNhanVienQL.Location = new Point(179, 81);
             cbTenNhanVienQL.Name = "cbTenNhanVienQL";
-            cbTenNhanVienQL.Size = new Size(194, 28);
+            cbTenNhanVienQL.Size = new Size(278, 28);
             cbTenNhanVienQL.TabIndex = 54;
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.None;
             label3.AutoSize = true;
-            label3.Location = new Point(9, 89);
+            label3.Location = new Point(51, 89);
             label3.Name = "label3";
             label3.Size = new Size(97, 20);
             label3.TabIndex = 52;
@@ -773,8 +807,9 @@
             // 
             // label13
             // 
+            label13.Anchor = AnchorStyles.None;
             label13.AutoSize = true;
-            label13.Location = new Point(442, 156);
+            label13.Location = new Point(543, 156);
             label13.Name = "label13";
             label13.Size = new Size(80, 20);
             label13.TabIndex = 51;
@@ -782,16 +817,18 @@
             // 
             // dtNgayBD
             // 
+            dtNgayBD.Anchor = AnchorStyles.None;
             dtNgayBD.Format = DateTimePickerFormat.Short;
-            dtNgayBD.Location = new Point(558, 13);
+            dtNgayBD.Location = new Point(659, 13);
             dtNgayBD.Name = "dtNgayBD";
-            dtNgayBD.Size = new Size(194, 27);
+            dtNgayBD.Size = new Size(278, 27);
             dtNgayBD.TabIndex = 50;
             // 
             // label8
             // 
+            label8.Anchor = AnchorStyles.None;
             label8.AutoSize = true;
-            label8.Location = new Point(454, 20);
+            label8.Location = new Point(555, 20);
             label8.Name = "label8";
             label8.Size = new Size(68, 20);
             label8.TabIndex = 49;
@@ -799,8 +836,9 @@
             // 
             // chkHoanThanh
             // 
+            chkHoanThanh.Anchor = AnchorStyles.None;
             chkHoanThanh.AutoSize = true;
-            chkHoanThanh.Location = new Point(558, 156);
+            chkHoanThanh.Location = new Point(659, 156);
             chkHoanThanh.Name = "chkHoanThanh";
             chkHoanThanh.Size = new Size(112, 24);
             chkHoanThanh.TabIndex = 48;
@@ -809,45 +847,51 @@
             // 
             // txtGiaTri
             // 
-            txtGiaTri.Location = new Point(137, 149);
+            txtGiaTri.Anchor = AnchorStyles.None;
+            txtGiaTri.Location = new Point(179, 149);
             txtGiaTri.Name = "txtGiaTri";
-            txtGiaTri.Size = new Size(194, 27);
+            txtGiaTri.Size = new Size(278, 27);
             txtGiaTri.TabIndex = 46;
             // 
             // txtTenKhachHang
             // 
-            txtTenKhachHang.Location = new Point(137, 48);
+            txtTenKhachHang.Anchor = AnchorStyles.None;
+            txtTenKhachHang.Location = new Point(179, 48);
             txtTenKhachHang.Name = "txtTenKhachHang";
-            txtTenKhachHang.Size = new Size(194, 27);
+            txtTenKhachHang.Size = new Size(278, 27);
             txtTenKhachHang.TabIndex = 45;
             // 
             // dtNgayKTTT
             // 
+            dtNgayKTTT.Anchor = AnchorStyles.None;
             dtNgayKTTT.Format = DateTimePickerFormat.Short;
-            dtNgayKTTT.Location = new Point(558, 82);
+            dtNgayKTTT.Location = new Point(659, 82);
             dtNgayKTTT.Name = "dtNgayKTTT";
-            dtNgayKTTT.Size = new Size(194, 27);
+            dtNgayKTTT.Size = new Size(278, 27);
             dtNgayKTTT.TabIndex = 38;
             // 
             // dtNgayKTDK
             // 
+            dtNgayKTDK.Anchor = AnchorStyles.None;
             dtNgayKTDK.Format = DateTimePickerFormat.Short;
-            dtNgayKTDK.Location = new Point(558, 48);
+            dtNgayKTDK.Location = new Point(659, 48);
             dtNgayKTDK.Name = "dtNgayKTDK";
-            dtNgayKTDK.Size = new Size(194, 27);
+            dtNgayKTDK.Size = new Size(278, 27);
             dtNgayKTDK.TabIndex = 37;
             // 
             // txtTenDuAn
             // 
-            txtTenDuAn.Location = new Point(137, 13);
+            txtTenDuAn.Anchor = AnchorStyles.None;
+            txtTenDuAn.Location = new Point(179, 13);
             txtTenDuAn.Name = "txtTenDuAn";
-            txtTenDuAn.Size = new Size(194, 27);
+            txtTenDuAn.Size = new Size(278, 27);
             txtTenDuAn.TabIndex = 35;
             // 
             // label10
             // 
+            label10.Anchor = AnchorStyles.None;
             label10.AutoSize = true;
-            label10.Location = new Point(441, 89);
+            label10.Location = new Point(542, 89);
             label10.Name = "label10";
             label10.Size = new Size(81, 20);
             label10.TabIndex = 34;
@@ -855,8 +899,9 @@
             // 
             // label9
             // 
+            label9.Anchor = AnchorStyles.None;
             label9.AutoSize = true;
-            label9.Location = new Point(437, 55);
+            label9.Location = new Point(538, 55);
             label9.Name = "label9";
             label9.Size = new Size(85, 20);
             label9.TabIndex = 33;
@@ -864,8 +909,9 @@
             // 
             // label6
             // 
+            label6.Anchor = AnchorStyles.None;
             label6.AutoSize = true;
-            label6.Location = new Point(53, 153);
+            label6.Location = new Point(95, 153);
             label6.Name = "label6";
             label6.Size = new Size(53, 20);
             label6.TabIndex = 31;
@@ -873,8 +919,9 @@
             // 
             // label5
             // 
+            label5.Anchor = AnchorStyles.None;
             label5.AutoSize = true;
-            label5.Location = new Point(20, 55);
+            label5.Location = new Point(62, 55);
             label5.Name = "label5";
             label5.Size = new Size(90, 20);
             label5.TabIndex = 30;
@@ -882,8 +929,9 @@
             // 
             // label4
             // 
+            label4.Anchor = AnchorStyles.None;
             label4.AutoSize = true;
-            label4.Location = new Point(32, 20);
+            label4.Location = new Point(74, 20);
             label4.Name = "label4";
             label4.Size = new Size(74, 20);
             label4.TabIndex = 29;
@@ -896,7 +944,7 @@
             panelHeader.Dock = DockStyle.Top;
             panelHeader.Location = new Point(3, 3);
             panelHeader.Name = "panelHeader";
-            panelHeader.Size = new Size(786, 45);
+            panelHeader.Size = new Size(989, 45);
             panelHeader.TabIndex = 0;
             // 
             // label2
@@ -910,20 +958,11 @@
             label2.TabIndex = 0;
             label2.Text = "Phân công dự án";
             // 
-            // cbTienDo
-            // 
-            cbTienDo.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbTienDo.FormattingEnabled = true;
-            cbTienDo.Location = new Point(558, 115);
-            cbTienDo.Name = "cbTienDo";
-            cbTienDo.Size = new Size(194, 28);
-            cbTienDo.TabIndex = 61;
-            // 
             // DuAn
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1003, 450);
             Controls.Add(tabControl1);
             Name = "DuAn";
             Text = "DuAn";

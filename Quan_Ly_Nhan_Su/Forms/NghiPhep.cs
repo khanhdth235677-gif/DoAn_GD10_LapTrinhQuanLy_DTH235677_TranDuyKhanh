@@ -1,4 +1,6 @@
-﻿using Quan_Ly_Nhan_Su.Data;
+﻿using ClosedXML.Excel;
+using Microsoft.EntityFrameworkCore;
+using Quan_Ly_Nhan_Su.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,22 +15,37 @@ namespace Quan_Ly_Nhan_Su.Forms
 {
     public partial class NghiPhep : Form
     {
-
+        #region ===== Khai báo biến =====
         private readonly QLNSDataContext context = new QLNSDataContext();
         private bool xuLyThem = false;
         private int id;
+        #endregion
+
+        #region ===== Khởi tạo =====
         public NghiPhep()
         {
             InitializeComponent();
         }
+        #endregion
+
+        #region ===== Load Form =====
         private void NghiPhep_Load(object sender, EventArgs e)
         {
+            UIStyle.ApplyStyle(this);
             LoadNhanVien();
             LoadData();
             dgvNghiPhep.RowPrePaint += dgvNghiPhep_RowPrePaint;
+            if (Session.Quyen == "Nhân viên")
+            {
+                btnThem.Enabled = false;
+                btnDuyet.Enabled = false;
+                btnTuChoi.Enabled = false;
+                btnXoa.Enabled = false;
+            }
         }
+        #endregion
 
-        // ================= LOAD =================
+        #region ===== Load dữ liệu =====
         void LoadNhanVien()
         {
             cbNhanVien.DataSource = context.NhanVien.ToList();
@@ -48,23 +65,24 @@ namespace Quan_Ly_Nhan_Su.Forms
                            TuNgay = np.TuNgay,
                            DenNgay = np.DenNgay,
                            LyDo = np.LyDo,
-                           // Đảm bảo np.TrangThai không bị null, nếu null thì hiện "Chờ duyệt"
                            TrangThai = np.TrangThai ?? "Chờ duyệt"
                        };
 
             dgvNghiPhep.DataSource = data.ToList();
         }
-        // ================= THÊM =================
+        #endregion
+
+        #region ===== Thêm =====
         private void btnThem_Click(object sender, EventArgs e)
         {
             xuLyThem = true;
             cbNhanVien.SelectedIndex = -1;
             txtLyDo.Clear();
-
-            // Reset trạng thái hiển thị
             txtTrangThai.Text = "Chờ duyệt";
         }
-        // ================= DUYỆT =================
+        #endregion
+
+        #region ===== Duyệt =====
         private void btnDuyet_Click(object sender, EventArgs e)
         {
             var np = context.NghiPhep.FirstOrDefault(x => x.ID == id);
@@ -88,7 +106,9 @@ namespace Quan_Ly_Nhan_Su.Forms
 
             LoadData();
         }
-        // ================= TỪ CHỐI =================
+        #endregion
+
+        #region ===== Từ chối =====
         private void btnTuChoi_Click(object sender, EventArgs e)
         {
             var np = context.NghiPhep.FirstOrDefault(x => x.ID == id);
@@ -112,7 +132,9 @@ namespace Quan_Ly_Nhan_Su.Forms
 
             LoadData();
         }
-        // ================= XÓA =================
+        #endregion
+
+        #region ===== Xóa =====
         private void btnXoa_Click(object sender, EventArgs e)
         {
             var np = context.NghiPhep.FirstOrDefault(x => x.ID == id);
@@ -124,6 +146,7 @@ namespace Quan_Ly_Nhan_Su.Forms
                 MessageBox.Show("Không xóa đơn đã duyệt!");
                 return;
             }
+
             DialogResult result = MessageBox.Show(
                 "Bạn có chắc muốn xóa dự án này không?",
                 "Xác nhận xóa",
@@ -131,12 +154,15 @@ namespace Quan_Ly_Nhan_Su.Forms
                 MessageBoxIcon.Question);
 
             if (result != DialogResult.Yes) return;
+
             context.NghiPhep.Remove(np);
             context.SaveChanges();
 
             LoadData();
         }
-        // ================= TÌM KIẾM =================
+        #endregion
+
+        #region ===== Tìm kiếm =====
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
             var data = from np in context.NghiPhep
@@ -152,24 +178,23 @@ namespace Quan_Ly_Nhan_Su.Forms
                            TuNgay = np.TuNgay,
                            DenNgay = np.DenNgay,
                            LyDo = np.LyDo,
-                           // Đảm bảo np.TrangThai không bị null, nếu null thì hiện "Chờ duyệt"
                            TrangThai = np.TrangThai ?? "Chờ duyệt"
                        };
 
             dgvNghiPhep.DataSource = data.ToList();
         }
-        // ================= TÔ MÀU =================
+        #endregion
+
+        #region ===== DataGridView =====
         private void dgvNghiPhep_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
             if (e.RowIndex < 0) return;
             var row = dgvNghiPhep.Rows[e.RowIndex];
 
-            // Kiểm tra cột TrangThai có tồn tại và có giá trị không
             if (row.Cells["TrangThai"].Value == null) return;
 
             string tt = row.Cells["TrangThai"].Value.ToString();
 
-            // Reset lại màu mặc định trước khi tô màu mới
             row.DefaultCellStyle.ForeColor = Color.Black;
 
             if (tt == "Đã duyệt")
@@ -179,18 +204,16 @@ namespace Quan_Ly_Nhan_Su.Forms
             else
                 row.DefaultCellStyle.BackColor = Color.LightYellow;
         }
-        // ================= CLICK GRID =================
+
         private void dgvNghiPhep_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || dgvNghiPhep.CurrentRow == null) return;
 
             var row = dgvNghiPhep.Rows[e.RowIndex];
 
-            // ... (Giữ nguyên phần ID và ComboBox Nhân viên) ...
             id = Convert.ToInt32(row.Cells["MaNghiPhep"].Value);
             cbNhanVien.SelectedValue = Convert.ToInt32(row.Cells["MaNV"].Value);
 
-            // Cập nhật trạng thái vào TextBox
             txtTrangThai.Text = row.Cells["TrangThai"].Value?.ToString() ?? "Chờ duyệt";
 
             dtNgayBD.Value = Convert.ToDateTime(row.Cells["TuNgay"].Value);
@@ -199,7 +222,9 @@ namespace Quan_Ly_Nhan_Su.Forms
 
             xuLyThem = false;
         }
-        // ================= LƯU =================
+        #endregion
+
+        #region ===== Lưu =====
         private void btnLuu_Click(object sender, EventArgs e)
         {
             if (dtNgayBD.Value >= dtNgayKT.Value)
@@ -216,7 +241,6 @@ namespace Quan_Ly_Nhan_Su.Forms
 
             if (xuLyThem)
             {
-                // THÊM
                 Quan_Ly_Nhan_Su.Data.NghiPhep np = new Quan_Ly_Nhan_Su.Data.NghiPhep();
 
                 np.NhanVienID = Convert.ToInt32(cbNhanVien.SelectedValue);
@@ -230,7 +254,6 @@ namespace Quan_Ly_Nhan_Su.Forms
             }
             else
             {
-                // SỬA
                 var np = context.NghiPhep.FirstOrDefault(x => x.ID == id);
 
                 if (np == null) return;
@@ -253,26 +276,104 @@ namespace Quan_Ly_Nhan_Su.Forms
             LoadData();
             xuLyThem = false;
         }
+        #endregion
 
+        #region ===== Hủy / Reset =====
         private void btnHuy_Click(object sender, EventArgs e)
         {
-            cbNhanVien.SelectedIndex = -1; 
+            cbNhanVien.SelectedIndex = -1;
+
             if (txtTrangThai != null)
             {
                 txtTrangThai.Clear();
             }
 
-            txtLyDo.Clear(); 
+            txtLyDo.Clear();
 
             dtNgayBD.Value = DateTime.Now;
             dtNgayKT.Value = DateTime.Now;
 
             xuLyThem = false;
-            id = -1; 
+            id = -1;
 
             LoadData();
 
             MessageBox.Show("Đã làm mới dữ liệu!");
         }
+        #endregion
+
+        #region ===== Xuất Excel =====
+        private void btnXuat_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Xuất danh sách nghỉ phép";
+            saveFileDialog.Filter = "Excel (*.xlsx)|*.xlsx";
+            saveFileDialog.FileName = "NghiPhep_" + DateTime.Now.ToString("dd_MM_yyyy");
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    var dsNghiPhep = context.NghiPhep
+                        .Include(np => np.NhanVien)
+                        .ToList();
+
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        var sheet = wb.Worksheets.Add("NghiPhep");
+
+                        sheet.Cell(1, 1).Value = "ID";
+                        sheet.Cell(1, 2).Value = "Nhân viên";
+                        sheet.Cell(1, 3).Value = "Từ ngày";
+                        sheet.Cell(1, 4).Value = "Đến ngày";
+                        sheet.Cell(1, 5).Value = "Lý do";
+                        sheet.Cell(1, 6).Value = "Trạng thái";
+
+                        var header = sheet.Range("A1:F1");
+                        header.Style.Font.Bold = true;
+                        header.Style.Fill.BackgroundColor = XLColor.LightGray;
+                        header.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                        int row = 2;
+
+                        foreach (var np in dsNghiPhep)
+                        {
+                            sheet.Cell(row, 1).Value = np.ID;
+                            sheet.Cell(row, 2).Value = np.NhanVien?.HoTen;
+                            sheet.Cell(row, 3).Value = np.TuNgay.ToString("dd/MM/yyyy");
+                            sheet.Cell(row, 4).Value = np.DenNgay.ToString("dd/MM/yyyy");
+                            sheet.Cell(row, 5).Value = np.LyDo;
+                            sheet.Cell(row, 6).Value = np.TrangThai;
+
+                            if (np.TrangThai == "Chờ duyệt")
+                                sheet.Range($"C{row}:F{row}").Style.Fill.BackgroundColor = XLColor.LightYellow;
+                            else if (np.TrangThai == "Đã duyệt")
+                                sheet.Range($"C{row}:F{row}").Style.Fill.BackgroundColor = XLColor.LightGreen;
+                            else if (np.TrangThai == "Từ chối")
+                                sheet.Range($"C{row}:F{row}").Style.Fill.BackgroundColor = XLColor.LightPink;
+
+                            row++;
+                        }
+
+                        var range = sheet.Range($"A1:F{row - 1}");
+                        range.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        range.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+                        sheet.Columns().AdjustToContents();
+
+                        wb.SaveAs(saveFileDialog.FileName);
+
+                        MessageBox.Show("Xuất Excel nghỉ phép thành công!",
+                            "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        #endregion
     }
 }

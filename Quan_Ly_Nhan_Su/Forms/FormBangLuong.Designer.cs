@@ -34,6 +34,15 @@
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             dgvBangLuong = new DataGridView();
+            MaLuong = new DataGridViewTextBoxColumn();
+            MaNV = new DataGridViewTextBoxColumn();
+            TenNV = new DataGridViewTextBoxColumn();
+            Thang = new DataGridViewTextBoxColumn();
+            LuongCoBan = new DataGridViewTextBoxColumn();
+            PhuCap = new DataGridViewTextBoxColumn();
+            Thuong = new DataGridViewTextBoxColumn();
+            KhauTru = new DataGridViewTextBoxColumn();
+            TongLuong = new DataGridViewTextBoxColumn();
             panelHeader = new Panel();
             label1 = new Label();
             panelInput = new Panel();
@@ -59,15 +68,6 @@
             panelFooter = new Panel();
             lblTongLuong = new Label();
             panelMain = new Panel();
-            MaLuong = new DataGridViewTextBoxColumn();
-            MaNV = new DataGridViewTextBoxColumn();
-            TenNV = new DataGridViewTextBoxColumn();
-            Thang = new DataGridViewTextBoxColumn();
-            LuongCoBan = new DataGridViewTextBoxColumn();
-            PhuCap = new DataGridViewTextBoxColumn();
-            Thuong = new DataGridViewTextBoxColumn();
-            KhauTru = new DataGridViewTextBoxColumn();
-            TongLuong = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvBangLuong).BeginInit();
             panelHeader.SuspendLayout();
             panelInput.SuspendLayout();
@@ -94,287 +94,6 @@
             dgvBangLuong.TabIndex = 4;
             dgvBangLuong.CellClick += dgvBangLuong_CellClick;
             dgvBangLuong.CellContentClick += dgvBangLuong_CellContentClick;
-            // 
-            // panelHeader
-            // 
-            panelHeader.BackColor = Color.Teal;
-            panelHeader.Controls.Add(label1);
-            panelHeader.Dock = DockStyle.Top;
-            panelHeader.Location = new Point(0, 0);
-            panelHeader.Name = "panelHeader";
-            panelHeader.Size = new Size(800, 50);
-            panelHeader.TabIndex = 1;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(20, 9);
-            label1.Name = "label1";
-            label1.Size = new Size(255, 31);
-            label1.TabIndex = 0;
-            label1.Text = "Thông tin bảng lương ";
-            // 
-            // panelInput
-            // 
-            panelInput.Controls.Add(btnReset);
-            panelInput.Controls.Add(btnXuat);
-            panelInput.Controls.Add(btnLuu);
-            panelInput.Controls.Add(btnSua);
-            panelInput.Controls.Add(btnXoa);
-            panelInput.Controls.Add(btnThem);
-            panelInput.Controls.Add(btnTinhLuong);
-            panelInput.Controls.Add(dtThangNam);
-            panelInput.Controls.Add(txtThuong);
-            panelInput.Controls.Add(txtLuongCoBan);
-            panelInput.Controls.Add(txtKhauTru);
-            panelInput.Controls.Add(txtPhuCap);
-            panelInput.Controls.Add(cbMaNV);
-            panelInput.Controls.Add(label7);
-            panelInput.Controls.Add(label6);
-            panelInput.Controls.Add(label5);
-            panelInput.Controls.Add(label4);
-            panelInput.Controls.Add(label3);
-            panelInput.Controls.Add(label2);
-            panelInput.Dock = DockStyle.Top;
-            panelInput.Location = new Point(0, 50);
-            panelInput.Name = "panelInput";
-            panelInput.Size = new Size(800, 180);
-            panelInput.TabIndex = 2;
-            // 
-            // btnReset
-            // 
-            btnReset.BackColor = Color.DeepPink;
-            btnReset.FlatStyle = FlatStyle.Flat;
-            btnReset.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnReset.ForeColor = Color.White;
-            btnReset.Location = new Point(596, 135);
-            btnReset.Name = "btnReset";
-            btnReset.Size = new Size(83, 35);
-            btnReset.TabIndex = 18;
-            btnReset.Text = "Reset ";
-            btnReset.UseVisualStyleBackColor = false;
-            btnReset.Click += btnReset_Click;
-            // 
-            // btnXuat
-            // 
-            btnXuat.BackColor = Color.DeepPink;
-            btnXuat.FlatStyle = FlatStyle.Flat;
-            btnXuat.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnXuat.ForeColor = Color.White;
-            btnXuat.Location = new Point(694, 135);
-            btnXuat.Name = "btnXuat";
-            btnXuat.Size = new Size(94, 35);
-            btnXuat.TabIndex = 17;
-            btnXuat.Text = "Xuất Excel    ";
-            btnXuat.UseVisualStyleBackColor = false;
-            // 
-            // btnLuu
-            // 
-            btnLuu.BackColor = Color.DeepPink;
-            btnLuu.FlatStyle = FlatStyle.Flat;
-            btnLuu.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnLuu.ForeColor = Color.White;
-            btnLuu.Location = new Point(486, 135);
-            btnLuu.Name = "btnLuu";
-            btnLuu.Size = new Size(94, 35);
-            btnLuu.TabIndex = 16;
-            btnLuu.Text = "Lưu";
-            btnLuu.UseVisualStyleBackColor = false;
-            btnLuu.Click += btnLuu_Click;
-            // 
-            // btnSua
-            // 
-            btnSua.BackColor = Color.DeepPink;
-            btnSua.FlatStyle = FlatStyle.Flat;
-            btnSua.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnSua.ForeColor = Color.White;
-            btnSua.Location = new Point(376, 135);
-            btnSua.Name = "btnSua";
-            btnSua.Size = new Size(94, 35);
-            btnSua.TabIndex = 15;
-            btnSua.Text = "Sửa ";
-            btnSua.UseVisualStyleBackColor = false;
-            btnSua.Click += btnSua_Click;
-            // 
-            // btnXoa
-            // 
-            btnXoa.BackColor = Color.DeepPink;
-            btnXoa.FlatStyle = FlatStyle.Flat;
-            btnXoa.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnXoa.ForeColor = Color.White;
-            btnXoa.Location = new Point(261, 135);
-            btnXoa.Name = "btnXoa";
-            btnXoa.Size = new Size(94, 35);
-            btnXoa.TabIndex = 14;
-            btnXoa.Text = "Xóa";
-            btnXoa.UseVisualStyleBackColor = false;
-            btnXoa.Click += btnXoa_Click;
-            // 
-            // btnThem
-            // 
-            btnThem.BackColor = Color.DeepPink;
-            btnThem.FlatStyle = FlatStyle.Flat;
-            btnThem.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnThem.ForeColor = Color.White;
-            btnThem.Location = new Point(149, 135);
-            btnThem.Name = "btnThem";
-            btnThem.Size = new Size(94, 35);
-            btnThem.TabIndex = 13;
-            btnThem.Text = "Thêm ";
-            btnThem.UseVisualStyleBackColor = false;
-            btnThem.Click += btnThem_Click;
-            // 
-            // btnTinhLuong
-            // 
-            btnTinhLuong.BackColor = Color.DeepPink;
-            btnTinhLuong.FlatStyle = FlatStyle.Flat;
-            btnTinhLuong.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnTinhLuong.ForeColor = Color.White;
-            btnTinhLuong.Location = new Point(15, 135);
-            btnTinhLuong.Name = "btnTinhLuong";
-            btnTinhLuong.Size = new Size(111, 35);
-            btnTinhLuong.TabIndex = 12;
-            btnTinhLuong.Text = "Tính lương ";
-            btnTinhLuong.UseVisualStyleBackColor = false;
-            btnTinhLuong.Click += btnTinhLuong_Click;
-            // 
-            // dtThangNam
-            // 
-            dtThangNam.Format = DateTimePickerFormat.Short;
-            dtThangNam.Location = new Point(566, 94);
-            dtThangNam.Name = "dtThangNam";
-            dtThangNam.Size = new Size(151, 27);
-            dtThangNam.TabIndex = 11;
-            // 
-            // txtThuong
-            // 
-            txtThuong.BackColor = Color.White;
-            txtThuong.Font = new Font("Segoe UI", 10.2F);
-            txtThuong.Location = new Point(566, 54);
-            txtThuong.Name = "txtThuong";
-            txtThuong.Size = new Size(151, 30);
-            txtThuong.TabIndex = 10;
-            // 
-            // txtLuongCoBan
-            // 
-            txtLuongCoBan.BackColor = Color.White;
-            txtLuongCoBan.Font = new Font("Segoe UI", 10.2F);
-            txtLuongCoBan.Location = new Point(566, 16);
-            txtLuongCoBan.Name = "txtLuongCoBan";
-            txtLuongCoBan.Size = new Size(151, 30);
-            txtLuongCoBan.TabIndex = 9;
-            // 
-            // txtKhauTru
-            // 
-            txtKhauTru.BackColor = Color.White;
-            txtKhauTru.Font = new Font("Segoe UI", 10.2F);
-            txtKhauTru.Location = new Point(174, 94);
-            txtKhauTru.Name = "txtKhauTru";
-            txtKhauTru.Size = new Size(151, 30);
-            txtKhauTru.TabIndex = 8;
-            // 
-            // txtPhuCap
-            // 
-            txtPhuCap.BackColor = Color.White;
-            txtPhuCap.Font = new Font("Segoe UI", 10.2F);
-            txtPhuCap.Location = new Point(174, 54);
-            txtPhuCap.Name = "txtPhuCap";
-            txtPhuCap.Size = new Size(151, 30);
-            txtPhuCap.TabIndex = 7;
-            // 
-            // cbMaNV
-            // 
-            cbMaNV.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbMaNV.FormattingEnabled = true;
-            cbMaNV.Items.AddRange(new object[] { "DTH235677", "DTH235708", "DTH235555" });
-            cbMaNV.Location = new Point(174, 15);
-            cbMaNV.Name = "cbMaNV";
-            cbMaNV.Size = new Size(151, 28);
-            cbMaNV.TabIndex = 6;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(449, 101);
-            label7.Name = "label7";
-            label7.Size = new Size(88, 20);
-            label7.TabIndex = 5;
-            label7.Text = "Tháng/Năm";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(477, 61);
-            label6.Name = "label6";
-            label6.Size = new Size(60, 20);
-            label6.TabIndex = 4;
-            label6.Text = "Thưởng";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(437, 23);
-            label5.Name = "label5";
-            label5.Size = new Size(100, 20);
-            label5.TabIndex = 3;
-            label5.Text = "Lương cơ bản";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(61, 104);
-            label4.Name = "label4";
-            label4.Size = new Size(65, 20);
-            label4.TabIndex = 2;
-            label4.Text = "Khấu trừ";
-            label4.Click += label4_Click;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(77, 61);
-            label3.Name = "label3";
-            label3.Size = new Size(61, 20);
-            label3.TabIndex = 1;
-            label3.Text = "Phụ cấp";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(41, 23);
-            label2.Name = "label2";
-            label2.Size = new Size(97, 20);
-            label2.TabIndex = 0;
-            label2.Text = "Mã nhân viên";
-            // 
-            // panelFooter
-            // 
-            panelFooter.Controls.Add(lblTongLuong);
-            panelFooter.Dock = DockStyle.Bottom;
-            panelFooter.Location = new Point(0, 410);
-            panelFooter.Name = "panelFooter";
-            panelFooter.Size = new Size(800, 40);
-            panelFooter.TabIndex = 4;
-            // 
-            // lblTongLuong
-            // 
-            lblTongLuong.AutoSize = true;
-            lblTongLuong.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            lblTongLuong.Location = new Point(20, 10);
-            lblTongLuong.Name = "lblTongLuong";
-            lblTongLuong.Size = new Size(0, 23);
-            lblTongLuong.TabIndex = 0;
-            // 
-            // panelMain
-            // 
-            panelMain.Controls.Add(dgvBangLuong);
-            panelMain.Dock = DockStyle.Fill;
-            panelMain.Location = new Point(0, 230);
-            panelMain.Name = "panelMain";
-            panelMain.Size = new Size(800, 180);
-            panelMain.TabIndex = 5;
             // 
             // MaLuong
             // 
@@ -448,6 +167,307 @@
             TongLuong.HeaderText = "Tổng lương";
             TongLuong.MinimumWidth = 6;
             TongLuong.Name = "TongLuong";
+            // 
+            // panelHeader
+            // 
+            panelHeader.BackColor = Color.Teal;
+            panelHeader.Controls.Add(label1);
+            panelHeader.Dock = DockStyle.Top;
+            panelHeader.Location = new Point(0, 0);
+            panelHeader.Name = "panelHeader";
+            panelHeader.Size = new Size(800, 50);
+            panelHeader.TabIndex = 1;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(20, 9);
+            label1.Name = "label1";
+            label1.Size = new Size(255, 31);
+            label1.TabIndex = 0;
+            label1.Text = "Thông tin bảng lương ";
+            // 
+            // panelInput
+            // 
+            panelInput.Controls.Add(btnReset);
+            panelInput.Controls.Add(btnXuat);
+            panelInput.Controls.Add(btnLuu);
+            panelInput.Controls.Add(btnSua);
+            panelInput.Controls.Add(btnXoa);
+            panelInput.Controls.Add(btnThem);
+            panelInput.Controls.Add(btnTinhLuong);
+            panelInput.Controls.Add(dtThangNam);
+            panelInput.Controls.Add(txtThuong);
+            panelInput.Controls.Add(txtLuongCoBan);
+            panelInput.Controls.Add(txtKhauTru);
+            panelInput.Controls.Add(txtPhuCap);
+            panelInput.Controls.Add(cbMaNV);
+            panelInput.Controls.Add(label7);
+            panelInput.Controls.Add(label6);
+            panelInput.Controls.Add(label5);
+            panelInput.Controls.Add(label4);
+            panelInput.Controls.Add(label3);
+            panelInput.Controls.Add(label2);
+            panelInput.Dock = DockStyle.Top;
+            panelInput.Location = new Point(0, 50);
+            panelInput.Name = "panelInput";
+            panelInput.Size = new Size(800, 180);
+            panelInput.TabIndex = 2;
+            // 
+            // btnReset
+            // 
+            btnReset.Anchor = AnchorStyles.None;
+            btnReset.BackColor = Color.DeepPink;
+            btnReset.FlatStyle = FlatStyle.Flat;
+            btnReset.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            btnReset.ForeColor = Color.White;
+            btnReset.Location = new Point(596, 135);
+            btnReset.Name = "btnReset";
+            btnReset.Size = new Size(83, 35);
+            btnReset.TabIndex = 18;
+            btnReset.Text = "Reset ";
+            btnReset.UseVisualStyleBackColor = false;
+            btnReset.Click += btnReset_Click;
+            // 
+            // btnXuat
+            // 
+            btnXuat.Anchor = AnchorStyles.None;
+            btnXuat.BackColor = Color.DeepPink;
+            btnXuat.FlatStyle = FlatStyle.Flat;
+            btnXuat.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            btnXuat.ForeColor = Color.White;
+            btnXuat.Location = new Point(694, 135);
+            btnXuat.Name = "btnXuat";
+            btnXuat.Size = new Size(94, 35);
+            btnXuat.TabIndex = 17;
+            btnXuat.Text = "Xuất Excel    ";
+            btnXuat.UseVisualStyleBackColor = false;
+            btnXuat.Click += btnXuat_Click;
+            // 
+            // btnLuu
+            // 
+            btnLuu.Anchor = AnchorStyles.None;
+            btnLuu.BackColor = Color.DeepPink;
+            btnLuu.FlatStyle = FlatStyle.Flat;
+            btnLuu.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            btnLuu.ForeColor = Color.White;
+            btnLuu.Location = new Point(486, 135);
+            btnLuu.Name = "btnLuu";
+            btnLuu.Size = new Size(94, 35);
+            btnLuu.TabIndex = 16;
+            btnLuu.Text = "Lưu";
+            btnLuu.UseVisualStyleBackColor = false;
+            btnLuu.Click += btnLuu_Click;
+            // 
+            // btnSua
+            // 
+            btnSua.Anchor = AnchorStyles.None;
+            btnSua.BackColor = Color.DeepPink;
+            btnSua.FlatStyle = FlatStyle.Flat;
+            btnSua.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            btnSua.ForeColor = Color.White;
+            btnSua.Location = new Point(376, 135);
+            btnSua.Name = "btnSua";
+            btnSua.Size = new Size(94, 35);
+            btnSua.TabIndex = 15;
+            btnSua.Text = "Sửa ";
+            btnSua.UseVisualStyleBackColor = false;
+            btnSua.Click += btnSua_Click;
+            // 
+            // btnXoa
+            // 
+            btnXoa.Anchor = AnchorStyles.None;
+            btnXoa.BackColor = Color.DeepPink;
+            btnXoa.FlatStyle = FlatStyle.Flat;
+            btnXoa.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            btnXoa.ForeColor = Color.White;
+            btnXoa.Location = new Point(261, 135);
+            btnXoa.Name = "btnXoa";
+            btnXoa.Size = new Size(94, 35);
+            btnXoa.TabIndex = 14;
+            btnXoa.Text = "Xóa";
+            btnXoa.UseVisualStyleBackColor = false;
+            btnXoa.Click += btnXoa_Click;
+            // 
+            // btnThem
+            // 
+            btnThem.Anchor = AnchorStyles.None;
+            btnThem.BackColor = Color.DeepPink;
+            btnThem.FlatStyle = FlatStyle.Flat;
+            btnThem.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            btnThem.ForeColor = Color.White;
+            btnThem.Location = new Point(149, 135);
+            btnThem.Name = "btnThem";
+            btnThem.Size = new Size(94, 35);
+            btnThem.TabIndex = 13;
+            btnThem.Text = "Thêm ";
+            btnThem.UseVisualStyleBackColor = false;
+            btnThem.Click += btnThem_Click;
+            // 
+            // btnTinhLuong
+            // 
+            btnTinhLuong.Anchor = AnchorStyles.None;
+            btnTinhLuong.BackColor = Color.DeepPink;
+            btnTinhLuong.FlatStyle = FlatStyle.Flat;
+            btnTinhLuong.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            btnTinhLuong.ForeColor = Color.White;
+            btnTinhLuong.Location = new Point(15, 135);
+            btnTinhLuong.Name = "btnTinhLuong";
+            btnTinhLuong.Size = new Size(111, 35);
+            btnTinhLuong.TabIndex = 12;
+            btnTinhLuong.Text = "Tính lương ";
+            btnTinhLuong.UseVisualStyleBackColor = false;
+            btnTinhLuong.Click += btnTinhLuong_Click;
+            // 
+            // dtThangNam
+            // 
+            dtThangNam.Anchor = AnchorStyles.None;
+            dtThangNam.Format = DateTimePickerFormat.Short;
+            dtThangNam.Location = new Point(566, 94);
+            dtThangNam.Name = "dtThangNam";
+            dtThangNam.Size = new Size(151, 27);
+            dtThangNam.TabIndex = 11;
+            // 
+            // txtThuong
+            // 
+            txtThuong.Anchor = AnchorStyles.None;
+            txtThuong.BackColor = Color.White;
+            txtThuong.Font = new Font("Segoe UI", 10.2F);
+            txtThuong.Location = new Point(566, 54);
+            txtThuong.Name = "txtThuong";
+            txtThuong.Size = new Size(151, 30);
+            txtThuong.TabIndex = 10;
+            // 
+            // txtLuongCoBan
+            // 
+            txtLuongCoBan.Anchor = AnchorStyles.None;
+            txtLuongCoBan.BackColor = Color.White;
+            txtLuongCoBan.Font = new Font("Segoe UI", 10.2F);
+            txtLuongCoBan.Location = new Point(566, 16);
+            txtLuongCoBan.Name = "txtLuongCoBan";
+            txtLuongCoBan.Size = new Size(151, 30);
+            txtLuongCoBan.TabIndex = 9;
+            // 
+            // txtKhauTru
+            // 
+            txtKhauTru.Anchor = AnchorStyles.None;
+            txtKhauTru.BackColor = Color.White;
+            txtKhauTru.Font = new Font("Segoe UI", 10.2F);
+            txtKhauTru.Location = new Point(174, 94);
+            txtKhauTru.Name = "txtKhauTru";
+            txtKhauTru.Size = new Size(151, 30);
+            txtKhauTru.TabIndex = 8;
+            // 
+            // txtPhuCap
+            // 
+            txtPhuCap.Anchor = AnchorStyles.None;
+            txtPhuCap.BackColor = Color.White;
+            txtPhuCap.Font = new Font("Segoe UI", 10.2F);
+            txtPhuCap.Location = new Point(174, 54);
+            txtPhuCap.Name = "txtPhuCap";
+            txtPhuCap.Size = new Size(151, 30);
+            txtPhuCap.TabIndex = 7;
+            // 
+            // cbMaNV
+            // 
+            cbMaNV.Anchor = AnchorStyles.None;
+            cbMaNV.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbMaNV.FormattingEnabled = true;
+            cbMaNV.Items.AddRange(new object[] { "DTH235677", "DTH235708", "DTH235555" });
+            cbMaNV.Location = new Point(174, 15);
+            cbMaNV.Name = "cbMaNV";
+            cbMaNV.Size = new Size(151, 28);
+            cbMaNV.TabIndex = 6;
+            // 
+            // label7
+            // 
+            label7.Anchor = AnchorStyles.None;
+            label7.AutoSize = true;
+            label7.Location = new Point(449, 101);
+            label7.Name = "label7";
+            label7.Size = new Size(88, 20);
+            label7.TabIndex = 5;
+            label7.Text = "Tháng/Năm";
+            // 
+            // label6
+            // 
+            label6.Anchor = AnchorStyles.None;
+            label6.AutoSize = true;
+            label6.Location = new Point(477, 61);
+            label6.Name = "label6";
+            label6.Size = new Size(60, 20);
+            label6.TabIndex = 4;
+            label6.Text = "Thưởng";
+            // 
+            // label5
+            // 
+            label5.Anchor = AnchorStyles.None;
+            label5.AutoSize = true;
+            label5.Location = new Point(437, 23);
+            label5.Name = "label5";
+            label5.Size = new Size(100, 20);
+            label5.TabIndex = 3;
+            label5.Text = "Lương cơ bản";
+            // 
+            // label4
+            // 
+            label4.Anchor = AnchorStyles.None;
+            label4.AutoSize = true;
+            label4.Location = new Point(61, 104);
+            label4.Name = "label4";
+            label4.Size = new Size(65, 20);
+            label4.TabIndex = 2;
+            label4.Text = "Khấu trừ";
+            label4.Click += label4_Click;
+            // 
+            // label3
+            // 
+            label3.Anchor = AnchorStyles.None;
+            label3.AutoSize = true;
+            label3.Location = new Point(77, 61);
+            label3.Name = "label3";
+            label3.Size = new Size(61, 20);
+            label3.TabIndex = 1;
+            label3.Text = "Phụ cấp";
+            // 
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.None;
+            label2.AutoSize = true;
+            label2.Location = new Point(41, 23);
+            label2.Name = "label2";
+            label2.Size = new Size(97, 20);
+            label2.TabIndex = 0;
+            label2.Text = "Mã nhân viên";
+            // 
+            // panelFooter
+            // 
+            panelFooter.Controls.Add(lblTongLuong);
+            panelFooter.Dock = DockStyle.Bottom;
+            panelFooter.Location = new Point(0, 410);
+            panelFooter.Name = "panelFooter";
+            panelFooter.Size = new Size(800, 40);
+            panelFooter.TabIndex = 4;
+            // 
+            // lblTongLuong
+            // 
+            lblTongLuong.AutoSize = true;
+            lblTongLuong.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblTongLuong.Location = new Point(20, 10);
+            lblTongLuong.Name = "lblTongLuong";
+            lblTongLuong.Size = new Size(0, 23);
+            lblTongLuong.TabIndex = 0;
+            // 
+            // panelMain
+            // 
+            panelMain.Controls.Add(dgvBangLuong);
+            panelMain.Dock = DockStyle.Fill;
+            panelMain.Location = new Point(0, 230);
+            panelMain.Name = "panelMain";
+            panelMain.Size = new Size(800, 180);
+            panelMain.TabIndex = 5;
             // 
             // FormBangLuong
             // 

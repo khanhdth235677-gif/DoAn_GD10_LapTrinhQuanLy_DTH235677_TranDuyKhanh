@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NhanVien));
             tabControl1 = new TabControl();
             tabDanhSachNhanVien = new TabPage();
@@ -302,6 +304,7 @@
             // 
             // btnTimKiem
             // 
+            btnTimKiem.Anchor = AnchorStyles.None;
             btnTimKiem.Location = new Point(660, 21);
             btnTimKiem.Name = "btnTimKiem";
             btnTimKiem.Size = new Size(94, 29);
@@ -312,6 +315,7 @@
             // 
             // txtHoTen
             // 
+            txtHoTen.Anchor = AnchorStyles.None;
             txtHoTen.BackColor = Color.White;
             txtHoTen.Font = new Font("Segoe UI", 10.2F);
             txtHoTen.Location = new Point(482, 21);
@@ -321,6 +325,7 @@
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.None;
             label3.AutoSize = true;
             label3.Location = new Point(422, 26);
             label3.Name = "label3";
@@ -330,6 +335,7 @@
             // 
             // cbPhong
             // 
+            cbPhong.Anchor = AnchorStyles.None;
             cbPhong.BackColor = Color.White;
             cbPhong.FlatStyle = FlatStyle.Flat;
             cbPhong.Font = new Font("Segoe UI", 10.2F);
@@ -341,6 +347,7 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.None;
             label2.AutoSize = true;
             label2.Location = new Point(222, 26);
             label2.Name = "label2";
@@ -350,6 +357,7 @@
             // 
             // cbChucVu
             // 
+            cbChucVu.Anchor = AnchorStyles.None;
             cbChucVu.BackColor = Color.White;
             cbChucVu.FlatStyle = FlatStyle.Flat;
             cbChucVu.Font = new Font("Segoe UI", 10.2F);
@@ -361,6 +369,7 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.Location = new Point(3, 26);
             label1.Name = "label1";
@@ -384,6 +393,7 @@
             // 
             // btnExcel
             // 
+            btnExcel.Anchor = AnchorStyles.None;
             btnExcel.BackColor = Color.DeepPink;
             btnExcel.FlatStyle = FlatStyle.Flat;
             btnExcel.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -394,9 +404,11 @@
             btnExcel.TabIndex = 4;
             btnExcel.Text = "Xuất Excel ";
             btnExcel.UseVisualStyleBackColor = false;
+            btnExcel.Click += btnExcel_Click;
             // 
             // btnLamMoi
             // 
+            btnLamMoi.Anchor = AnchorStyles.None;
             btnLamMoi.BackColor = Color.DeepPink;
             btnLamMoi.FlatStyle = FlatStyle.Flat;
             btnLamMoi.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -411,6 +423,7 @@
             // 
             // btnSua
             // 
+            btnSua.Anchor = AnchorStyles.None;
             btnSua.BackColor = Color.DeepPink;
             btnSua.FlatStyle = FlatStyle.Flat;
             btnSua.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -425,6 +438,7 @@
             // 
             // btnXoa
             // 
+            btnXoa.Anchor = AnchorStyles.None;
             btnXoa.BackColor = Color.DeepPink;
             btnXoa.FlatStyle = FlatStyle.Flat;
             btnXoa.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -439,6 +453,7 @@
             // 
             // btnThem
             // 
+            btnThem.Anchor = AnchorStyles.None;
             btnThem.BackColor = Color.DeepPink;
             btnThem.FlatStyle = FlatStyle.Flat;
             btnThem.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -500,8 +515,24 @@
             dgvNhanVienDuAn.AllowUserToAddRows = false;
             dgvNhanVienDuAn.AllowUserToDeleteRows = false;
             dgvNhanVienDuAn.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.LightGray;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvNhanVienDuAn.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvNhanVienDuAn.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvNhanVienDuAn.Columns.AddRange(new DataGridViewColumn[] { MaNV, HoTenColumn, TenPhongBanColumn, TenDuAn, VaiTro, GiaTri, HinhAnh });
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvNhanVienDuAn.DefaultCellStyle = dataGridViewCellStyle2;
             dgvNhanVienDuAn.Dock = DockStyle.Fill;
             dgvNhanVienDuAn.EnableHeadersVisualStyles = false;
             dgvNhanVienDuAn.Location = new Point(0, 0);
@@ -587,6 +618,7 @@
             // 
             // btnHuyBo
             // 
+            btnHuyBo.Anchor = AnchorStyles.None;
             btnHuyBo.BackColor = Color.DeepPink;
             btnHuyBo.FlatStyle = FlatStyle.Flat;
             btnHuyBo.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -601,6 +633,7 @@
             // 
             // btnXuatDA
             // 
+            btnXuatDA.Anchor = AnchorStyles.None;
             btnXuatDA.BackColor = Color.DeepPink;
             btnXuatDA.FlatStyle = FlatStyle.Flat;
             btnXuatDA.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -611,9 +644,11 @@
             btnXuatDA.TabIndex = 23;
             btnXuatDA.Text = "Xuất Excel    ";
             btnXuatDA.UseVisualStyleBackColor = false;
+            btnXuatDA.Click += btnXuatDA_Click;
             // 
             // btnLuuDA
             // 
+            btnLuuDA.Anchor = AnchorStyles.None;
             btnLuuDA.BackColor = Color.DeepPink;
             btnLuuDA.FlatStyle = FlatStyle.Flat;
             btnLuuDA.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -628,6 +663,7 @@
             // 
             // btnSuaDA
             // 
+            btnSuaDA.Anchor = AnchorStyles.None;
             btnSuaDA.BackColor = Color.DeepPink;
             btnSuaDA.FlatStyle = FlatStyle.Flat;
             btnSuaDA.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -642,6 +678,7 @@
             // 
             // btnXoaDA
             // 
+            btnXoaDA.Anchor = AnchorStyles.None;
             btnXoaDA.BackColor = Color.DeepPink;
             btnXoaDA.FlatStyle = FlatStyle.Flat;
             btnXoaDA.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -656,6 +693,7 @@
             // 
             // btnThemDA
             // 
+            btnThemDA.Anchor = AnchorStyles.None;
             btnThemDA.BackColor = Color.DeepPink;
             btnThemDA.FlatStyle = FlatStyle.Flat;
             btnThemDA.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -693,6 +731,7 @@
             // 
             // cbDuAn
             // 
+            cbDuAn.Anchor = AnchorStyles.None;
             cbDuAn.FormattingEnabled = true;
             cbDuAn.Location = new Point(150, 125);
             cbDuAn.Name = "cbDuAn";
@@ -701,6 +740,7 @@
             // 
             // cbVaiTro
             // 
+            cbVaiTro.Anchor = AnchorStyles.None;
             cbVaiTro.FormattingEnabled = true;
             cbVaiTro.Location = new Point(413, 72);
             cbVaiTro.Name = "cbVaiTro";
@@ -709,6 +749,7 @@
             // 
             // label9
             // 
+            label9.Anchor = AnchorStyles.None;
             label9.AutoSize = true;
             label9.Location = new Point(350, 80);
             label9.Name = "label9";
@@ -718,6 +759,7 @@
             // 
             // txtGiaTri
             // 
+            txtGiaTri.Anchor = AnchorStyles.None;
             txtGiaTri.Location = new Point(150, 89);
             txtGiaTri.Name = "txtGiaTri";
             txtGiaTri.Size = new Size(151, 27);
@@ -725,6 +767,7 @@
             // 
             // btnXoay
             // 
+            btnXoay.Anchor = AnchorStyles.None;
             btnXoay.BackColor = Color.Transparent;
             btnXoay.FlatAppearance.BorderSize = 0;
             btnXoay.FlatStyle = FlatStyle.Flat;
@@ -741,6 +784,7 @@
             // 
             // btnDoiAnh
             // 
+            btnDoiAnh.Anchor = AnchorStyles.None;
             btnDoiAnh.FlatAppearance.BorderSize = 0;
             btnDoiAnh.FlatStyle = FlatStyle.Flat;
             btnDoiAnh.Image = (Image)resources.GetObject("btnDoiAnh.Image");
@@ -757,6 +801,7 @@
             // 
             // picHinhAnh
             // 
+            picHinhAnh.Anchor = AnchorStyles.None;
             picHinhAnh.Location = new Point(606, 12);
             picHinhAnh.Name = "picHinhAnh";
             picHinhAnh.Size = new Size(125, 88);
@@ -766,6 +811,7 @@
             // 
             // label11
             // 
+            label11.Anchor = AnchorStyles.None;
             label11.AutoSize = true;
             label11.Location = new Point(74, 96);
             label11.Name = "label11";
@@ -775,6 +821,7 @@
             // 
             // label10
             // 
+            label10.Anchor = AnchorStyles.None;
             label10.AutoSize = true;
             label10.Location = new Point(70, 131);
             label10.Name = "label10";
@@ -784,6 +831,7 @@
             // 
             // cbTenPhongBanDA
             // 
+            cbTenPhongBanDA.Anchor = AnchorStyles.None;
             cbTenPhongBanDA.FormattingEnabled = true;
             cbTenPhongBanDA.Location = new Point(413, 11);
             cbTenPhongBanDA.Name = "cbTenPhongBanDA";
@@ -792,6 +840,7 @@
             // 
             // label8
             // 
+            label8.Anchor = AnchorStyles.None;
             label8.AutoSize = true;
             label8.Location = new Point(318, 19);
             label8.Name = "label8";
@@ -801,6 +850,7 @@
             // 
             // txtHoTenNV
             // 
+            txtHoTenNV.Anchor = AnchorStyles.None;
             txtHoTenNV.Location = new Point(149, 50);
             txtHoTenNV.Name = "txtHoTenNV";
             txtHoTenNV.Size = new Size(151, 27);
@@ -808,6 +858,7 @@
             // 
             // label7
             // 
+            label7.Anchor = AnchorStyles.None;
             label7.AutoSize = true;
             label7.Location = new Point(20, 57);
             label7.Name = "label7";
@@ -817,6 +868,7 @@
             // 
             // txtMaNV
             // 
+            txtMaNV.Anchor = AnchorStyles.None;
             txtMaNV.Location = new Point(149, 12);
             txtMaNV.Name = "txtMaNV";
             txtMaNV.ReadOnly = true;
@@ -825,6 +877,7 @@
             // 
             // label6
             // 
+            label6.Anchor = AnchorStyles.None;
             label6.AutoSize = true;
             label6.Location = new Point(22, 19);
             label6.Name = "label6";
@@ -978,6 +1031,7 @@
             // 
             // btnQuayLai
             // 
+            btnQuayLai.Anchor = AnchorStyles.None;
             btnQuayLai.BackColor = Color.DeepPink;
             btnQuayLai.FlatStyle = FlatStyle.Flat;
             btnQuayLai.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -992,6 +1046,7 @@
             // 
             // btnHuy
             // 
+            btnHuy.Anchor = AnchorStyles.None;
             btnHuy.BackColor = Color.DeepPink;
             btnHuy.FlatStyle = FlatStyle.Flat;
             btnHuy.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -1006,6 +1061,7 @@
             // 
             // btnLuu
             // 
+            btnLuu.Anchor = AnchorStyles.None;
             btnLuu.BackColor = Color.DeepPink;
             btnLuu.FlatStyle = FlatStyle.Flat;
             btnLuu.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
@@ -1049,6 +1105,7 @@
             // 
             // cbChucVuCT
             // 
+            cbChucVuCT.Anchor = AnchorStyles.None;
             cbChucVuCT.FormattingEnabled = true;
             cbChucVuCT.Location = new Point(515, 147);
             cbChucVuCT.Name = "cbChucVuCT";
@@ -1057,6 +1114,7 @@
             // 
             // txtCCCDCT
             // 
+            txtCCCDCT.Anchor = AnchorStyles.None;
             txtCCCDCT.Location = new Point(515, 114);
             txtCCCDCT.Name = "txtCCCDCT";
             txtCCCDCT.Size = new Size(209, 27);
@@ -1064,6 +1122,7 @@
             // 
             // txtDanTocCT
             // 
+            txtDanTocCT.Anchor = AnchorStyles.None;
             txtDanTocCT.Location = new Point(515, 81);
             txtDanTocCT.Name = "txtDanTocCT";
             txtDanTocCT.Size = new Size(209, 27);
@@ -1071,6 +1130,7 @@
             // 
             // radNuCT
             // 
+            radNuCT.Anchor = AnchorStyles.None;
             radNuCT.AutoSize = true;
             radNuCT.Location = new Point(645, 48);
             radNuCT.Name = "radNuCT";
@@ -1082,6 +1142,7 @@
             // 
             // radNamCT
             // 
+            radNamCT.Anchor = AnchorStyles.None;
             radNamCT.AutoSize = true;
             radNamCT.Location = new Point(515, 48);
             radNamCT.Name = "radNamCT";
@@ -1093,6 +1154,7 @@
             // 
             // txtDiaChiCT
             // 
+            txtDiaChiCT.Anchor = AnchorStyles.None;
             txtDiaChiCT.Location = new Point(515, 11);
             txtDiaChiCT.Name = "txtDiaChiCT";
             txtDiaChiCT.Size = new Size(209, 27);
@@ -1100,6 +1162,7 @@
             // 
             // txtNoiCapCT
             // 
+            txtNoiCapCT.Anchor = AnchorStyles.None;
             txtNoiCapCT.Location = new Point(132, 148);
             txtNoiCapCT.Name = "txtNoiCapCT";
             txtNoiCapCT.Size = new Size(209, 27);
@@ -1107,6 +1170,7 @@
             // 
             // dtpNgaySinhCT
             // 
+            dtpNgaySinhCT.Anchor = AnchorStyles.None;
             dtpNgaySinhCT.Location = new Point(132, 114);
             dtpNgaySinhCT.Name = "dtpNgaySinhCT";
             dtpNgaySinhCT.Size = new Size(209, 27);
@@ -1114,6 +1178,7 @@
             // 
             // cbPhongBanCT
             // 
+            cbPhongBanCT.Anchor = AnchorStyles.None;
             cbPhongBanCT.FormattingEnabled = true;
             cbPhongBanCT.Location = new Point(132, 80);
             cbPhongBanCT.Name = "cbPhongBanCT";
@@ -1122,6 +1187,7 @@
             // 
             // txtHoTenCT
             // 
+            txtHoTenCT.Anchor = AnchorStyles.None;
             txtHoTenCT.Location = new Point(132, 45);
             txtHoTenCT.Name = "txtHoTenCT";
             txtHoTenCT.Size = new Size(209, 27);
@@ -1129,6 +1195,7 @@
             // 
             // txtMaNVCT
             // 
+            txtMaNVCT.Anchor = AnchorStyles.None;
             txtMaNVCT.Location = new Point(132, 11);
             txtMaNVCT.Name = "txtMaNVCT";
             txtMaNVCT.ReadOnly = true;
@@ -1137,6 +1204,7 @@
             // 
             // label23
             // 
+            label23.Anchor = AnchorStyles.None;
             label23.AutoSize = true;
             label23.Location = new Point(418, 155);
             label23.Name = "label23";
@@ -1146,6 +1214,7 @@
             // 
             // label22
             // 
+            label22.Anchor = AnchorStyles.None;
             label22.AutoSize = true;
             label22.Location = new Point(45, 155);
             label22.Name = "label22";
@@ -1155,6 +1224,7 @@
             // 
             // label21
             // 
+            label21.Anchor = AnchorStyles.None;
             label21.AutoSize = true;
             label21.Location = new Point(436, 121);
             label21.Name = "label21";
@@ -1164,6 +1234,7 @@
             // 
             // label20
             // 
+            label20.Anchor = AnchorStyles.None;
             label20.AutoSize = true;
             label20.Location = new Point(418, 88);
             label20.Name = "label20";
@@ -1173,6 +1244,7 @@
             // 
             // label19
             // 
+            label19.Anchor = AnchorStyles.None;
             label19.AutoSize = true;
             label19.Location = new Point(414, 52);
             label19.Name = "label19";
@@ -1182,6 +1254,7 @@
             // 
             // label18
             // 
+            label18.Anchor = AnchorStyles.None;
             label18.AutoSize = true;
             label18.Location = new Point(428, 18);
             label18.Name = "label18";
@@ -1191,6 +1264,7 @@
             // 
             // label17
             // 
+            label17.Anchor = AnchorStyles.None;
             label17.AutoSize = true;
             label17.Location = new Point(32, 121);
             label17.Name = "label17";
@@ -1200,6 +1274,7 @@
             // 
             // label16
             // 
+            label16.Anchor = AnchorStyles.None;
             label16.AutoSize = true;
             label16.Location = new Point(22, 88);
             label16.Name = "label16";
@@ -1209,6 +1284,7 @@
             // 
             // label15
             // 
+            label15.Anchor = AnchorStyles.None;
             label15.AutoSize = true;
             label15.Location = new Point(29, 52);
             label15.Name = "label15";
@@ -1218,6 +1294,7 @@
             // 
             // label14
             // 
+            label14.Anchor = AnchorStyles.None;
             label14.AutoSize = true;
             label14.Location = new Point(5, 18);
             label14.Name = "label14";
