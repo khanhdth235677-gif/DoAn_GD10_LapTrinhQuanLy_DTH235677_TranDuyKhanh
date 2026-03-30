@@ -30,7 +30,7 @@ namespace Quan_Ly_Nhan_Su.Forms
             UIStyle.ApplyStyle(this);
             BatTatChucNang(false);
             LoadNhanVien();
-            LoadBangLuong();}
+            LoadBangLuong();
         }
         #endregion
 

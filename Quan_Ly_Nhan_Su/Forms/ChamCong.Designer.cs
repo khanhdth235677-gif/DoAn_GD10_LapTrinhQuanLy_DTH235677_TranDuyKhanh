@@ -294,10 +294,10 @@
             // btnXuat
             // 
             btnXuat.Anchor = AnchorStyles.None;
-            btnXuat.BackColor = Color.DeepPink;
+            btnXuat.BackColor = Color.Silver;
             btnXuat.FlatStyle = FlatStyle.Flat;
             btnXuat.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnXuat.ForeColor = Color.White;
+            btnXuat.ForeColor = Color.Black;
             btnXuat.Location = new Point(27, 191);
             btnXuat.Name = "btnXuat";
             btnXuat.Size = new Size(94, 29);
@@ -309,10 +309,10 @@
             // btnLuu
             // 
             btnLuu.Anchor = AnchorStyles.None;
-            btnLuu.BackColor = Color.DeepPink;
+            btnLuu.BackColor = Color.Silver;
             btnLuu.FlatStyle = FlatStyle.Flat;
             btnLuu.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnLuu.ForeColor = Color.White;
+            btnLuu.ForeColor = Color.Black;
             btnLuu.Location = new Point(27, 156);
             btnLuu.Name = "btnLuu";
             btnLuu.Size = new Size(94, 29);
@@ -324,10 +324,10 @@
             // btnSua
             // 
             btnSua.Anchor = AnchorStyles.None;
-            btnSua.BackColor = Color.DeepPink;
+            btnSua.BackColor = Color.Silver;
             btnSua.FlatStyle = FlatStyle.Flat;
             btnSua.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnSua.ForeColor = Color.White;
+            btnSua.ForeColor = Color.Black;
             btnSua.Location = new Point(27, 121);
             btnSua.Name = "btnSua";
             btnSua.Size = new Size(94, 29);
@@ -339,10 +339,10 @@
             // btnLamMoi
             // 
             btnLamMoi.Anchor = AnchorStyles.None;
-            btnLamMoi.BackColor = Color.DeepPink;
+            btnLamMoi.BackColor = Color.Silver;
             btnLamMoi.FlatStyle = FlatStyle.Flat;
             btnLamMoi.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnLamMoi.ForeColor = Color.White;
+            btnLamMoi.ForeColor = Color.Black;
             btnLamMoi.Location = new Point(27, 86);
             btnLamMoi.Name = "btnLamMoi";
             btnLamMoi.Size = new Size(94, 29);
@@ -354,10 +354,10 @@
             // btnThem
             // 
             btnThem.Anchor = AnchorStyles.None;
-            btnThem.BackColor = Color.DeepPink;
+            btnThem.BackColor = Color.Silver;
             btnThem.FlatStyle = FlatStyle.Flat;
             btnThem.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnThem.ForeColor = Color.White;
+            btnThem.ForeColor = Color.Black;
             btnThem.Location = new Point(27, 51);
             btnThem.Name = "btnThem";
             btnThem.Size = new Size(94, 29);
@@ -369,10 +369,10 @@
             // btnXoa
             // 
             btnXoa.Anchor = AnchorStyles.None;
-            btnXoa.BackColor = Color.DeepPink;
+            btnXoa.BackColor = Color.Silver;
             btnXoa.FlatStyle = FlatStyle.Flat;
             btnXoa.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnXoa.ForeColor = Color.White;
+            btnXoa.ForeColor = Color.Black;
             btnXoa.Location = new Point(27, 16);
             btnXoa.Name = "btnXoa";
             btnXoa.Size = new Size(94, 29);

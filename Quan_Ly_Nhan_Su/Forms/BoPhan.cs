@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using ClosedXML.Excel;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using Guna.UI2.WinForms;
 
 namespace Quan_Ly_Nhan_Su.Forms
 {

@@ -41,6 +41,8 @@ namespace Quan_Ly_Nhan_Su.Forms
                 btnDuyet.Enabled = false;
                 btnTuChoi.Enabled = false;
                 btnXoa.Enabled = false;
+                btnLuu.Enabled = false;
+
             }
         }
         #endregion

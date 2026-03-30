@@ -29,6 +29,8 @@ namespace Quan_Ly_Nhan_Su.Data
 
         // Người quản lý dự án (Project Manager)
         public int? NguoiQuanLyID { get; set; }           // FK -> NhanVien
+        public string? TenNhanVienQL { get; set; }
+
         public virtual NhanVien? NguoiQuanLy { get; set; }
 
         // Thời gian

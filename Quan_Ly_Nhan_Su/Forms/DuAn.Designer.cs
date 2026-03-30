@@ -156,7 +156,7 @@
             tabDanhSachDuAn.Location = new Point(4, 34);
             tabDanhSachDuAn.Name = "tabDanhSachDuAn";
             tabDanhSachDuAn.Padding = new Padding(3);
-            tabDanhSachDuAn.Size = new Size(792, 412);
+            tabDanhSachDuAn.Size = new Size(995, 412);
             tabDanhSachDuAn.TabIndex = 0;
             tabDanhSachDuAn.Text = "Danh sách dự án ";
             tabDanhSachDuAn.UseVisualStyleBackColor = true;
@@ -167,7 +167,7 @@
             panelMain2.Dock = DockStyle.Fill;
             panelMain2.Location = new Point(3, 120);
             panelMain2.Name = "panelMain2";
-            panelMain2.Size = new Size(786, 239);
+            panelMain2.Size = new Size(989, 239);
             panelMain2.TabIndex = 9;
             // 
             // dgvDanhSachDuAn
@@ -185,7 +185,7 @@
             dgvDanhSachDuAn.RowHeadersVisible = false;
             dgvDanhSachDuAn.RowHeadersWidth = 51;
             dgvDanhSachDuAn.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvDanhSachDuAn.Size = new Size(786, 239);
+            dgvDanhSachDuAn.Size = new Size(989, 239);
             dgvDanhSachDuAn.TabIndex = 5;
             // 
             // MaDA
@@ -297,7 +297,7 @@
             panelInput1.Dock = DockStyle.Top;
             panelInput1.Location = new Point(3, 48);
             panelInput1.Name = "panelInput1";
-            panelInput1.Size = new Size(786, 72);
+            panelInput1.Size = new Size(989, 72);
             panelInput1.TabIndex = 10;
             // 
             // cbTenPhongBan
@@ -307,7 +307,7 @@
             cbTenPhongBan.FlatStyle = FlatStyle.Flat;
             cbTenPhongBan.Font = new Font("Segoe UI", 10.2F);
             cbTenPhongBan.FormattingEnabled = true;
-            cbTenPhongBan.Location = new Point(561, 19);
+            cbTenPhongBan.Location = new Point(662, 19);
             cbTenPhongBan.Name = "cbTenPhongBan";
             cbTenPhongBan.Size = new Size(120, 31);
             cbTenPhongBan.TabIndex = 14;
@@ -315,7 +315,7 @@
             // btnTimKiem
             // 
             btnTimKiem.Anchor = AnchorStyles.None;
-            btnTimKiem.Location = new Point(687, 21);
+            btnTimKiem.Location = new Point(788, 21);
             btnTimKiem.Name = "btnTimKiem";
             btnTimKiem.Size = new Size(94, 29);
             btnTimKiem.TabIndex = 13;
@@ -327,7 +327,7 @@
             // 
             label7.Anchor = AnchorStyles.None;
             label7.AutoSize = true;
-            label7.Location = new Point(443, 26);
+            label7.Location = new Point(544, 26);
             label7.Name = "label7";
             label7.Size = new Size(112, 20);
             label7.TabIndex = 11;
@@ -340,7 +340,7 @@
             cbTenDA.FlatStyle = FlatStyle.Flat;
             cbTenDA.Font = new Font("Segoe UI", 10.2F);
             cbTenDA.FormattingEnabled = true;
-            cbTenDA.Location = new Point(312, 19);
+            cbTenDA.Location = new Point(413, 19);
             cbTenDA.Name = "cbTenDA";
             cbTenDA.Size = new Size(120, 31);
             cbTenDA.TabIndex = 10;
@@ -349,7 +349,7 @@
             // 
             label11.Anchor = AnchorStyles.None;
             label11.AutoSize = true;
-            label11.Location = new Point(233, 26);
+            label11.Location = new Point(334, 26);
             label11.Name = "label11";
             label11.Size = new Size(78, 20);
             label11.TabIndex = 9;
@@ -362,7 +362,7 @@
             cbMaDA.FlatStyle = FlatStyle.Flat;
             cbMaDA.Font = new Font("Segoe UI", 10.2F);
             cbMaDA.FormattingEnabled = true;
-            cbMaDA.Location = new Point(87, 19);
+            cbMaDA.Location = new Point(188, 19);
             cbMaDA.Name = "cbMaDA";
             cbMaDA.Size = new Size(120, 31);
             cbMaDA.TabIndex = 8;
@@ -371,7 +371,7 @@
             // 
             label12.Anchor = AnchorStyles.None;
             label12.AutoSize = true;
-            label12.Location = new Point(5, 26);
+            label12.Location = new Point(106, 26);
             label12.Name = "label12";
             label12.Size = new Size(76, 20);
             label12.TabIndex = 7;
@@ -388,17 +388,17 @@
             panelButton.Dock = DockStyle.Bottom;
             panelButton.Location = new Point(3, 359);
             panelButton.Name = "panelButton";
-            panelButton.Size = new Size(786, 50);
+            panelButton.Size = new Size(989, 50);
             panelButton.TabIndex = 9;
             // 
             // button6
             // 
             button6.Anchor = AnchorStyles.None;
-            button6.BackColor = Color.DeepPink;
+            button6.BackColor = Color.Silver;
             button6.FlatStyle = FlatStyle.Flat;
             button6.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            button6.ForeColor = Color.White;
-            button6.Location = new Point(661, 8);
+            button6.ForeColor = Color.Black;
+            button6.Location = new Point(762, 8);
             button6.Name = "button6";
             button6.Size = new Size(100, 35);
             button6.TabIndex = 13;
@@ -409,11 +409,11 @@
             // button5
             // 
             button5.Anchor = AnchorStyles.None;
-            button5.BackColor = Color.DeepPink;
+            button5.BackColor = Color.Silver;
             button5.FlatStyle = FlatStyle.Flat;
             button5.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            button5.ForeColor = Color.White;
-            button5.Location = new Point(548, 8);
+            button5.ForeColor = Color.Black;
+            button5.Location = new Point(649, 8);
             button5.Name = "button5";
             button5.Size = new Size(100, 35);
             button5.TabIndex = 12;
@@ -423,11 +423,11 @@
             // btnHuyBo
             // 
             btnHuyBo.Anchor = AnchorStyles.None;
-            btnHuyBo.BackColor = Color.DeepPink;
+            btnHuyBo.BackColor = Color.Silver;
             btnHuyBo.FlatStyle = FlatStyle.Flat;
             btnHuyBo.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnHuyBo.ForeColor = Color.White;
-            btnHuyBo.Location = new Point(433, 8);
+            btnHuyBo.ForeColor = Color.Black;
+            btnHuyBo.Location = new Point(534, 8);
             btnHuyBo.Name = "btnHuyBo";
             btnHuyBo.Size = new Size(100, 35);
             btnHuyBo.TabIndex = 11;
@@ -438,11 +438,11 @@
             // btnSua
             // 
             btnSua.Anchor = AnchorStyles.None;
-            btnSua.BackColor = Color.DeepPink;
+            btnSua.BackColor = Color.Silver;
             btnSua.FlatStyle = FlatStyle.Flat;
             btnSua.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnSua.ForeColor = Color.White;
-            btnSua.Location = new Point(312, 8);
+            btnSua.ForeColor = Color.Black;
+            btnSua.Location = new Point(413, 8);
             btnSua.Name = "btnSua";
             btnSua.Size = new Size(115, 35);
             btnSua.TabIndex = 10;
@@ -453,11 +453,11 @@
             // btnXoa
             // 
             btnXoa.Anchor = AnchorStyles.None;
-            btnXoa.BackColor = Color.DeepPink;
+            btnXoa.BackColor = Color.Silver;
             btnXoa.FlatStyle = FlatStyle.Flat;
             btnXoa.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnXoa.ForeColor = Color.White;
-            btnXoa.Location = new Point(172, 8);
+            btnXoa.ForeColor = Color.Black;
+            btnXoa.Location = new Point(273, 8);
             btnXoa.Name = "btnXoa";
             btnXoa.Size = new Size(118, 35);
             btnXoa.TabIndex = 9;
@@ -468,11 +468,11 @@
             // btnThem
             // 
             btnThem.Anchor = AnchorStyles.None;
-            btnThem.BackColor = Color.DeepPink;
+            btnThem.BackColor = Color.Silver;
             btnThem.FlatStyle = FlatStyle.Flat;
             btnThem.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            btnThem.ForeColor = Color.White;
-            btnThem.Location = new Point(26, 8);
+            btnThem.ForeColor = Color.Black;
+            btnThem.Location = new Point(127, 8);
             btnThem.Name = "btnThem";
             btnThem.Size = new Size(128, 35);
             btnThem.TabIndex = 8;
@@ -487,7 +487,7 @@
             panelHeader2.Dock = DockStyle.Top;
             panelHeader2.Location = new Point(3, 3);
             panelHeader2.Name = "panelHeader2";
-            panelHeader2.Size = new Size(786, 45);
+            panelHeader2.Size = new Size(989, 45);
             panelHeader2.TabIndex = 0;
             // 
             // label1
@@ -655,10 +655,10 @@
             // btnQuayLai
             // 
             btnQuayLai.Anchor = AnchorStyles.None;
-            btnQuayLai.BackColor = Color.DeepPink;
+            btnQuayLai.BackColor = Color.Silver;
             btnQuayLai.FlatStyle = FlatStyle.Flat;
             btnQuayLai.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnQuayLai.ForeColor = Color.White;
+            btnQuayLai.ForeColor = Color.Black;
             btnQuayLai.Location = new Point(634, 6);
             btnQuayLai.Name = "btnQuayLai";
             btnQuayLai.Size = new Size(94, 35);
@@ -670,10 +670,10 @@
             // btnLamMoi
             // 
             btnLamMoi.Anchor = AnchorStyles.None;
-            btnLamMoi.BackColor = Color.DeepPink;
+            btnLamMoi.BackColor = Color.Silver;
             btnLamMoi.FlatStyle = FlatStyle.Flat;
             btnLamMoi.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnLamMoi.ForeColor = Color.White;
+            btnLamMoi.ForeColor = Color.Black;
             btnLamMoi.Location = new Point(457, 6);
             btnLamMoi.Name = "btnLamMoi";
             btnLamMoi.Size = new Size(94, 35);
@@ -685,10 +685,10 @@
             // btnLuu
             // 
             btnLuu.Anchor = AnchorStyles.None;
-            btnLuu.BackColor = Color.DeepPink;
+            btnLuu.BackColor = Color.Silver;
             btnLuu.FlatStyle = FlatStyle.Flat;
             btnLuu.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnLuu.ForeColor = Color.White;
+            btnLuu.ForeColor = Color.Black;
             btnLuu.Location = new Point(289, 6);
             btnLuu.Name = "btnLuu";
             btnLuu.Size = new Size(94, 35);

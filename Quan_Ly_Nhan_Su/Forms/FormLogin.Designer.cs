@@ -30,15 +30,18 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLogin));
             label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
-            txtUsername = new TextBox();
             txtPassword = new TextBox();
             chkShowPass = new CheckBox();
-            btnLogin = new Button();
             btnThoat = new Button();
             label4 = new Label();
             label5 = new Label();
+            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            txtUsername = new TextBox();
+            pnlCard = new Panel();
+            btnDangNhap = new Button();
+            pnlLinePass = new Panel();
+            pnlLineUser = new Panel();
+            pnlCard.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -47,63 +50,32 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(507, 87);
+            label1.Location = new Point(51, 76);
             label1.Name = "label1";
             label1.Size = new Size(188, 38);
             label1.TabIndex = 1;
             label1.Text = "ĐĂNG NHẬP";
             label1.TextAlign = ContentAlignment.TopCenter;
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.Transparent;
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(481, 156);
-            label2.Name = "label2";
-            label2.Size = new Size(107, 20);
-            label2.TabIndex = 2;
-            label2.Text = "Tên đăng nhập";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(514, 210);
-            label3.Name = "label3";
-            label3.Size = new Size(74, 20);
-            label3.TabIndex = 3;
-            label3.Text = "Mật khẩu ";
-            // 
-            // txtUsername
-            // 
-            txtUsername.BackColor = Color.FromArgb(30, 30, 30);
-            txtUsername.BorderStyle = BorderStyle.None;
-            txtUsername.Font = new Font("Segoe UI", 10.8F);
-            txtUsername.ForeColor = Color.White;
-            txtUsername.Location = new Point(601, 152);
-            txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(125, 24);
-            txtUsername.TabIndex = 4;
-            // 
             // txtPassword
             // 
-            txtPassword.BackColor = Color.FromArgb(30, 30, 30);
+            txtPassword.BackColor = Color.WhiteSmoke;
             txtPassword.BorderStyle = BorderStyle.None;
             txtPassword.Font = new Font("Segoe UI", 10.8F);
             txtPassword.ForeColor = Color.White;
-            txtPassword.Location = new Point(601, 206);
+            txtPassword.Location = new Point(36, 196);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(125, 24);
+            txtPassword.Size = new Size(219, 24);
             txtPassword.TabIndex = 5;
+            txtPassword.Enter += txtPassword_Enter;
+            txtPassword.Leave += txtPassword_Leave;
             // 
             // chkShowPass
             // 
             chkShowPass.AutoSize = true;
             chkShowPass.BackColor = Color.Transparent;
             chkShowPass.ForeColor = Color.White;
-            chkShowPass.Location = new Point(601, 247);
+            chkShowPass.Location = new Point(128, 238);
             chkShowPass.Name = "chkShowPass";
             chkShowPass.Size = new Size(127, 24);
             chkShowPass.TabIndex = 6;
@@ -111,30 +83,17 @@
             chkShowPass.UseVisualStyleBackColor = false;
             chkShowPass.CheckedChanged += chkShowPass_CheckedChanged;
             // 
-            // btnLogin
-            // 
-            btnLogin.BackColor = Color.Transparent;
-            btnLogin.FlatStyle = FlatStyle.Flat;
-            btnLogin.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            btnLogin.ForeColor = Color.White;
-            btnLogin.Location = new Point(507, 286);
-            btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(105, 29);
-            btnLogin.TabIndex = 7;
-            btnLogin.Text = "Đăng nhập";
-            btnLogin.UseVisualStyleBackColor = false;
-            btnLogin.Click += btnLogin_Click;
-            // 
             // btnThoat
             // 
             btnThoat.BackColor = Color.Transparent;
             btnThoat.FlatAppearance.BorderColor = Color.WhiteSmoke;
+            btnThoat.FlatAppearance.BorderSize = 0;
             btnThoat.FlatStyle = FlatStyle.Flat;
             btnThoat.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 163);
             btnThoat.ForeColor = Color.White;
-            btnThoat.Location = new Point(630, 286);
+            btnThoat.Location = new Point(179, 279);
             btnThoat.Name = "btnThoat";
-            btnThoat.Size = new Size(96, 29);
+            btnThoat.Size = new Size(76, 29);
             btnThoat.TabIndex = 8;
             btnThoat.Text = "Thoát ";
             btnThoat.UseVisualStyleBackColor = false;
@@ -142,7 +101,7 @@
             // 
             // label4
             // 
-            label4.Location = new Point(601, 175);
+            label4.Location = new Point(130, 148);
             label4.Name = "label4";
             label4.Size = new Size(125, 1);
             label4.TabIndex = 9;
@@ -150,11 +109,72 @@
             // 
             // label5
             // 
-            label5.Location = new Point(601, 229);
+            label5.Location = new Point(130, 222);
             label5.Name = "label5";
             label5.Size = new Size(125, 1);
             label5.TabIndex = 10;
             label5.Text = "label5";
+            // 
+            // txtUsername
+            // 
+            txtUsername.BackColor = Color.WhiteSmoke;
+            txtUsername.BorderStyle = BorderStyle.None;
+            txtUsername.Font = new Font("Segoe UI", 10.8F);
+            txtUsername.ForeColor = Color.White;
+            txtUsername.Location = new Point(36, 140);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(219, 24);
+            txtUsername.TabIndex = 11;
+            txtUsername.Enter += txtUsername_Enter;
+            txtUsername.Leave += txtUsername_Leave;
+            // 
+            // pnlCard
+            // 
+            pnlCard.BackColor = Color.Transparent;
+            pnlCard.Controls.Add(btnDangNhap);
+            pnlCard.Controls.Add(pnlLinePass);
+            pnlCard.Controls.Add(pnlLineUser);
+            pnlCard.Controls.Add(label1);
+            pnlCard.Controls.Add(txtUsername);
+            pnlCard.Controls.Add(label5);
+            pnlCard.Controls.Add(label4);
+            pnlCard.Controls.Add(txtPassword);
+            pnlCard.Controls.Add(btnThoat);
+            pnlCard.Controls.Add(chkShowPass);
+            pnlCard.Dock = DockStyle.Right;
+            pnlCard.Location = new Point(511, 0);
+            pnlCard.Name = "pnlCard";
+            pnlCard.Size = new Size(289, 455);
+            pnlCard.TabIndex = 12;
+            // 
+            // btnDangNhap
+            // 
+            btnDangNhap.FlatAppearance.BorderSize = 0;
+            btnDangNhap.FlatStyle = FlatStyle.Flat;
+            btnDangNhap.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            btnDangNhap.Location = new Point(54, 283);
+            btnDangNhap.Name = "btnDangNhap";
+            btnDangNhap.Size = new Size(94, 29);
+            btnDangNhap.TabIndex = 14;
+            btnDangNhap.Text = "Đăng nhập";
+            btnDangNhap.UseVisualStyleBackColor = true;
+            btnDangNhap.Click += btnDangNhap_Click;
+            // 
+            // pnlLinePass
+            // 
+            pnlLinePass.BackColor = Color.DarkGray;
+            pnlLinePass.Location = new Point(36, 220);
+            pnlLinePass.Name = "pnlLinePass";
+            pnlLinePass.Size = new Size(219, 1);
+            pnlLinePass.TabIndex = 13;
+            // 
+            // pnlLineUser
+            // 
+            pnlLineUser.BackColor = Color.DarkGray;
+            pnlLineUser.Location = new Point(36, 164);
+            pnlLineUser.Name = "pnlLineUser";
+            pnlLineUser.Size = new Size(219, 1);
+            pnlLineUser.TabIndex = 12;
             // 
             // FormLogin
             // 
@@ -162,36 +182,31 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
-            ClientSize = new Size(800, 450);
-            Controls.Add(label5);
-            Controls.Add(label4);
-            Controls.Add(btnThoat);
-            Controls.Add(btnLogin);
-            Controls.Add(chkShowPass);
-            Controls.Add(txtPassword);
-            Controls.Add(txtUsername);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            ClientSize = new Size(800, 455);
+            Controls.Add(pnlCard);
             FormBorderStyle = FormBorderStyle.None;
             Name = "FormLogin";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FormLogin";
             Load += FormLogin_Load;
+            pnlCard.ResumeLayout(false);
+            pnlCard.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
         private Label label1;
-        private Label label2;
-        private Label label3;
-        private TextBox txtUsername;
         private TextBox txtPassword;
         private CheckBox chkShowPass;
         private Button btnLogin;
         private Button btnThoat;
         private Label label4;
         private Label label5;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private TextBox txtUsername;
+        private Panel pnlCard;
+        private Panel pnlLineUser;
+        private Panel pnlLinePass;
+        private Button btnDangNhap;
     }
 }

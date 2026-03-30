@@ -23,7 +23,6 @@ namespace Quan_Ly_Nhan_Su.Forms
         int id; // Lưu ID nhân viên đang chọn
 
         // Đường dẫn thư mục ảnh
-        BindingSource bindingSource = new BindingSource();
         string imagesFolder = Path.Combine(Application.StartupPath, @"..\..\..\Images");
         public NhanVien()
         {
@@ -51,12 +50,14 @@ namespace Quan_Ly_Nhan_Su.Forms
             BatTatChucNang(false);
             if (Session.Quyen == "Nhân viên")
             {
+                btnLuu.Enabled = false;
                 btnThem.Enabled = false;
                 btnSua.Enabled = false;
                 btnXoa.Enabled = false;
                 btnThemDA.Enabled = false;
                 btnSuaDA.Enabled = false;
                 btnXoaDA.Enabled = false;
+                btnLuuDA.Enabled = false;
             }
         }
         /// <summary>
@@ -388,7 +389,7 @@ namespace Quan_Ly_Nhan_Su.Forms
             btnHuyBo.Enabled = giaTri;
 
             // Các trường nhập liệu
-            txtHoTen.Enabled = giaTri;
+            txtHoTen.Enabled = !giaTri;
             cbTenPhongBanDA.Enabled = giaTri;
             cbDuAn.Enabled = giaTri;
             cbVaiTro.Enabled = giaTri;
