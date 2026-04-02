@@ -453,7 +453,7 @@
             Controls.Add(panelButton);
             Controls.Add(panelInput);
             Controls.Add(panelHeader);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            FormBorderStyle = FormBorderStyle.None;
             Name = "ChamCong";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ChamCong";

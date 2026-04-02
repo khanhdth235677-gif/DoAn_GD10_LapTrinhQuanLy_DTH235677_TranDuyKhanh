@@ -407,6 +407,7 @@
             Controls.Add(panelMain);
             Controls.Add(panelInput);
             Controls.Add(panelHeader);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "NghiPhep";
             Text = "NghiPhep";
             Load += NghiPhep_Load;

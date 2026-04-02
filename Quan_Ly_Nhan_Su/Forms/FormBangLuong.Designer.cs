@@ -478,6 +478,7 @@
             Controls.Add(panelFooter);
             Controls.Add(panelInput);
             Controls.Add(panelHeader);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "FormBangLuong";
             Text = "BangLuong";
             Load += BangLuong_Load;

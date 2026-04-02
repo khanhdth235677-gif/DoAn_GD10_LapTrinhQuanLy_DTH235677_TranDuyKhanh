@@ -329,6 +329,7 @@
             Controls.Add(panelMain);
             Controls.Add(panelInput);
             Controls.Add(panelHeader);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "BoPhan";
             Text = "BoPhan";
             Load += BoPhan_Load;

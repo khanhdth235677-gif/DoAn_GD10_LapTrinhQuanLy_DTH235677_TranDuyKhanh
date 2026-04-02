@@ -75,6 +75,9 @@ namespace Quan_Ly_Nhan_Su.Forms
                     case "ChamCong":
                         newForm = new ChamCong();
                         break;
+                    case "Baocaothongke":
+                        newForm = new BaoCao_ThongKe();
+                        break;
                 }
 
                 if (newForm == null) return;
@@ -190,6 +193,11 @@ namespace Quan_Ly_Nhan_Su.Forms
         private void btnQuyen_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Quyền của bạn: " + Session.Quyen);
+        }
+        private void btnBaoCaoThongKe_Click(object sender, EventArgs e)
+        {
+            ActivateButton(sender);
+            OpenChildForm("Baocaothongke");
         }
     }
 }

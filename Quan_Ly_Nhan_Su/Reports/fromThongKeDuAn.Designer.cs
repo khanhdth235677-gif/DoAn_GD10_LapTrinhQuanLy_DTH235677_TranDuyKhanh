@@ -45,7 +45,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1472, 315);
             Name = "fromThongKeDuAn";
-            Text = "fromThongKeDuAn";
+            Text = "Thống kê dự án";
             Load += fromThongKeDuAn_Load;
             ResumeLayout(false);
         }

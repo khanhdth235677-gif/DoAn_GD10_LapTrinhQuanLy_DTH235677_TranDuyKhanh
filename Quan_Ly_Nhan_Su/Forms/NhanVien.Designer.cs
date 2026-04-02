@@ -1330,6 +1330,7 @@
             BackColor = Color.White;
             ClientSize = new Size(774, 468);
             Controls.Add(tabControl1);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "NhanVien";
             Text = "NhanVien";
             Load += NhanVien_Load;

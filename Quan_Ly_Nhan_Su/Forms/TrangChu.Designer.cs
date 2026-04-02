@@ -40,6 +40,7 @@
             btnBangLuong = new Button();
             btnDuAn = new Button();
             btnNghiPhep = new Button();
+            btnBaoCaoThongKe = new Button();
             btnThoat = new Button();
             panelMain = new Panel();
             panelStatus = new Panel();
@@ -65,11 +66,12 @@
             panelSidebar.Controls.Add(btnBangLuong);
             panelSidebar.Controls.Add(btnDuAn);
             panelSidebar.Controls.Add(btnNghiPhep);
+            panelSidebar.Controls.Add(btnBaoCaoThongKe);
             panelSidebar.Controls.Add(btnThoat);
             panelSidebar.Dock = DockStyle.Left;
             panelSidebar.Location = new Point(0, 0);
             panelSidebar.Name = "panelSidebar";
-            panelSidebar.Size = new Size(250, 515);
+            panelSidebar.Size = new Size(250, 549);
             panelSidebar.TabIndex = 0;
             // 
             // label1
@@ -205,12 +207,27 @@
             btnNghiPhep.UseVisualStyleBackColor = false;
             btnNghiPhep.Click += btnNghiPhep_Click;
             // 
+            // btnBaoCaoThongKe
+            // 
+            btnBaoCaoThongKe.BackColor = Color.Transparent;
+            btnBaoCaoThongKe.FlatAppearance.BorderSize = 0;
+            btnBaoCaoThongKe.FlatStyle = FlatStyle.Flat;
+            btnBaoCaoThongKe.Location = new Point(25, 437);
+            btnBaoCaoThongKe.Margin = new Padding(25, 3, 3, 3);
+            btnBaoCaoThongKe.Name = "btnBaoCaoThongKe";
+            btnBaoCaoThongKe.Size = new Size(200, 40);
+            btnBaoCaoThongKe.TabIndex = 9;
+            btnBaoCaoThongKe.Text = "📊 Báo cáo - Thống kê";
+            btnBaoCaoThongKe.TextAlign = ContentAlignment.MiddleLeft;
+            btnBaoCaoThongKe.UseVisualStyleBackColor = false;
+            btnBaoCaoThongKe.Click += btnBaoCaoThongKe_Click;
+            // 
             // btnThoat
             // 
             btnThoat.BackColor = Color.Transparent;
             btnThoat.FlatAppearance.BorderSize = 0;
             btnThoat.FlatStyle = FlatStyle.Flat;
-            btnThoat.Location = new Point(25, 437);
+            btnThoat.Location = new Point(25, 483);
             btnThoat.Margin = new Padding(25, 3, 3, 3);
             btnThoat.Name = "btnThoat";
             btnThoat.Size = new Size(200, 40);
@@ -229,7 +246,7 @@
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(250, 0);
             panelMain.Name = "panelMain";
-            panelMain.Size = new Size(792, 515);
+            panelMain.Size = new Size(792, 549);
             panelMain.TabIndex = 1;
             // 
             // panelStatus
@@ -238,7 +255,7 @@
             panelStatus.Controls.Add(lblUser);
             panelStatus.Controls.Add(lblTime);
             panelStatus.Dock = DockStyle.Bottom;
-            panelStatus.Location = new Point(0, 475);
+            panelStatus.Location = new Point(0, 509);
             panelStatus.Name = "panelStatus";
             panelStatus.Size = new Size(792, 40);
             panelStatus.TabIndex = 0;
@@ -267,7 +284,7 @@
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(792, 515);
+            pictureBox1.Size = new Size(792, 549);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
@@ -281,7 +298,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1042, 515);
+            ClientSize = new Size(1042, 549);
             Controls.Add(panelMain);
             Controls.Add(panelSidebar);
             IsMdiContainer = true;
@@ -318,5 +335,6 @@
         private PictureBox pictureBox1;
         private Label lblUser;
         private Label lblQuyen;
+        private Button btnBaoCaoThongKe;
     }
 }

@@ -964,6 +964,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1003, 450);
             Controls.Add(tabControl1);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "DuAn";
             Text = "DuAn";
             Load += DuAn_Load;

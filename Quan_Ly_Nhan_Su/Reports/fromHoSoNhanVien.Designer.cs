@@ -1,6 +1,6 @@
 ﻿namespace Quan_Ly_Nhan_Su.Reports
 {
-    partial class fromThongKeNhanVien
+    partial class fromHoSoNhanVien
     {
         /// <summary>
         /// Required designer variable.
@@ -39,14 +39,14 @@
             reportViewer1.Size = new Size(396, 246);
             reportViewer1.TabIndex = 0;
             // 
-            // fromThongKeNhanVien
+            // fromHoSoNhanVien
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(981, 450);
-            Name = "fromThongKeNhanVien";
-            Text = "Thống kê nhân viên ";
-            Load += fromThongKeNhanVien_Load;
+            ClientSize = new Size(800, 450);
+            Name = "fromHoSoNhanVien";
+            Text = "Hồ sơ nhân viên ";
+            Load += fromHoSoNhanVien_Load;
             ResumeLayout(false);
         }
 

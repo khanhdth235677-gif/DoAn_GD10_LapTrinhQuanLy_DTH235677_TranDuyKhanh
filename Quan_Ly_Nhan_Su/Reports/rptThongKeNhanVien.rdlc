@@ -452,7 +452,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.6cm</Height>
+                  <Height>1.5cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -696,8 +696,13 @@
                             <Border>
                               <Style>None</Style>
                             </Border>
+                            <PaddingLeft>15pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Image>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -791,7 +796,7 @@
             <DataSetName>DanhSachNhanVienDataset</DataSetName>
             <Top>2.59503cm</Top>
             <Left>0cm</Left>
-            <Height>1.8cm</Height>
+            <Height>2.7cm</Height>
             <Width>20cm</Width>
             <ZIndex>2</ZIndex>
             <Style>
@@ -834,7 +839,7 @@
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>4.42353cm</Height>
+        <Height>8.9912cm</Height>
         <Style />
       </Body>
       <Width>20.91016cm</Width>

@@ -152,7 +152,7 @@ namespace Quan_Ly_Nhan_Su.Reports
             // Gọi lần đầu để tính toán vị trí ngay khi mở Form
             UpdateLayoutPositions();
         }
-        private void LoadReportData()
+        public void LoadReportData()
         {
             try
             {
@@ -168,10 +168,13 @@ namespace Quan_Ly_Nhan_Su.Reports
                     HinhAnh = nv.HinhAnh ?? ""
                 }).ToList();
 
+
                 danhSachNhanVienDataTable.Clear();
+
 
                 foreach (var row in data)
                 {
+                    string hinhAnhChuan = GetImagePath(row.HinhAnh);
                     danhSachNhanVienDataTable.AddDanhSachNhanVienRow(
                         row.ID,
                         row.MaNV,
@@ -180,7 +183,7 @@ namespace Quan_Ly_Nhan_Su.Reports
                         row.TenDuAn,
                         row.VaiTro,
                         row.GiaTri,
-                        row.HinhAnh
+                        hinhAnhChuan
                     );
                 }
 
@@ -303,6 +306,8 @@ namespace Quan_Ly_Nhan_Su.Reports
 
             foreach (var row in data)
             {
+                // XỬ LÝ ẢNH TRƯỚC KHI ADD VÀO DATATABLE
+                string hinhAnhChuan = GetImagePath(row.HinhAnh);
                 danhSachNhanVienDataTable.AddDanhSachNhanVienRow(
                     row.ID,
                     row.MaNV,
@@ -311,7 +316,7 @@ namespace Quan_Ly_Nhan_Su.Reports
                     row.TenDuAn,
                     row.VaiTro,
                     row.GiaTri,
-                    row.HinhAnh
+                    hinhAnhChuan
                 );
             }
 
@@ -325,6 +330,22 @@ namespace Quan_Ly_Nhan_Su.Reports
 
             reportViewer1.RefreshReport();
            
+        }
+        // --- HÀM XỬ LÝ ĐƯỜNG DẪN ẢNH (QUAN TRỌNG) ---
+        private string GetImagePath(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName)) return "";
+
+            // Trỏ tới thư mục Images nằm cùng file chạy
+            string folderPath = Path.Combine(Application.StartupPath, "Images");
+            string fullPath = Path.Combine(folderPath, fileName);
+
+            if (File.Exists(fullPath))
+            {
+                // Trả về định dạng file:///D:/...
+                return new Uri(fullPath).AbsoluteUri;
+            }
+            return "";
         }
     }
 }

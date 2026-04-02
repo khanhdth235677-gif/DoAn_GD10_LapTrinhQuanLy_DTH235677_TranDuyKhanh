@@ -9,11 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Reports\rptInHoSoNhanVien.rdlc" />
     <None Remove="Reports\rptThongKeDuAn.rdlc" />
     <None Remove="Reports\rptThongKeNhanVien.rdlc" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Reports\rptInHoSoNhanVien.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Reports\rptThongKeDuAn.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

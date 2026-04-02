@@ -152,7 +152,7 @@ namespace Quan_Ly_Nhan_Su.Reports
             // Gọi lần đầu để tính toán vị trí ngay khi mở Form
             UpdateLayoutPositions();
         }
-        private void LoadReportData()
+        public void LoadReportData()
         {
             try
             {
