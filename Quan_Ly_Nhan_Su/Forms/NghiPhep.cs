@@ -141,26 +141,45 @@ namespace Quan_Ly_Nhan_Su.Forms
         {
             var np = context.NghiPhep.FirstOrDefault(x => x.ID == id);
 
-            if (np == null) return;
-
-            if (np.TrangThai == "Đã duyệt")
+            if (np == null)
             {
-                MessageBox.Show("Không xóa đơn đã duyệt!");
+                MessageBox.Show("Không tìm thấy dữ liệu nghỉ phép cần xóa!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            DialogResult result = MessageBox.Show(
-                "Bạn có chắc muốn xóa dự án này không?",
-                "Xác nhận xóa",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+            // 1. Giữ nguyên logic bảo vệ: Không cho phép xóa đơn đã duyệt
+            if (np.TrangThai == "Đã duyệt")
+            {
+                MessageBox.Show("Không thể xóa đơn nghỉ phép đã được duyệt!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            if (result != DialogResult.Yes) return;
+            // 2. Gọi Form xác nhận bằng mật khẩu và tên đăng nhập
+            frmXacNhanXoa frm = new frmXacNhanXoa();
+            frm.StartPosition = FormStartPosition.CenterParent; // Hiển thị giữa màn hình cha
 
-            context.NghiPhep.Remove(np);
-            context.SaveChanges();
+            // 3. Nếu người dùng nhập đúng tài khoản & mật khẩu (Trả về DialogResult.OK)
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    // Tiến hành xóa dữ liệu khỏi Database
+                    context.NghiPhep.Remove(np);
+                    context.SaveChanges();
 
-            LoadData();
+                    // Thông báo thành công
+                    MessageBox.Show("Xóa thông tin nghỉ phép thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Tải lại danh sách dữ liệu để cập nhật giao diện
+                    LoadData();
+                }
+                catch (Exception ex)
+                {
+                    // Bắt lỗi nếu có trục trặc kết nối hoặc ràng buộc dữ liệu
+                    MessageBox.Show("Lỗi trong quá trình xóa dữ liệu: " + ex.Message, "Lỗi hệ thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            // Nếu bấm Hủy hoặc nhập sai, code tự động không thực hiện lệnh xóa bên trong block IF này.
         }
         #endregion
 

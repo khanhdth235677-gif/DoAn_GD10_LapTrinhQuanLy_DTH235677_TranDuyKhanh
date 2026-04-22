@@ -131,22 +131,58 @@ namespace Quan_Ly_Nhan_Su.Forms
         #region ===== Lưu =====
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            if (cbMaNV.SelectedIndex == -1)
+            // 1. Kiểm tra Mã nhân viên
+            if (cbMaNV.SelectedIndex == -1 || cbMaNV.SelectedValue == null)
             {
-                MessageBox.Show("Vui lòng chọn nhân viên!");
+                MessageBox.Show("Vui lòng chọn nhân viên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbMaNV.Focus();
                 return;
             }
 
+            // 2. Kiểm tra Lương cơ bản (Bắt buộc nhập, phải là số và >= 0)
             decimal luong;
-            if (!decimal.TryParse(txtLuongCoBan.Text, out luong))
+            if (string.IsNullOrWhiteSpace(txtLuongCoBan.Text) || !decimal.TryParse(txtLuongCoBan.Text, out luong) || luong < 0)
             {
-                MessageBox.Show("Lương cơ bản không hợp lệ!");
+                MessageBox.Show("Lương cơ bản không hợp lệ (phải là số và không được để trống hay ghi số âm)!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtLuongCoBan.Focus();
                 return;
             }
 
-            decimal phucap = string.IsNullOrWhiteSpace(txtPhuCap.Text) ? 0 : decimal.Parse(txtPhuCap.Text);
-            decimal thuong = string.IsNullOrWhiteSpace(txtThuong.Text) ? 0 : decimal.Parse(txtThuong.Text);
-            decimal khautru = string.IsNullOrWhiteSpace(txtKhauTru.Text) ? 0 : decimal.Parse(txtKhauTru.Text);
+            // 3. Kiểm tra Phụ cấp (Nếu có nhập thì phải là số và >= 0. Nếu để trống tự hiểu là 0)
+            decimal phucap = 0;
+            if (!string.IsNullOrWhiteSpace(txtPhuCap.Text))
+            {
+                if (!decimal.TryParse(txtPhuCap.Text, out phucap) || phucap < 0)
+                {
+                    MessageBox.Show("Phụ cấp không hợp lệ (phải là số và không được âm)!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtPhuCap.Focus();
+                    return;
+                }
+            }
+
+            // 4. Kiểm tra Thưởng (Tương tự phụ cấp)
+            decimal thuong = 0;
+            if (!string.IsNullOrWhiteSpace(txtThuong.Text))
+            {
+                if (!decimal.TryParse(txtThuong.Text, out thuong) || thuong < 0)
+                {
+                    MessageBox.Show("Thưởng không hợp lệ (phải là số và không được âm)!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtThuong.Focus();
+                    return;
+                }
+            }
+
+            // 5. Kiểm tra Khấu trừ (Tương tự phụ cấp)
+            decimal khautru = 0;
+            if (!string.IsNullOrWhiteSpace(txtKhauTru.Text))
+            {
+                if (!decimal.TryParse(txtKhauTru.Text, out khautru) || khautru < 0)
+                {
+                    MessageBox.Show("Khấu trừ không hợp lệ (phải là số và không được âm)!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtKhauTru.Focus();
+                    return;
+                }
+            }
 
             decimal tongLuong = luong + phucap + thuong - khautru;
 
@@ -181,6 +217,7 @@ namespace Quan_Ly_Nhan_Su.Forms
             }
 
             context.SaveChanges();
+            MessageBox.Show("Lưu dữ liệu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             BatTatChucNang(false);
             LoadBangLuong();
@@ -192,21 +229,48 @@ namespace Quan_Ly_Nhan_Su.Forms
         {
             if (dgvBangLuong.CurrentRow == null)
             {
-                MessageBox.Show("Vui lòng chọn dòng cần xóa!");
+                MessageBox.Show("Vui lòng chọn dòng cần xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            int id = Convert.ToInt32(dgvBangLuong.CurrentRow.Cells["MaLuong"].Value);
+            // 1. GỌI FORM XÁC NHẬN BẰNG MẬT KHẨU (Thay thế cho MessageBox Yes/No)
+            frmXacNhanXoa frm = new frmXacNhanXoa();
+            frm.StartPosition = FormStartPosition.CenterParent; // Căn giữa màn hình
 
-            BangLuong bl = context.BangLuong.Find(id);
-
-            if (bl != null)
+            // 2. NẾU NGƯỜI DÙNG NHẬP ĐÚNG TÀI KHOẢN & MẬT KHẨU
+            if (frm.ShowDialog() == DialogResult.OK)
             {
-                context.BangLuong.Remove(bl);
-                context.SaveChanges();
-            }
+                // Lấy ID của dòng đang chọn
+                int id = Convert.ToInt32(dgvBangLuong.CurrentRow.Cells["MaLuong"].Value);
 
-            LoadBangLuong();
+                BangLuong bl = context.BangLuong.Find(id);
+
+                if (bl != null)
+                {
+                    try
+                    {
+                        // Thực hiện xóa và lưu vào CSDL
+                        context.BangLuong.Remove(bl);
+                        context.SaveChanges();
+
+                        // 3. Thông báo xóa thành công
+                        MessageBox.Show("Xóa dữ liệu bảng lương thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Load lại bảng lương sau khi xóa thành công
+                        LoadBangLuong();
+                    }
+                    catch (Exception ex)
+                    {
+                        // Bắt lỗi trong trường hợp không thể xóa (ví dụ dính khóa ngoại hoặc lỗi kết nối)
+                        MessageBox.Show("Có lỗi xảy ra khi xóa dữ liệu lương: " + ex.Message, "Lỗi hệ thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy dữ liệu để xóa!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            // Nếu người dùng bấm Hủy ở form xác nhận, code tự động bỏ qua và không xóa.
         }
         #endregion
 

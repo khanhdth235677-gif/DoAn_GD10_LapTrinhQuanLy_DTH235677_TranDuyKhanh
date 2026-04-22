@@ -13,6 +13,7 @@ namespace Quan_Ly_Nhan_Su.Forms
 {
     public partial class BaoCao_ThongKe : Form
     {
+        #region === CONSTRUCTOR ===
         public BaoCao_ThongKe()
         {
             InitializeComponent();
@@ -27,6 +28,8 @@ namespace Quan_Ly_Nhan_Su.Forms
             // 2. Đăng ký hàm DrawItem mà bạn đã viết
             this.tabControlMain.DrawItem += new DrawItemEventHandler(tabControlMain_DrawItem);
         }
+        #endregion
+        #region === TAB CONTROL CHANGE (ĐIỀU HƯỚNG) ===
         // Hàm nhúng Form vào Panel
         // Hàm dùng chung để nhúng Form vào Panel
         private void tabControlMain_SelectedIndexChanged(object sender, EventArgs e)
@@ -50,6 +53,8 @@ namespace Quan_Ly_Nhan_Su.Forms
                     break;
             }
         }
+        #endregion
+        #region === NHÚNG FORM CON (HOST FORM) ===
         private void MoFormConToiUu(Panel pnl, Form frmMoi)
         {
             // Kiểm tra nếu form đã tồn tại trong panel thì chỉ load lại dữ liệu
@@ -82,6 +87,8 @@ namespace Quan_Ly_Nhan_Su.Forms
             }
             catch { }
         }
+        #endregion
+        #region === CUSTOM TAB UI (DRAW TAB) ===
         private void tabControlMain_DrawItem(object sender, DrawItemEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -101,5 +108,6 @@ namespace Quan_Ly_Nhan_Su.Forms
                 g.DrawLine(pen, tabRect.Left + 10, tabRect.Bottom - 2, tabRect.Right - 10, tabRect.Bottom - 2);
             }
         }
+        #endregion
     }
 }

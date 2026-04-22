@@ -17,15 +17,18 @@ namespace Quan_Ly_Nhan_Su.Forms
 {
     public partial class FormLogin : Form
     {
+        #region === FIELD / BIẾN TOÀN CỤC ===
         QLNSDataContext context = new QLNSDataContext();
         // Cấu hình màu sắc chuyên nghiệp
         Color primaryColor = Color.FromArgb(52, 152, 219); // Xanh dương
         Color placeholderColor = Color.Gray;
         Color textColor = Color.Black;
-
+        #endregion
+        #region === DLL IMPORT (BO GÓC FORM) ===
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-
         private static extern IntPtr CreateRoundRectRgn(int nLeft, int nTop, int nRight, int nBottom, int nWidth, int nHeight);
+        #endregion
+        #region === FORM LOAD OVERRIDE ===
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -35,6 +38,8 @@ namespace Quan_Ly_Nhan_Su.Forms
             // 2. Định dạng các nút và panel
             StyleLoginElements();
         }
+        #endregion
+        #region === SETUP UI (PLACEHOLDER) ===
         private void SetupUI()
         {
             // Thiết lập ban đầu cho TextBox để làm Placeholder
@@ -45,7 +50,8 @@ namespace Quan_Ly_Nhan_Su.Forms
             txtPassword.ForeColor = placeholderColor;
             txtPassword.UseSystemPasswordChar = false; // Hiện chữ "Mật khẩu"
         }
-
+        #endregion
+        #region === CONSTRUCTOR ===
         public FormLogin()
         {
             InitializeComponent();
@@ -54,17 +60,20 @@ namespace Quan_Ly_Nhan_Su.Forms
             this.CancelButton = btnThoat;
             SetupUI();
         }
-
+        #endregion
+        #region === EVENT: SHOW/HIDE PASSWORD ===
         private void chkShowPass_CheckedChanged(object sender, EventArgs e)
         {
             txtPassword.UseSystemPasswordChar = !chkShowPass.Checked;
         }
-
-
+        #endregion
+        #region === EVENT: THOÁT ===
         private void btnThoat_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+        #endregion
+        #region === HASH PASSWORD ===
         // 🔐 Hàm mã hóa mật khẩu
         string Hash(string input)
         {
@@ -74,6 +83,8 @@ namespace Quan_Ly_Nhan_Su.Forms
                 return Convert.ToBase64String(bytes);
             }
         }
+        #endregion
+        #region === STYLE UI LOGIN ===
         private void StyleLoginElements()
         {
             // Định dạng Panel chứa nội dung (giả sử tên là pnlCard)
@@ -94,12 +105,13 @@ namespace Quan_Ly_Nhan_Su.Forms
             btnThoat.ForeColor = primaryColor;
             btnThoat.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, btnThoat.Width, btnThoat.Height, 15, 15));
         }
+        #endregion
 
         private void FormLogin_Load(object sender, EventArgs e)
         {
             //UIStyleLogin.ApplyLoginStyle(this);
         }
-
+        #region === EVENT: USERNAME FOCUS ===
         private void txtUsername_Enter(object sender, EventArgs e)
         {
             if (txtUsername.Text == "Tên đăng nhập")
@@ -121,7 +133,8 @@ namespace Quan_Ly_Nhan_Su.Forms
             pnlLineUser.BackColor = Color.Gray; // Trả về màu xám trung tính
             pnlLineUser.Height = 1;
         }
-
+        #endregion
+        #region === EVENT: PASSWORD FOCUS ===
         private void txtPassword_Enter(object sender, EventArgs e)
         {
             if (txtPassword.Text == "Mật khẩu")
@@ -145,7 +158,8 @@ namespace Quan_Ly_Nhan_Su.Forms
             pnlLinePass.BackColor = Color.Gray; // Trả về màu xám trung tính
             pnlLinePass.Height = 1;
         }
-
+        #endregion
+        #region === LOGIN LOGIC ===
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
             // 1. Lấy dữ liệu và kiểm tra Placeholder
@@ -184,7 +198,7 @@ namespace Quan_Ly_Nhan_Su.Forms
             {
                 MessageBox.Show("Sai tài khoản hoặc mật khẩu!");
             }
-
         }
+        #endregion
     }
 }

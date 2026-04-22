@@ -347,11 +347,47 @@ namespace Quan_Ly_Nhan_Su.Forms
 
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            // Validate
-            if (string.IsNullOrWhiteSpace(txtTenDuAn.Text)) { MessageBox.Show("Vui lòng nhập tên dự án!"); txtTenDuAn.Focus(); return; }
-            if (string.IsNullOrWhiteSpace(txtTenKhachHang.Text)) { MessageBox.Show("Vui lòng nhập tên khách hàng!"); txtTenKhachHang.Focus(); return; }
-            if (cbPhongBan.SelectedValue == null) { MessageBox.Show("Vui lòng chọn phòng ban!"); cbPhongBan.Focus(); return; }
+            // 1. Kiểm tra các ô Text bắt buộc (Tên DA, Khách hàng)
+            if (string.IsNullOrWhiteSpace(txtTenDuAn.Text)) { MessageBox.Show("Vui lòng nhập Tên dự án!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); txtTenDuAn.Focus(); return; }
+            if (string.IsNullOrWhiteSpace(txtTenKhachHang.Text)) { MessageBox.Show("Vui lòng nhập Tên khách hàng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); txtTenKhachHang.Focus(); return; }
 
+            // 2. Kiểm tra các ComboBox bắt buộc (Nhân viên QL, Phòng ban, Tiến độ)
+            if (cbTenNhanVienQL.SelectedValue == null || cbTenNhanVienQL.SelectedIndex == -1) { MessageBox.Show("Vui lòng chọn Nhân viên quản lý!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); cbTenNhanVienQL.Focus(); return; }
+            if (cbPhongBan.SelectedValue == null || cbPhongBan.SelectedIndex == -1) { MessageBox.Show("Vui lòng chọn Phòng ban!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); cbPhongBan.Focus(); return; }
+            if (string.IsNullOrWhiteSpace(cbTienDo.Text)) { MessageBox.Show("Vui lòng chọn hoặc nhập Tiến độ dự án!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); cbTienDo.Focus(); return; }
+
+            // 3. Kiểm tra Giá trị dự án (Bắt buộc nhập, phải là số và >= 0)
+            decimal giaTri;
+            if (string.IsNullOrWhiteSpace(txtGiaTri.Text) || !decimal.TryParse(txtGiaTri.Text, out giaTri) || giaTri < 0)
+            {
+                MessageBox.Show("Giá trị dự án không hợp lệ (phải là số và không được âm)!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtGiaTri.Focus();
+                return;
+            }
+
+            // 4. Kiểm tra Logic Ngày tháng
+            DateTime ngayBD = dtNgayBD.Value.Date;
+            DateTime ngayKTDK = dtNgayKTDK.Value.Date;
+            DateTime ngayKTTT = dtNgayKTTT.Value.Date;
+
+            // 4.1 Ngày kết thúc dự kiến không được trước ngày bắt đầu
+            if (ngayKTDK < ngayBD)
+            {
+                MessageBox.Show("Ngày kết thúc dự kiến không được nhỏ hơn Ngày bắt đầu!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                dtNgayKTDK.Focus();
+                return;
+            }
+
+            // 4.2 Nếu check vào "Hoàn thành", kiểm tra luôn Ngày kết thúc thực tế
+            if (chkHoanThanh.Checked) // Giả sử CheckBox của bạn tên là chkHoanThanh
+            {
+                if (ngayKTTT < ngayBD)
+                {
+                    MessageBox.Show("Ngày kết thúc thực tế không hợp lệ (không được nhỏ hơn Ngày bắt đầu)!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    dtNgayKTTT.Focus();
+                    return;
+                }
+            }
             try
             {
                 Quan_Ly_Nhan_Su.Data.DuAn da;
@@ -379,7 +415,7 @@ namespace Quan_Ly_Nhan_Su.Forms
                 da.NgayKetThucDuKien = dtNgayKTDK.Value;
                 da.NgayKetThucThucTe = chkHoanThanh.Checked ? dtNgayKTTT.Value : (DateTime?)null;
 
-                if (decimal.TryParse(txtGiaTri.Text, out decimal giaTri)) da.GiaTriHopDong = giaTri;
+                if (decimal.TryParse(txtGiaTri.Text, out giaTri)) da.GiaTriHopDong = giaTri;
                 if (cbTienDo.SelectedItem != null)
                 {
                     da.TienDo = int.Parse(cbTienDo.SelectedItem.ToString());
@@ -457,12 +493,14 @@ namespace Quan_Ly_Nhan_Su.Forms
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            // Kiểm tra xem người dùng đã chọn dự án trên DataGridView chưa
             if (dgvDanhSachDuAn.CurrentRow == null)
             {
                 MessageBox.Show("Vui lòng chọn dự án cần xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
+            // Lấy mã dự án
             string maDA = dgvDanhSachDuAn.CurrentRow.Cells["MaDA"].Value?.ToString()?.Trim();
             if (string.IsNullOrWhiteSpace(maDA))
             {
@@ -470,35 +508,44 @@ namespace Quan_Ly_Nhan_Su.Forms
                 return;
             }
 
-            DialogResult result = MessageBox.Show(
-                "Bạn có chắc muốn xóa dự án này không?",
-                "Xác nhận xóa",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+            // 1. GỌI FORM XÁC NHẬN BẰNG MẬT KHẨU (Thay thế cho MessageBox Yes/No)
+            frmXacNhanXoa frm = new frmXacNhanXoa();
+            frm.StartPosition = FormStartPosition.CenterParent; // Căn giữa màn hình
 
-            if (result != DialogResult.Yes) return;
-
-            try
+            // 2. NẾU NGƯỜI DÙNG NHẬP ĐÚNG TÀI KHOẢN & MẬT KHẨU
+            if (frm.ShowDialog() == DialogResult.OK)
             {
-                var duAn = context.DuAn.FirstOrDefault(d => d.MaDuAn == maDA);
-                if (duAn == null)
+                try
                 {
-                    MessageBox.Show("Không tìm thấy dự án!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    // Tìm dự án trong CSDL
+                    var duAn = context.DuAn.FirstOrDefault(d => d.MaDuAn == maDA);
+                    if (duAn == null)
+                    {
+                        MessageBox.Show("Không tìm thấy dự án!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Tiến hành xóa và lưu
+                    context.DuAn.Remove(duAn);
+                    context.SaveChanges();
+
+                    // 3. THÔNG BÁO XÓA THÀNH CÔNG
+                    MessageBox.Show("Xóa dự án thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Load lại danh sách dự án và danh sách phân công
+                    LoadAllDuAn();
+                    LoadDuAnPhanCong();
                 }
-
-                context.DuAn.Remove(duAn);
-                context.SaveChanges();
-
-                MessageBox.Show("Xóa dự án thành công!", "Thông báo");
-
-                LoadAllDuAn();
-                LoadDuAnPhanCong();
+                catch (Exception ex)
+                {
+                    // Bắt lỗi an toàn (Thường gặp nếu dự án đang có nhân viên làm việc bên trong bảng PhanCongDuAn)
+                    MessageBox.Show("Không thể xóa dự án này! Có thể dự án đang có nhân viên tham gia nên không thể xóa ngang.\n\nChi tiết lỗi: " + ex.Message,
+                                    "Lỗi hệ thống",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi xóa: " + ex.Message);
-            }
+            // Nếu người dùng chọn Hủy ở form xác nhận, code tự động bỏ qua không xóa.
         }
 
         #endregion

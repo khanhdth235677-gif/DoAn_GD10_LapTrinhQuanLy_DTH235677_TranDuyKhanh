@@ -13,11 +13,13 @@ namespace Quan_Ly_Nhan_Su.Forms
 {
     public partial class TrangChu : Form
     {
+        #region === FIELD / BIẾN TOÀN CỤC ===
         private double fadeOpacity = 0;
         private Button currentButton;
         private Form activeForm = null;
         private Dictionary<string, Form> formCache = new Dictionary<string, Form>();
-
+        #endregion
+        #region === BUTTON UI STATE (ACTIVE / DISABLE) ===
         private void ActivateButton(object btnSender)
         {
             if (btnSender != null)
@@ -43,6 +45,8 @@ namespace Quan_Ly_Nhan_Su.Forms
                 }
             }
         }
+        #endregion
+        #region === MỞ FORM CON (DYNAMIC + CACHE) ===
         private void OpenChildForm(string formName)
         {
             if (activeForm != null)
@@ -97,11 +101,14 @@ namespace Quan_Ly_Nhan_Su.Forms
             fadeOpacity = 0;
             activeForm.Opacity = 0;
         }
+        #endregion
+        #region === CONSTRUCTOR ===
         public TrangChu()
         {
             InitializeComponent();
         }
-
+        #endregion
+        #region === FORM LOAD ===
         private void MainForm_Load(object sender, EventArgs e)
         {
             timer1.Start();
@@ -120,6 +127,8 @@ namespace Quan_Ly_Nhan_Su.Forms
             }
             PhanQuyen();
         }
+        #endregion
+        #region === PHÂN QUYỀN ===
         void PhanQuyen()
         {
             // 🔥 NHÂN VIÊN → BỊ HẠN CHẾ
@@ -138,7 +147,8 @@ namespace Quan_Ly_Nhan_Su.Forms
                 // không cần làm gì → full quyền
             }
         }
-
+        #endregion
+        #region === EVENT MENU BUTTON ===
         private void btnNhanVien_Click(object sender, EventArgs e)
         {
             ActivateButton(sender);
@@ -180,11 +190,17 @@ namespace Quan_Ly_Nhan_Su.Forms
             ActivateButton(sender);
             OpenChildForm("NghiPhep");
         }
+        private void btnBaoCaoThongKe_Click(object sender, EventArgs e)
+        {
+            ActivateButton(sender);
+            OpenChildForm("Baocaothongke");
+        }
         private void btnThoat_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
+        #endregion
+        #region === EVENT KHÁC ===
         private void timer1_Tick(object sender, EventArgs e)
         {
             lblTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
@@ -194,10 +210,26 @@ namespace Quan_Ly_Nhan_Su.Forms
         {
             MessageBox.Show("Quyền của bạn: " + Session.Quyen);
         }
-        private void btnBaoCaoThongKe_Click(object sender, EventArgs e)
+        #endregion
+        #region === NÚT ĐĂNG XUẤT ===
+        private void btnDangXuat_Click(object sender, EventArgs e)
         {
-            ActivateButton(sender);
-            OpenChildForm("Baocaothongke");
+            // Hỏi xác nhận trước khi đăng xuất cho chuyên nghiệp
+            if (MessageBox.Show("Bạn có chắc chắn muốn đăng xuất?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                // 1. Tạo một luồng mới để chạy Form Đăng Nhập
+                Thread th = new Thread(MoFormDangNhap);
+                th.SetApartmentState(ApartmentState.STA); // Bắt buộc đối với form UI
+                th.Start();
+
+                // 2. ĐÓNG HOÀN TOÀN Form chính hiện tại (Giải phóng toàn bộ RAM của form này)
+                this.Close();
+            }
         }
+        private void MoFormDangNhap()
+        {
+            Application.Run(new FormLogin());
+        }
+        #endregion
     }
 }

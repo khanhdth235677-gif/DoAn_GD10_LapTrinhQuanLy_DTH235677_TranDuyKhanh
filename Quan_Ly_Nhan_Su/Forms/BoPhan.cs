@@ -81,22 +81,39 @@ namespace Quan_Ly_Nhan_Su.Forms
         #region ===== Thêm =====
         private void btnThem_Click(object sender, EventArgs e)
         {
+            // 1. Kiểm tra dữ liệu đầu vào
             if (string.IsNullOrWhiteSpace(cbTenPhongBan.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên bộ phận");
+                MessageBox.Show("Vui lòng nhập tên bộ phận!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbTenPhongBan.Focus();
                 return;
             }
 
-            PhongBan pb = new PhongBan();
-            pb.TenPhongBan = cbTenPhongBan.Text;
-            pb.MoTa = txtMoTa.Text;
+            try
+            {
+                // 2. Tạo đối tượng mới và gán dữ liệu
+                PhongBan pb = new PhongBan();
+                // Dùng .Trim() để cắt bỏ khoảng trắng thừa ở hai đầu chữ nếu có
+                pb.TenPhongBan = cbTenPhongBan.Text.Trim();
+                pb.MoTa = txtMoTa.Text.Trim();
 
-            context.PhongBan.Add(pb);
-            context.SaveChanges();
+                // 3. Lưu vào Database
+                context.PhongBan.Add(pb);
+                context.SaveChanges();
 
-            LoadBoPhan();
-            LoadComboBoPhan();
-            ResetForm();
+                // 4. THÔNG BÁO THÊM THÀNH CÔNG
+                MessageBox.Show("Thêm bộ phận mới thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // 5. Cập nhật lại giao diện
+                LoadBoPhan();
+                LoadComboBoPhan();
+                ResetForm();
+            }
+            catch (Exception ex)
+            {
+                // Bắt lỗi an toàn nếu có sự cố xảy ra
+                MessageBox.Show("Có lỗi xảy ra khi thêm bộ phận: " + ex.Message, "Lỗi hệ thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 
@@ -105,25 +122,66 @@ namespace Quan_Ly_Nhan_Su.Forms
         {
             if (id == 0)
             {
-                MessageBox.Show("Vui lòng chọn bộ phận cần xóa");
+                MessageBox.Show("Vui lòng chọn bộ phận cần xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            var pb = context.PhongBan.Find(id);
+            // 1. Cảnh báo nguy hiểm (Lớp bảo vệ thứ nhất)
+            DialogResult canhBao = MessageBox.Show(
+                "Bạn có chắc chắn muốn xóa bộ phận này không?\n\nLƯU Ý: Thao tác này sẽ XÓA TOÀN BỘ nhân viên đang thuộc bộ phận này và không thể hoàn tác!",
+                "Cảnh báo xóa bộ phận",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
 
-            if (pb != null)
+            // 2. Nếu người dùng đồng ý với cảnh báo, tiến hành gọi Form đăng nhập (Lớp bảo vệ thứ hai)
+            if (canhBao == DialogResult.Yes)
             {
-                var nhanViens = context.NhanVien
-                    .Where(nv => nv.PhongBanID == id)
-                    .ToList();
+                frmXacNhanXoa frm = new frmXacNhanXoa();
+                frm.StartPosition = FormStartPosition.CenterParent;
 
-                context.NhanVien.RemoveRange(nhanViens);
-                context.PhongBan.Remove(pb);
-                context.SaveChanges();
+                // 3. Nếu nhập đúng tài khoản và mật khẩu
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        var pb = context.PhongBan.Find(id);
+
+                        if (pb != null)
+                        {
+                            // Lấy danh sách nhân viên thuộc phòng ban
+                            var nhanViens = context.NhanVien
+                                .Where(nv => nv.PhongBanID == id)
+                                .ToList();
+
+                            // Xóa nhân viên trước
+                            context.NhanVien.RemoveRange(nhanViens);
+
+                            // Xóa phòng ban sau
+                            context.PhongBan.Remove(pb);
+
+                            // Lưu xuống database
+                            context.SaveChanges();
+
+                            // Thông báo thành công
+                            MessageBox.Show("Đã xóa bộ phận và các nhân viên liên quan thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            // Cập nhật lại giao diện
+                            LoadBoPhan();
+                            ResetForm();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Không tìm thấy bộ phận để xóa!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Bắt lỗi nếu có nhân viên đang dính dữ liệu ở bảng khác (chấm công, lương...)
+                        MessageBox.Show("Không thể xóa bộ phận này vì dữ liệu đang được liên kết ở nơi khác.\nChi tiết lỗi: " + ex.Message, "Lỗi hệ thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
-
-            LoadBoPhan();
-            ResetForm();
+            // Nếu bấm No ở cảnh báo, hoặc bấm Hủy ở màn hình nhập mật khẩu, chương trình tự động bỏ qua.
         }
         #endregion
 

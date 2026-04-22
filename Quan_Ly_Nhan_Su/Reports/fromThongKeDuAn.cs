@@ -15,7 +15,8 @@ using static Quan_Ly_Nhan_Su.Reports.QLNSDataSet;
 namespace Quan_Ly_Nhan_Su.Reports
 {
     public partial class fromThongKeDuAn : Form
-    {
+    {  
+        #region === FIELD / BIẾN TOÀN CỤC ===
         private QLNSDataContext context = new QLNSDataContext();
         private QLNSDataSet.DanhSachDuAnDataTable danhSachDuAnDataTable = new QLNSDataSet.DanhSachDuAnDataTable();
         string reportsFolder = Application.StartupPath.Replace("bin\\Debug\\net8.0-windows7.0", "Reports");
@@ -23,11 +24,14 @@ namespace Quan_Ly_Nhan_Su.Reports
         ComboBox cbDuAn;
         Button btnLocKQ;
         Button btnHienTC;
+        #endregion
+        #region === CONSTRUCTOR ===
         public fromThongKeDuAn()
         {
             InitializeComponent();
         }
-
+        #endregion
+        #region === FORM LOAD ===
         private void fromThongKeDuAn_Load(object sender, EventArgs e)
         {
             SetupReportViewer();   // ✅ tạo trước
@@ -35,6 +39,8 @@ namespace Quan_Ly_Nhan_Su.Reports
             LayTenNhanVienVaoComboBox();
             LayDuAnVaoComboBox();
         }
+        #endregion
+        #region === LOAD DỮ LIỆU COMBOBOX ===
         public void LayTenNhanVienVaoComboBox()
         {
             // Giả sử bảng của bạn tên là NhanVien
@@ -64,6 +70,8 @@ namespace Quan_Ly_Nhan_Su.Reports
             cbDuAn.ValueMember = "ID";
             cbDuAn.SelectedIndex = -1;
         }
+        #endregion
+        #region === SETUP UI REPORT VIEWER ===
         private void SetupReportViewer()
         {
             // --- 1. PANEL LỌC (TOP) ---
@@ -152,6 +160,8 @@ namespace Quan_Ly_Nhan_Su.Reports
             // Gọi lần đầu để tính toán vị trí ngay khi mở Form
             UpdateLayoutPositions();
         }
+        #endregion
+        #region === LOAD REPORT BAN ĐẦU ===
         public void LoadReportData()
         {
             try
@@ -210,7 +220,7 @@ namespace Quan_Ly_Nhan_Su.Reports
                 reportViewer1.LocalReport.ReportPath =
                     Path.Combine(Application.StartupPath, "Reports", "rptThongKeDuAn.rdlc");
 
-                ReportParameter reportParameter = new ReportParameter("HienThiKetQua", "(Tất cả sản phẩm)");
+                ReportParameter reportParameter = new ReportParameter("HienThiKetQua", "(Tất cả dự án)");
                 reportViewer1.LocalReport.SetParameters(reportParameter);
 
                 reportViewer1.RefreshReport();
@@ -221,6 +231,8 @@ namespace Quan_Ly_Nhan_Su.Reports
                 MessageBox.Show(ex.InnerException?.Message ?? ex.Message);
             }
         }
+        #endregion
+        #region === BUTTON: HIỂN THỊ TẤT CẢ ===
         private void btnHienTC_Click(object sender, EventArgs e)
         {
             // 1. Reset ComboBox về rỗng
@@ -287,6 +299,8 @@ namespace Quan_Ly_Nhan_Su.Reports
 
             reportViewer1.RefreshReport();
         }
+        #endregion
+        #region === BUTTON: LỌC KẾT QUẢ ===
         private void btnLocKQ_Click(object sender, EventArgs e)
         {
             // Bắt đầu truy vấn
@@ -368,6 +382,6 @@ namespace Quan_Ly_Nhan_Su.Reports
             reportViewer1.RefreshReport();
 
         }
-
+        #endregion
     }
 }

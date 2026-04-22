@@ -33,16 +33,8 @@
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             dgvBangLuong = new DataGridView();
-            MaLuong = new DataGridViewTextBoxColumn();
-            MaNV = new DataGridViewTextBoxColumn();
-            TenNV = new DataGridViewTextBoxColumn();
-            Thang = new DataGridViewTextBoxColumn();
-            LuongCoBan = new DataGridViewTextBoxColumn();
-            PhuCap = new DataGridViewTextBoxColumn();
-            Thuong = new DataGridViewTextBoxColumn();
-            KhauTru = new DataGridViewTextBoxColumn();
-            TongLuong = new DataGridViewTextBoxColumn();
             panelHeader = new Panel();
             label1 = new Label();
             panelInput = new Panel();
@@ -68,6 +60,15 @@
             panelFooter = new Panel();
             lblTongLuong = new Label();
             panelMain = new Panel();
+            MaLuong = new DataGridViewTextBoxColumn();
+            MaNV = new DataGridViewTextBoxColumn();
+            TenNV = new DataGridViewTextBoxColumn();
+            Thang = new DataGridViewTextBoxColumn();
+            LuongCoBan = new DataGridViewTextBoxColumn();
+            PhuCap = new DataGridViewTextBoxColumn();
+            Thuong = new DataGridViewTextBoxColumn();
+            KhauTru = new DataGridViewTextBoxColumn();
+            TongLuong = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvBangLuong).BeginInit();
             panelHeader.SuspendLayout();
             panelInput.SuspendLayout();
@@ -94,79 +95,6 @@
             dgvBangLuong.TabIndex = 4;
             dgvBangLuong.CellClick += dgvBangLuong_CellClick;
             dgvBangLuong.CellContentClick += dgvBangLuong_CellContentClick;
-            // 
-            // MaLuong
-            // 
-            MaLuong.DataPropertyName = "ID";
-            MaLuong.HeaderText = "ID";
-            MaLuong.MinimumWidth = 6;
-            MaLuong.Name = "MaLuong";
-            // 
-            // MaNV
-            // 
-            MaNV.DataPropertyName = "MaNV";
-            MaNV.HeaderText = "Mã NV";
-            MaNV.MinimumWidth = 6;
-            MaNV.Name = "MaNV";
-            // 
-            // TenNV
-            // 
-            TenNV.DataPropertyName = "TenNV";
-            TenNV.HeaderText = "Tên NV";
-            TenNV.MinimumWidth = 6;
-            TenNV.Name = "TenNV";
-            // 
-            // Thang
-            // 
-            Thang.DataPropertyName = "Thang";
-            Thang.HeaderText = "Tháng";
-            Thang.MinimumWidth = 6;
-            Thang.Name = "Thang";
-            // 
-            // LuongCoBan
-            // 
-            LuongCoBan.DataPropertyName = "LuongCoBan";
-            dataGridViewCellStyle1.Format = "N0";
-            LuongCoBan.DefaultCellStyle = dataGridViewCellStyle1;
-            LuongCoBan.HeaderText = "Lương cơ bản ";
-            LuongCoBan.MinimumWidth = 6;
-            LuongCoBan.Name = "LuongCoBan";
-            // 
-            // PhuCap
-            // 
-            PhuCap.DataPropertyName = "PhuCap";
-            dataGridViewCellStyle2.Format = "N0";
-            PhuCap.DefaultCellStyle = dataGridViewCellStyle2;
-            PhuCap.HeaderText = "Phụ cấp ";
-            PhuCap.MinimumWidth = 6;
-            PhuCap.Name = "PhuCap";
-            // 
-            // Thuong
-            // 
-            Thuong.DataPropertyName = "Thuong";
-            dataGridViewCellStyle3.Format = "N0";
-            Thuong.DefaultCellStyle = dataGridViewCellStyle3;
-            Thuong.HeaderText = "Thưởng";
-            Thuong.MinimumWidth = 6;
-            Thuong.Name = "Thuong";
-            // 
-            // KhauTru
-            // 
-            KhauTru.DataPropertyName = "KhauTru";
-            dataGridViewCellStyle4.Format = "N0";
-            KhauTru.DefaultCellStyle = dataGridViewCellStyle4;
-            KhauTru.HeaderText = "Khấu trừ ";
-            KhauTru.MinimumWidth = 6;
-            KhauTru.Name = "KhauTru";
-            // 
-            // TongLuong
-            // 
-            TongLuong.DataPropertyName = "TongLuong";
-            dataGridViewCellStyle5.Format = "N0";
-            TongLuong.DefaultCellStyle = dataGridViewCellStyle5;
-            TongLuong.HeaderText = "Tổng lương";
-            TongLuong.MinimumWidth = 6;
-            TongLuong.Name = "TongLuong";
             // 
             // panelHeader
             // 
@@ -324,7 +252,8 @@
             // dtThangNam
             // 
             dtThangNam.Anchor = AnchorStyles.None;
-            dtThangNam.Format = DateTimePickerFormat.Short;
+            dtThangNam.CustomFormat = "dd/MM/yyyy";
+            dtThangNam.Format = DateTimePickerFormat.Custom;
             dtThangNam.Location = new Point(566, 94);
             dtThangNam.Name = "dtThangNam";
             dtThangNam.Size = new Size(151, 27);
@@ -468,6 +397,81 @@
             panelMain.Name = "panelMain";
             panelMain.Size = new Size(800, 180);
             panelMain.TabIndex = 5;
+            // 
+            // MaLuong
+            // 
+            MaLuong.DataPropertyName = "ID";
+            MaLuong.HeaderText = "ID";
+            MaLuong.MinimumWidth = 6;
+            MaLuong.Name = "MaLuong";
+            // 
+            // MaNV
+            // 
+            MaNV.DataPropertyName = "MaNV";
+            MaNV.HeaderText = "Mã NV";
+            MaNV.MinimumWidth = 6;
+            MaNV.Name = "MaNV";
+            // 
+            // TenNV
+            // 
+            TenNV.DataPropertyName = "TenNV";
+            TenNV.HeaderText = "Tên NV";
+            TenNV.MinimumWidth = 6;
+            TenNV.Name = "TenNV";
+            // 
+            // Thang
+            // 
+            Thang.DataPropertyName = "Thang";
+            dataGridViewCellStyle1.Format = "dd-MM-yyyy";
+            Thang.DefaultCellStyle = dataGridViewCellStyle1;
+            Thang.HeaderText = "Tháng";
+            Thang.MinimumWidth = 6;
+            Thang.Name = "Thang";
+            // 
+            // LuongCoBan
+            // 
+            LuongCoBan.DataPropertyName = "LuongCoBan";
+            dataGridViewCellStyle2.Format = "N0";
+            LuongCoBan.DefaultCellStyle = dataGridViewCellStyle2;
+            LuongCoBan.HeaderText = "Lương cơ bản ";
+            LuongCoBan.MinimumWidth = 6;
+            LuongCoBan.Name = "LuongCoBan";
+            // 
+            // PhuCap
+            // 
+            PhuCap.DataPropertyName = "PhuCap";
+            dataGridViewCellStyle3.Format = "N0";
+            PhuCap.DefaultCellStyle = dataGridViewCellStyle3;
+            PhuCap.HeaderText = "Phụ cấp ";
+            PhuCap.MinimumWidth = 6;
+            PhuCap.Name = "PhuCap";
+            // 
+            // Thuong
+            // 
+            Thuong.DataPropertyName = "Thuong";
+            dataGridViewCellStyle4.Format = "N0";
+            Thuong.DefaultCellStyle = dataGridViewCellStyle4;
+            Thuong.HeaderText = "Thưởng";
+            Thuong.MinimumWidth = 6;
+            Thuong.Name = "Thuong";
+            // 
+            // KhauTru
+            // 
+            KhauTru.DataPropertyName = "KhauTru";
+            dataGridViewCellStyle5.Format = "N0";
+            KhauTru.DefaultCellStyle = dataGridViewCellStyle5;
+            KhauTru.HeaderText = "Khấu trừ ";
+            KhauTru.MinimumWidth = 6;
+            KhauTru.Name = "KhauTru";
+            // 
+            // TongLuong
+            // 
+            TongLuong.DataPropertyName = "TongLuong";
+            dataGridViewCellStyle6.Format = "N0";
+            TongLuong.DefaultCellStyle = dataGridViewCellStyle6;
+            TongLuong.HeaderText = "Tổng lương";
+            TongLuong.MinimumWidth = 6;
+            TongLuong.Name = "TongLuong";
             // 
             // FormBangLuong
             // 

@@ -16,6 +16,7 @@ namespace Quan_Ly_Nhan_Su.Reports
 {
     public partial class fromHoSoNhanVien : Form
     {
+        #region === FIELD / BIẾN TOÀN CỤC ===
         private QLNSDataContext context = new QLNSDataContext();
         private QLNSDataSet.HoSoNhanVienDatasetDataTable hoSoNhanVienDataTable = new QLNSDataSet.HoSoNhanVienDatasetDataTable();
         string reportsFolder = Application.StartupPath.Replace("bin\\Debug\\net8.0-windows7.0", "Reports");
@@ -26,12 +27,15 @@ namespace Quan_Ly_Nhan_Su.Reports
         private Panel pnlContent;
         private Panel pnlReportWrapper;
         private int _idNhanVienBanDau;
+        #endregion
+        #region === CONSTRUCTOR ===
         public fromHoSoNhanVien(int id = 59)
         {
             InitializeComponent();
             this._idNhanVienBanDau = id;
         }
-
+        #endregion
+        #region === FORM LOAD ===
         private void fromHoSoNhanVien_Load(object sender, EventArgs e)
         {
             // 1. Xây dựng giao diện bằng code
@@ -44,6 +48,8 @@ namespace Quan_Ly_Nhan_Su.Reports
             cbNhanVien.SelectedValue = _idNhanVienBanDau;
             LoadHoSoNhanVien(_idNhanVienBanDau);
         }
+        #endregion
+        #region === SETUP UI REPORT VIEWER ===
         private void SetupReportViewer()
         {
             // --- 1. PANEL LỌC (TOP) ---
@@ -123,6 +129,8 @@ namespace Quan_Ly_Nhan_Su.Reports
             // Gọi lần đầu để tính toán vị trí ngay khi mở Form
             UpdateLayoutPositions();
         }
+        #endregion
+        #region === LOAD COMBOBOX NHÂN VIÊN ===
         private void LoadComboBoxNhanVien()
         {
             try
@@ -140,6 +148,8 @@ namespace Quan_Ly_Nhan_Su.Reports
             }
             catch (Exception ex) { MessageBox.Show("Lỗi ComboBox: " + ex.Message); }
         }
+        #endregion
+        #region === LOAD HỒ SƠ NHÂN VIÊN ===
         public void LoadHoSoNhanVien(int idNhanVien)
         {
             try
@@ -166,6 +176,7 @@ namespace Quan_Ly_Nhan_Su.Reports
                     }).FirstOrDefault();
 
                 if (nv == null) return;
+                #region === XỬ LÝ ẢNH NHÂN VIÊN ===
 
                 string fileName = nv.HinhAnh;
 
@@ -211,12 +222,15 @@ namespace Quan_Ly_Nhan_Su.Reports
                 reportViewer1.LocalReport.DataSources.Add(new ReportDataSource("HoSoNhanVienDataset", (DataTable)hoSoNhanVienDataTable));
 
                 reportViewer1.RefreshReport();
+                #endregion
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi: " + ex.Message);
             }
         }
+        #endregion
+        #region === BUTTON: IN KẾT QUẢ ===
         private void btnIn_Click(object sender, EventArgs e)
         {
             // Khi nhấn nút, lấy ID từ ComboBox và nạp lại báo cáo
@@ -226,5 +240,6 @@ namespace Quan_Ly_Nhan_Su.Reports
                 LoadHoSoNhanVien(idSelected);
             }
         }
+        #endregion
     }
 }

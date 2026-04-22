@@ -46,6 +46,7 @@ namespace Quan_Ly_Nhan_Su.Forms
             // Nạp dữ liệu cho Tab Nhân viên - Dự án
             LoadPhongBanDA();
             LoadDuAnDA();
+            LoadVaiTro();
             HienThiDanhSach();
             BatTatChucNang(false);
             if (Session.Quyen == "Nhân viên")
@@ -187,27 +188,64 @@ namespace Quan_Ly_Nhan_Su.Forms
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (dgvNhanVien.CurrentRow == null) return;
-
-            if (MessageBox.Show("Xác nhận xóa?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-                return;
-
-            string maNV = dgvNhanVien.CurrentRow.Cells["ID"].Value.ToString();
-            int id = int.Parse(maNV.Replace("NV", ""));
-            var nv = context.NhanVien.Find(id);
-
-            if (nv != null)
+            // 1. Kiểm tra xem người dùng đã chọn dòng trên Grid chưa
+            if (dgvNhanVien.CurrentRow == null)
             {
-                context.NhanVien.Remove(nv);
-                context.SaveChanges();
+                MessageBox.Show("Vui lòng chọn nhân viên cần xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            LoadNhanVien();
+
+            // 2. GỌI FORM XÁC NHẬN MẬT KHẨU
+            frmXacNhanXoa frm = new frmXacNhanXoa();
+            frm.StartPosition = FormStartPosition.CenterParent; // Căn giữa màn hình
+
+            // 3. NẾU NGƯỜI DÙNG NHẬP ĐÚNG TÀI KHOẢN & MẬT KHẨU
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    // Lấy mã nhân viên và cắt bỏ chữ "NV" để lấy ID số
+                    string maNV = dgvNhanVien.CurrentRow.Cells["ID"].Value.ToString();
+                    int id = int.Parse(maNV.Replace("NV", ""));
+
+                    // Tìm nhân viên trong DB
+                    var nv = context.NhanVien.Find(id);
+
+                    if (nv != null)
+                    {
+                        context.NhanVien.Remove(nv);
+                        context.SaveChanges();
+
+                        // Thông báo xóa thành công
+                        MessageBox.Show("Đã xóa nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Không tìm thấy dữ liệu nhân viên này để xóa!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    // Tải lại toàn bộ giao diện theo đúng logic cũ của bạn
+                    LoadNhanVien();        // Tab danh sách
+                    LoadNhanVienCT();      // Tab chi tiết
+                    HienThiDanhSach();     // Tab nhân viên - dự án
+                }
+                catch (Exception ex)
+                {
+                    // Bắt lỗi nếu nhân viên đang dính dữ liệu ở các bảng khác (Lương, Chấm công...)
+                    MessageBox.Show("Không thể xóa nhân viên này vì dữ liệu đang được sử dụng ở nơi khác (ví dụ: đã có dữ liệu chấm công, tính lương, hoặc dự án).\n\nChi tiết lỗi: " + ex.Message,
+                                    "Lỗi hệ thống",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                }
+            }
+            // Nếu form xác nhận trả về Cancel (bấm Hủy hoặc tắt form) thì code tự động bỏ qua, không xóa gì cả.
         }
 
         private void btnThem_Click(object sender, EventArgs e)
         {
             ResetFormCT();
             txtMaNVCT.Clear();
+            btnLuu.Enabled = true;
             tabControl1.SelectedTab = tabNhanVienChiTiet; // Chuyển sang Tab nhập liệu
         }
 
@@ -252,8 +290,14 @@ namespace Quan_Ly_Nhan_Su.Forms
 
         void LoadChucVuCT()
         {
-            var chucvu = context.NhanVien.Select(nv => nv.ChucVu).Distinct().ToList();
-            cbChucVuCT.DataSource = chucvu;
+            var data = context.NhanVien
+                .Where(x => x.ChucVu != null && x.ChucVu != "")
+                .Select(x => x.ChucVu)
+                .Distinct()
+                .ToList();
+
+            cbChucVuCT.DataSource = data;
+            cbChucVuCT.SelectedIndex = -1;
         }
 
         void LoadNhanVienCT()
@@ -293,16 +337,83 @@ namespace Quan_Ly_Nhan_Su.Forms
 
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            // Kiểm tra ràng buộc dữ liệu đầu vào
-            if (string.IsNullOrWhiteSpace(txtHoTenCT.Text)) { MessageBox.Show("Vui lòng nhập họ tên!"); txtHoTenCT.Focus(); return; }
-            if (string.IsNullOrWhiteSpace(txtCCCDCT.Text)) { MessageBox.Show("Vui lòng nhập CCCD!"); txtCCCDCT.Focus(); return; }
-            if (cbPhongBanCT.SelectedValue == null) { MessageBox.Show("Vui lòng chọn phòng ban!"); cbPhongBanCT.Focus(); return; }
+            // 1. Kiểm tra rỗng các TextBox bắt buộc
+            if (string.IsNullOrWhiteSpace(txtHoTenCT.Text)) { MessageBox.Show("Vui lòng nhập Họ và tên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); txtHoTenCT.Focus(); return; }
 
-            // Kiểm tra trùng CCCD khi thêm mới
-            var checkCCCD = context.NhanVien.FirstOrDefault(x => x.CCCD == txtCCCDCT.Text);
-            if (checkCCCD != null && txtMaNVCT.Text == "") { MessageBox.Show("CCCD đã tồn tại!"); return; }
-            if (txtCCCDCT.Text.Length != 12) { MessageBox.Show("CCCD phải đủ 12 số!"); return; }
+            // --- ĐOẠN CODE MỚI THÊM VÀO: Kiểm tra Họ tên chỉ chứa chữ cái ---
+            if (!txtHoTenCT.Text.All(c => char.IsLetter(c) || char.IsWhiteSpace(c)))
+            {
+                MessageBox.Show("Họ và tên chỉ được chứa chữ cái!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtHoTenCT.Focus();
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(txtDiaChiCT.Text)) { MessageBox.Show("Vui lòng nhập Địa chỉ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); txtDiaChiCT.Focus(); return; }
+            if (string.IsNullOrWhiteSpace(txtDanTocCT.Text)) { MessageBox.Show("Vui lòng nhập Dân tộc!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); txtDanTocCT.Focus(); return; }
 
+            // --- ĐOẠN CODE MỚI THÊM VÀO: Kiểm tra Dân tộc chỉ chứa chữ cái ---
+            if (!txtDanTocCT.Text.All(c => char.IsLetter(c) || char.IsWhiteSpace(c)))
+            {
+                MessageBox.Show("Dân tộc chỉ được chứa chữ cái!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDanTocCT.Focus();
+                return;
+            }
+            // ----------------------------------------------------------------
+
+            if (string.IsNullOrWhiteSpace(txtNoiCapCT.Text)) { MessageBox.Show("Vui lòng nhập Nơi cấp CCCD!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); txtNoiCapCT.Focus(); return; }
+
+            // 2. Kiểm tra Combobox (Phòng ban, Chức vụ)
+            if (cbPhongBanCT.SelectedValue == null || cbPhongBanCT.SelectedIndex == -1) { MessageBox.Show("Vui lòng chọn Phòng ban!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); cbPhongBanCT.Focus(); return; }
+            if (cbChucVuCT.SelectedValue == null || cbChucVuCT.SelectedIndex == -1) { MessageBox.Show("Vui lòng chọn Chức vụ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); cbChucVuCT.Focus(); return; }
+
+            // 3. Kiểm tra RadioButton (Giới tính)
+            if (!radNamCT.Checked && !radNuCT.Checked) { MessageBox.Show("Vui lòng chọn Giới tính!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
+
+            // 4. Kiểm tra Ngày sinh (Đủ 18 tuổi)
+            DateTime ngaySinh = dtpNgaySinhCT.Value;
+            if (ngaySinh > DateTime.Now)
+            {
+                MessageBox.Show("Ngày sinh không hợp lệ (không được ở tương lai)!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                dtpNgaySinhCT.Focus();
+                return;
+            }
+            int age = DateTime.Now.Year - ngaySinh.Year;
+            if (ngaySinh.Date > DateTime.Now.AddYears(-age)) age--;
+            if (age < 18)
+            {
+                MessageBox.Show("Nhân viên phải từ đủ 18 tuổi trở lên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                dtpNgaySinhCT.Focus();
+                return;
+            }
+
+            // 5. Kiểm tra CCCD (Đủ 12 số)
+            if (string.IsNullOrWhiteSpace(txtCCCDCT.Text)) { MessageBox.Show("Vui lòng nhập CCCD!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); txtCCCDCT.Focus(); return; }
+            if (txtCCCDCT.Text.Length != 12) { MessageBox.Show("CCCD phải đủ 12 số!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); txtCCCDCT.Focus(); return; }
+            if (!txtCCCDCT.Text.All(char.IsDigit)) { MessageBox.Show("CCCD chỉ được chứa các chữ số!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); txtCCCDCT.Focus(); return; }
+
+            // 6. Kiểm tra trùng CCCD trong Database
+            bool isAddingNew = string.IsNullOrWhiteSpace(txtMaNVCT.Text);
+
+            if (isAddingNew)
+            {
+                var checkCCCD = context.NhanVien.FirstOrDefault(x => x.CCCD == txtCCCDCT.Text);
+                if (checkCCCD != null)
+                {
+                    MessageBox.Show("CCCD này đã tồn tại trong hệ thống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtCCCDCT.Focus();
+                    return;
+                }
+            }
+            else
+            {
+                // Ràng buộc khi CẬP NHẬT (Bỏ qua việc check trùng CCCD với chính nhân viên đó)
+                var checkCCCD = context.NhanVien.FirstOrDefault(x => x.CCCD == txtCCCDCT.Text);
+
+                if (checkCCCD != null && txtMaNVCT.Text == "") { MessageBox.Show("CCCD đã tồn tại!"); return; }
+
+                if (txtCCCDCT.Text.Length != 12) { MessageBox.Show("CCCD phải đủ 12 số!"); return; }
+            }
+
+            // NẾU VƯỢ QUA HẾT CÁC IF TRÊN THÌ THỰC HIỆN LƯU DATABASE Ở ĐÂY...
             if (string.IsNullOrWhiteSpace(txtMaNVCT.Text))
             {
                 // Logic THÊM MỚI
@@ -338,8 +449,9 @@ namespace Quan_Ly_Nhan_Su.Forms
 
             context.SaveChanges(); // Lưu thay đổi xuống Database
             MessageBox.Show("Lưu thành công!");
-            LoadNhanVien();
-            LoadNhanVienCT();
+            LoadNhanVien();        // Tab danh sách
+            LoadNhanVienCT();      // Tab chi tiết
+            HienThiDanhSach();     // Tab nhân viên - dự án
             tabControl1.SelectedTab = tabDanhSachNhanVien;
         }
 
@@ -417,7 +529,18 @@ namespace Quan_Ly_Nhan_Su.Forms
             cbDuAn.ValueMember = "ID";
             cbDuAn.SelectedIndex = -1;
         }
+        private void LoadVaiTro()
+        {
+            // Lấy các tên vai trò không trùng lặp từ bảng phân công dự án
+            var danhSachVaiTroDaCo = context.PhanCongDuAn
+                                            .Where(pc => !string.IsNullOrEmpty(pc.VaiTro))
+                                            .Select(pc => pc.VaiTro)
+                                            .Distinct()
+                                            .ToList();
 
+            cbVaiTro.DataSource = danhSachVaiTroDaCo;
+            cbVaiTro.SelectedIndex = -1;
+        }
         private void HienThiDanhSach()
         {
             var data = context.PhanCongDuAn
@@ -604,8 +727,12 @@ namespace Quan_Ly_Nhan_Su.Forms
         // ====================== NÚT LƯU ======================
         private void btnLuuDA_Click(object sender, EventArgs e)
         {
-            if (!KiemTraDuLieu()) return;
+            if (!KiemTraDuLieu())
+            {
+                return;
+            }
 
+            // 2. NẾU KIỂM TRA THÀNH CÔNG, MỚI BẮT ĐẦU LƯU
             try
             {
                 if (xuLyThem)
@@ -683,7 +810,6 @@ namespace Quan_Ly_Nhan_Su.Forms
 
                 context.SaveChanges();
                 MessageBox.Show("Lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 HienThiDanhSach();
                 BatTatChucNang(false);
                 xuLyThem = false;
@@ -700,25 +826,42 @@ namespace Quan_Ly_Nhan_Su.Forms
         // ====================== NÚT XÓA ======================
         private void btnXoaDA_Click(object sender, EventArgs e)
         {
+            // 1. Kiểm tra xem đã chọn dòng cần xóa chưa
             if (dgvNhanVienDuAn.CurrentRow == null)
             {
                 MessageBox.Show("Vui lòng chọn dòng cần xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (MessageBox.Show("Xác nhận xóa phân công này?", "Xác nhận",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-                return;
+            // 2. GỌI FORM XÁC NHẬN MẬT KHẨU (Thay thế cho MessageBox cũ)
+            frmXacNhanXoa frm = new frmXacNhanXoa();
+            frm.StartPosition = FormStartPosition.CenterParent; // Tự động căn giữa màn hình hiện tại
 
-            int phanCongID = Convert.ToInt32(dgvNhanVienDuAn.CurrentRow.Cells["colID"].Value);
-            var pc = context.PhanCongDuAn.Find(phanCongID);
-            if (pc != null)
+            // 3. NẾU NGƯỜI DÙNG NHẬP ĐÚNG TÀI KHOẢN & MẬT KHẨU (Form trả về DialogResult.OK)
+            if (frm.ShowDialog() == DialogResult.OK)
             {
-                context.PhanCongDuAn.Remove(pc);
-                context.SaveChanges();
-                MessageBox.Show("Đã xóa thành công!");
+                try
+                {
+                    // Lấy ID và tiến hành xóa dữ liệu
+                    int phanCongID = Convert.ToInt32(dgvNhanVienDuAn.CurrentRow.Cells["colID"].Value);
+                    var pc = context.PhanCongDuAn.Find(phanCongID);
+
+                    if (pc != null)
+                    {
+                        context.PhanCongDuAn.Remove(pc);
+                        context.SaveChanges();
+                        MessageBox.Show("Đã xóa phân công dự án thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                    // Tải lại DataGridView để cập nhật danh sách mới
+                    HienThiDanhSach();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi trong quá trình xóa dữ liệu: " + ex.Message, "Lỗi hệ thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            HienThiDanhSach();
+            // Ngược lại, nếu nhập sai hoặc bấm nút Hủy thì code sẽ tự động bỏ qua phần xóa.
         }
 
         // ====================== NÚT HỦY ======================
@@ -778,46 +921,68 @@ namespace Quan_Ly_Nhan_Su.Forms
         // ====================== HÀM HỖ TRỢ ======================
         private bool KiemTraDuLieu()
         {
-            if (string.IsNullOrWhiteSpace(txtMaNV.Text))
+            // 1. Kiểm tra Tên nhân viên (Rỗng và chỉ chứa chữ cái + khoảng trắng)
+            if (string.IsNullOrWhiteSpace(txtHoTenNV.Text))
             {
-                MessageBox.Show("Chưa chọn nhân viên!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập Tên nhân viên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtHoTenNV.Focus();
                 return false;
             }
-            if (cbDuAn.SelectedValue == null)
+            if (!txtHoTenNV.Text.All(c => char.IsLetter(c) || char.IsWhiteSpace(c)))
             {
-                MessageBox.Show("Chưa chọn dự án!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Tên nhân viên chỉ được chứa chữ cái!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtHoTenNV.Focus();
                 return false;
             }
+
+            // 2. Kiểm tra Giá trị (Rỗng và chỉ chứa số)
             if (string.IsNullOrWhiteSpace(txtGiaTri.Text))
             {
-                MessageBox.Show("Chưa nhập giá trị!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng nhập Giá trị dự án/lương!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtGiaTri.Focus();
                 return false;
             }
+            if (!txtGiaTri.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("Giá trị chỉ được phép nhập số (không chứa chữ hoặc ký tự đặc biệt)!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtGiaTri.Focus();
+                return false;
+            }
+
+            // 3. Kiểm tra Combobox Phòng ban
+            if (cbTenPhongBanDA.SelectedValue == null || cbTenPhongBanDA.SelectedIndex == -1)
+            {
+                MessageBox.Show("Vui lòng chọn Phòng ban!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbTenPhongBanDA.Focus();
+                return false;
+            }
+
+            // 4. Kiểm tra Combobox Dự án
+            if (cbDuAn.SelectedValue == null || cbDuAn.SelectedIndex == -1)
+            {
+                MessageBox.Show("Vui lòng chọn Dự án!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbDuAn.Focus();
+                return false;
+            }
+
+            // 5. Kiểm tra Vai trò (Dựa theo code bạn dùng cbVaiTro.Text nên có thể người dùng tự gõ hoặc chọn)
+            if (string.IsNullOrWhiteSpace(cbVaiTro.Text))
+            {
+                MessageBox.Show("Vui lòng chọn hoặc nhập Vai trò trong dự án!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbVaiTro.Focus();
+                return false;
+            }
+
+            // 6. Kiểm tra Mã nhân viên khi CẬP NHẬT (Không được để trống mã NV)
+            if (!xuLyThem && string.IsNullOrWhiteSpace(txtMaNV.Text))
+            {
+                MessageBox.Show("Không xác định được Mã nhân viên để cập nhật!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // Vượt qua hết các bài kiểm tra thì trả về true cho phép Lưu
             return true;
         }
-
-        private void ThemPhanCong()
-        {
-            var pc = new PhanCongDuAn
-            {
-                NhanVienID = Convert.ToInt32(dgvNhanVienDuAn.CurrentRow.Cells["colNhanVienID"].Value),
-                DuAnID = Convert.ToInt32(cbDuAn.SelectedValue),
-                VaiTro = cbVaiTro.Text.Trim(),
-                GiaTri = Convert.ToInt32(txtGiaTri.Text)
-            };
-            context.PhanCongDuAn.Add(pc);
-        }
-
-        private void CapNhatPhanCong()
-        {
-            var pc = context.PhanCongDuAn.Find(id);
-            if (pc == null) return;
-
-            pc.DuAnID = Convert.ToInt32(cbDuAn.SelectedValue);
-            pc.VaiTro = cbVaiTro.Text.Trim();
-            pc.GiaTri = Convert.ToInt32(txtGiaTri.Text);
-        }
-
         private void ResetFormPhanCong()
         {
             txtMaNV.Clear();
@@ -1041,6 +1206,25 @@ namespace Quan_Ly_Nhan_Su.Forms
                     MessageBox.Show(ex.Message, "Lỗi",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+        #endregion
+        #region 11. Nút xoay ảnh (btnXoay_Click) - Xoay 90 độ theo chiều kim đồng hồ
+        private void btnXoay_Click(object sender, EventArgs e)
+        {
+            // 1. Kiểm tra xem PictureBox hiện tại có đang chứa ảnh nào không
+            if (picHinhAnh.Image != null)
+            {
+                // 2. Thực hiện xoay ảnh 90 độ theo chiều kim đồng hồ (sang phải)
+                picHinhAnh.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+
+                // 3. Làm mới PictureBox để hiển thị ngay lập tức hình ảnh sau khi xoay
+                picHinhAnh.Refresh();
+            }
+            else
+            {
+                // Báo lỗi nhẹ nhàng nếu người dùng bấm xoay khi chưa chọn ảnh
+                MessageBox.Show("Chưa có hình ảnh nào để xoay!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         #endregion

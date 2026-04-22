@@ -149,6 +149,14 @@ namespace Quan_Ly_Nhan_Su.Forms
         #region ===== Thêm =====
         private void btnThem_Click(object sender, EventArgs e)
         {
+            cbNhanVien.SelectedIndex = -1;
+            cbTrangThai.SelectedIndex = -1;
+            dtpNgay.Value = DateTime.Now;
+            numTangCa.Value = 0;
+
+            lblNgayCongMacDinh.Text = "26";
+            lblNgayCongThucTe.Text = "0";
+            lblTongTangCa.Text = "0";
             xuLyThem = true;
             BatTatChucNang(true);
 
@@ -172,25 +180,52 @@ namespace Quan_Ly_Nhan_Su.Forms
         #region ===== Xóa =====
         private void btnXóa_Click(object sender, EventArgs e)
         {
-            if (dgvChamCong.CurrentRow == null) return;
-
-            if (MessageBox.Show("Xác nhận xóa?",
-                 "Xóa",
-                 MessageBoxButtons.YesNo,
-                 MessageBoxIcon.Question) == DialogResult.Yes)
+            // Kiểm tra xem người dùng đã chọn dòng nào trên DataGridView chưa
+            if (dgvChamCong.CurrentRow == null)
             {
-                id = Convert.ToInt32(dgvChamCong.CurrentRow.Cells["ID"].Value);
-
-                Data.ChamCong cc = context.ChamCong.Find(id);
-
-                if (cc != null)
-                {
-                    context.ChamCong.Remove(cc);
-                    context.SaveChanges();
-                }
-
-                LoadChamCong();
+                MessageBox.Show("Vui lòng chọn dòng dữ liệu cần xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+
+            // 1. GỌI FORM XÁC NHẬN BẰNG MẬT KHẨU (Thay thế cho MessageBox Yes/No cũ)
+            frmXacNhanXoa frm = new frmXacNhanXoa();
+            frm.StartPosition = FormStartPosition.CenterParent; // Căn giữa màn hình
+
+            // 2. NẾU NGƯỜI DÙNG NHẬP ĐÚNG TÀI KHOẢN & MẬT KHẨU
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    // Lấy ID từ DataGridView
+                    int id = Convert.ToInt32(dgvChamCong.CurrentRow.Cells["ID"].Value);
+
+                    // Tìm bản ghi chấm công trong Database
+                    Data.ChamCong cc = context.ChamCong.Find(id);
+
+                    if (cc != null)
+                    {
+                        // Tiến hành xóa và lưu
+                        context.ChamCong.Remove(cc);
+                        context.SaveChanges();
+
+                        // 3. THÔNG BÁO XÓA THÀNH CÔNG
+                        MessageBox.Show("Xóa dữ liệu chấm công thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Load lại danh sách sau khi đã xóa thành công
+                        LoadChamCong();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Không tìm thấy dữ liệu để xóa!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Bắt lỗi an toàn nếu có sự cố với Database
+                    MessageBox.Show("Có lỗi xảy ra khi xóa dữ liệu chấm công: " + ex.Message, "Lỗi hệ thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            // Nếu người dùng chọn Hủy ở form xác nhận, chương trình tự động bỏ qua không xóa.
         }
         #endregion
 
@@ -199,51 +234,64 @@ namespace Quan_Ly_Nhan_Su.Forms
         {
             if (cbNhanVien.SelectedValue == null)
             {
-                MessageBox.Show("Vui lòng chọn nhân viên");
+                MessageBox.Show("Vui lòng chọn nhân viên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             int idNhanVien = Convert.ToInt32(cbNhanVien.SelectedValue);
 
-            if (xuLyThem)
+            try
             {
-                bool tonTai = context.ChamCong.Any(x =>
-                    x.NhanVienID == idNhanVien &&
-                    x.Ngay.Date == dtpNgay.Value.Date);
-
-                if (tonTai)
+                if (xuLyThem)
                 {
-                    MessageBox.Show("Nhân viên đã được chấm công ngày này!");
-                    return;
-                }
+                    // Kiểm tra xem ngày đó đã chấm công chưa
+                    bool tonTai = context.ChamCong.Any(x =>
+                        x.NhanVienID == idNhanVien &&
+                        x.Ngay.Date == dtpNgay.Value.Date);
 
-                Data.ChamCong cc = new Data.ChamCong();
+                    if (tonTai)
+                    {
+                        MessageBox.Show("Nhân viên đã được chấm công ngày này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
 
-                cc.NhanVienID = idNhanVien;
-                cc.Ngay = dtpNgay.Value;
-                cc.TrangThai = cbTrangThai.Text;
-                cc.GioTangCa = (int)numTangCa.Value;
+                    Data.ChamCong cc = new Data.ChamCong();
 
-                context.ChamCong.Add(cc);
-                context.SaveChanges();
-            }
-            else
-            {
-                Data.ChamCong cc = context.ChamCong.Find(id);
-
-                if (cc != null)
-                {
                     cc.NhanVienID = idNhanVien;
                     cc.Ngay = dtpNgay.Value;
                     cc.TrangThai = cbTrangThai.Text;
                     cc.GioTangCa = (int)numTangCa.Value;
 
-                    context.SaveChanges();
+                    context.ChamCong.Add(cc);
                 }
-            }
+                else
+                {
+                    Data.ChamCong cc = context.ChamCong.Find(id);
 
-            LoadChamCong();
-            BatTatChucNang(false);
+                    if (cc != null)
+                    {
+                        cc.NhanVienID = idNhanVien;
+                        cc.Ngay = dtpNgay.Value;
+                        cc.TrangThai = cbTrangThai.Text;
+                        cc.GioTangCa = (int)numTangCa.Value;
+                    }
+                }
+
+                // Thực hiện lưu vào database (chỉ cần gọi 1 lần cho cả Thêm và Sửa)
+                context.SaveChanges();
+
+                // HIỂN THỊ THÔNG BÁO LƯU THÀNH CÔNG
+                MessageBox.Show("Lưu dữ liệu chấm công thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Cập nhật lại giao diện
+                LoadChamCong();
+                BatTatChucNang(false);
+            }
+            catch (Exception ex)
+            {
+                // Bắt lỗi nếu quá trình lưu thất bại
+                MessageBox.Show("Có lỗi xảy ra khi lưu: " + ex.Message, "Lỗi hệ thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         #endregion
 

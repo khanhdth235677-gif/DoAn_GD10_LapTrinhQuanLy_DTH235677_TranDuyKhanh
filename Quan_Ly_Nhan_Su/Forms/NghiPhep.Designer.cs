@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panelHeader = new Panel();
             label1 = new Label();
             panelInput = new Panel();
@@ -239,7 +241,8 @@
             // dtNgayKT
             // 
             dtNgayKT.Anchor = AnchorStyles.None;
-            dtNgayKT.Format = DateTimePickerFormat.Short;
+            dtNgayKT.CustomFormat = "dd/MM/yyyy";
+            dtNgayKT.Format = DateTimePickerFormat.Custom;
             dtNgayKT.Location = new Point(535, 49);
             dtNgayKT.Name = "dtNgayKT";
             dtNgayKT.Size = new Size(203, 27);
@@ -248,7 +251,8 @@
             // dtNgayBD
             // 
             dtNgayBD.Anchor = AnchorStyles.None;
-            dtNgayBD.Format = DateTimePickerFormat.Short;
+            dtNgayBD.CustomFormat = "dd/MM/yyyy";
+            dtNgayBD.Format = DateTimePickerFormat.Custom;
             dtNgayBD.Location = new Point(535, 10);
             dtNgayBD.Name = "dtNgayBD";
             dtNgayBD.Size = new Size(203, 27);
@@ -374,6 +378,8 @@
             // TuNgay
             // 
             TuNgay.DataPropertyName = "TuNgay";
+            dataGridViewCellStyle1.Format = "dd-MM-yyyy";
+            TuNgay.DefaultCellStyle = dataGridViewCellStyle1;
             TuNgay.HeaderText = "Từ ngày";
             TuNgay.MinimumWidth = 6;
             TuNgay.Name = "TuNgay";
@@ -381,6 +387,8 @@
             // DenNgay
             // 
             DenNgay.DataPropertyName = "DenNgay";
+            dataGridViewCellStyle2.Format = "dd-MM-yyyy";
+            DenNgay.DefaultCellStyle = dataGridViewCellStyle2;
             DenNgay.HeaderText = "Đến ngày";
             DenNgay.MinimumWidth = 6;
             DenNgay.Name = "DenNgay";
@@ -443,6 +451,8 @@
         private Panel panelMain;
         private DataGridView dgvNghiPhep;
         private Button btnLuu;
+        private TextBox txtTrangThai;
+        private Button btnXuat;
         private DataGridViewTextBoxColumn MaNghiPhep;
         private DataGridViewTextBoxColumn MaNV;
         private DataGridViewTextBoxColumn TenNhanVien;
@@ -450,7 +460,5 @@
         private DataGridViewTextBoxColumn DenNgay;
         private DataGridViewTextBoxColumn LyDo;
         private DataGridViewTextBoxColumn TrangThai;
-        private TextBox txtTrangThai;
-        private Button btnXuat;
     }
 }

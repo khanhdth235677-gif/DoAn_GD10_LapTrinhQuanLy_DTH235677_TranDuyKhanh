@@ -17,29 +17,28 @@ namespace Quan_Ly_Nhan_Su.Forms
 {
     public partial class TrangChuHome : Form
     {
+        #region Khởi tạo & DataContext
         QLNSDataContext context = new QLNSDataContext();
         public TrangChuHome()
         {
             InitializeComponent();
         }
+        #endregion
+        #region HÀM LOAD DỮ LIỆU DASHBOARD
         // ================== HÀM LOAD DỮ LIỆU TỪ CSDL ==================
         private void LoadDuLieuDashboard()
         {
             try
             {
-                // 1. Đếm tổng nhân viên 
-                // (Lưu ý: Thay 'NhanViens' bằng tên bảng nhân viên thực tế trong DataContext của bạn)
+                #region 1. Tổng số nhân viên
                 int tongNV = context.NhanVien.Count();
                 lblTongNhanVien.Text = tongNV.ToString("N0");
-
-                // 2. Đếm tổng dự án
-                // (Lưu ý: Thay 'DuAns' bằng tên bảng dự án thực tế của bạn)
+                #endregion
+                #region 2. Tổng số dự án
                 int tongDA = context.DuAn.Count();
                 lblTongDuAn.Text = tongDA.ToString("N0");
-
-                // 3. Lấy Top 5 nhân viên xuất sắc (lương cao nhất)
-                // 3. Lấy Top 5 nhân viên xuất sắc (lương cao nhất)
-                // Sử dụng cú pháp JOIN để kết nối bảng NhanVien và BangLuong
+                #endregion
+                #region 3. Top 5 nhân viên lương cao nhất
                 var top5NhanVien = (from nv in context.NhanVien // (hoặc context.NhanVien tùy cách bạn đặt tên)
                                     join bl in context.BangLuong on nv.ID equals bl.NhanVienID
                                     orderby bl.TongLuong descending // Sắp xếp giảm dần theo cột Tổng Lương ở bảng lương
@@ -55,16 +54,19 @@ namespace Quan_Ly_Nhan_Su.Forms
                 dgvTopNhanVien.DataSource = top5NhanVien;
                 // Bỏ bôi đen dòng đầu
                 dgvTopNhanVien.ClearSelection();
+                #endregion
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi tải dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        #endregion
+        #region Sự kiện Load Form
         private void TrangChuHome_Load_1(object sender, EventArgs e)
         {
             LoadDuLieuDashboard();
         }
+        #endregion
     }
 }

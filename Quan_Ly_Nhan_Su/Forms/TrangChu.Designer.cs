@@ -41,6 +41,7 @@
             btnDuAn = new Button();
             btnNghiPhep = new Button();
             btnBaoCaoThongKe = new Button();
+            btnDangXuat = new Button();
             btnThoat = new Button();
             panelMain = new Panel();
             panelStatus = new Panel();
@@ -67,11 +68,12 @@
             panelSidebar.Controls.Add(btnDuAn);
             panelSidebar.Controls.Add(btnNghiPhep);
             panelSidebar.Controls.Add(btnBaoCaoThongKe);
+            panelSidebar.Controls.Add(btnDangXuat);
             panelSidebar.Controls.Add(btnThoat);
             panelSidebar.Dock = DockStyle.Left;
             panelSidebar.Location = new Point(0, 0);
             panelSidebar.Name = "panelSidebar";
-            panelSidebar.Size = new Size(250, 549);
+            panelSidebar.Size = new Size(250, 657);
             panelSidebar.TabIndex = 0;
             // 
             // label1
@@ -222,12 +224,27 @@
             btnBaoCaoThongKe.UseVisualStyleBackColor = false;
             btnBaoCaoThongKe.Click += btnBaoCaoThongKe_Click;
             // 
+            // btnDangXuat
+            // 
+            btnDangXuat.BackColor = Color.Transparent;
+            btnDangXuat.FlatAppearance.BorderSize = 0;
+            btnDangXuat.FlatStyle = FlatStyle.Flat;
+            btnDangXuat.Location = new Point(25, 483);
+            btnDangXuat.Margin = new Padding(25, 3, 3, 3);
+            btnDangXuat.Name = "btnDangXuat";
+            btnDangXuat.Size = new Size(200, 40);
+            btnDangXuat.TabIndex = 10;
+            btnDangXuat.Text = "➤ Đăng xuất";
+            btnDangXuat.TextAlign = ContentAlignment.MiddleLeft;
+            btnDangXuat.UseVisualStyleBackColor = false;
+            btnDangXuat.Click += btnDangXuat_Click;
+            // 
             // btnThoat
             // 
             btnThoat.BackColor = Color.Transparent;
             btnThoat.FlatAppearance.BorderSize = 0;
             btnThoat.FlatStyle = FlatStyle.Flat;
-            btnThoat.Location = new Point(25, 483);
+            btnThoat.Location = new Point(25, 529);
             btnThoat.Margin = new Padding(25, 3, 3, 3);
             btnThoat.Name = "btnThoat";
             btnThoat.Size = new Size(200, 40);
@@ -246,7 +263,7 @@
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(250, 0);
             panelMain.Name = "panelMain";
-            panelMain.Size = new Size(792, 549);
+            panelMain.Size = new Size(792, 657);
             panelMain.TabIndex = 1;
             // 
             // panelStatus
@@ -255,7 +272,7 @@
             panelStatus.Controls.Add(lblUser);
             panelStatus.Controls.Add(lblTime);
             panelStatus.Dock = DockStyle.Bottom;
-            panelStatus.Location = new Point(0, 509);
+            panelStatus.Location = new Point(0, 617);
             panelStatus.Name = "panelStatus";
             panelStatus.Size = new Size(792, 40);
             panelStatus.TabIndex = 0;
@@ -284,7 +301,7 @@
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(792, 549);
+            pictureBox1.Size = new Size(792, 657);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
@@ -298,9 +315,10 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1042, 549);
+            ClientSize = new Size(1042, 657);
             Controls.Add(panelMain);
             Controls.Add(panelSidebar);
+            FormBorderStyle = FormBorderStyle.None;
             IsMdiContainer = true;
             Name = "TrangChu";
             StartPosition = FormStartPosition.CenterScreen;
@@ -336,5 +354,6 @@
         private Label lblUser;
         private Label lblQuyen;
         private Button btnBaoCaoThongKe;
+        private Button btnDangXuat;
     }
 }

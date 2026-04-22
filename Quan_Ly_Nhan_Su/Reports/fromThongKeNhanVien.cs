@@ -17,6 +17,7 @@ namespace Quan_Ly_Nhan_Su.Reports
 {
     public partial class fromThongKeNhanVien : Form
     {
+        #region === FIELD / BIẾN TOÀN CỤC ===
         private QLNSDataContext context = new QLNSDataContext();
         private QLNSDataSet.DanhSachNhanVienDataTable danhSachNhanVienDataTable = new QLNSDataSet.DanhSachNhanVienDataTable();
         string reportsFolder = Application.StartupPath.Replace("bin\\Debug\\net8.0-windows7.0", "Reports");
@@ -24,11 +25,14 @@ namespace Quan_Ly_Nhan_Su.Reports
         ComboBox cbDuAn;
         Button btnLocKQ;
         Button btnHienTC;
+        #endregion
+        #region === CONSTRUCTOR ===
         public fromThongKeNhanVien()
         {
             InitializeComponent();
         }
-
+        #endregion
+        #region === FORM LOAD ===
         private void fromThongKeNhanVien_Load(object sender, EventArgs e)
         {
             SetupReportViewer();   // ✅ tạo trước
@@ -36,6 +40,8 @@ namespace Quan_Ly_Nhan_Su.Reports
             LayTenNhanVienVaoComboBox();
             LayDuAnVaoComboBox();
         }
+        #endregion
+        #region === LOAD DỮ LIỆU COMBOBOX ===
         public void LayTenNhanVienVaoComboBox()
         {
                 var list = context.NhanVien
@@ -64,6 +70,8 @@ namespace Quan_Ly_Nhan_Su.Reports
                 cbDuAn.ValueMember = "ID";
                 cbDuAn.SelectedIndex = -1;
         }
+        #endregion
+        #region === SETUP UI REPORT VIEWER ===
         private void SetupReportViewer()
         {
             // --- 1. PANEL LỌC (TOP) ---
@@ -152,6 +160,8 @@ namespace Quan_Ly_Nhan_Su.Reports
             // Gọi lần đầu để tính toán vị trí ngay khi mở Form
             UpdateLayoutPositions();
         }
+        #endregion
+        #region === LOAD REPORT BAN ĐẦU ===
         public void LoadReportData()
         {
             try
@@ -203,7 +213,7 @@ namespace Quan_Ly_Nhan_Su.Reports
                 reportViewer1.LocalReport.ReportPath =
                     Path.Combine(Application.StartupPath, "Reports", "rptThongKeNhanVien.rdlc");
 
-                ReportParameter reportParameter = new ReportParameter("KetQuaHienThi", "(Tất cả sản phẩm)");
+                ReportParameter reportParameter = new ReportParameter("KetQuaHienThi", "(Tất cả nhân viên)");
                 reportViewer1.LocalReport.SetParameters(reportParameter);
 
                 reportViewer1.RefreshReport();
@@ -213,6 +223,8 @@ namespace Quan_Ly_Nhan_Su.Reports
                 MessageBox.Show("Lỗi: " + ex.Message);
             }
         }
+        #endregion
+        #region === BUTTON: HIỂN THỊ TẤT CẢ ===
         private void btnHienTC_Click(object sender, EventArgs e)
         {
             // 1. Reset ComboBox về rỗng
@@ -242,6 +254,7 @@ namespace Quan_Ly_Nhan_Su.Reports
 
             foreach (var row in data)
             {
+                string hinhAnhChuan = GetImagePath(row.HinhAnh);
                 danhSachNhanVienDataTable.AddDanhSachNhanVienRow(
                     row.ID,
                     row.MaNV,
@@ -250,7 +263,7 @@ namespace Quan_Ly_Nhan_Su.Reports
                     row.TenDuAn,
                     row.VaiTro,
                     row.GiaTri,
-                    row.HinhAnh
+                    hinhAnhChuan
                 );
             }
 
@@ -269,6 +282,8 @@ namespace Quan_Ly_Nhan_Su.Reports
 
             reportViewer1.RefreshReport();
         }
+        #endregion
+        #region === BUTTON: LỌC KẾT QUẢ ===
         private void btnLocKQ_Click(object sender, EventArgs e)
         {
             var query = context.NhanVien.AsQueryable();
@@ -331,7 +346,8 @@ namespace Quan_Ly_Nhan_Su.Reports
             reportViewer1.RefreshReport();
            
         }
-        // --- HÀM XỬ LÝ ĐƯỜNG DẪN ẢNH (QUAN TRỌNG) ---
+        #endregion
+        #region === XỬ LÝ ẢNH ===
         private string GetImagePath(string fileName)
         {
             if (string.IsNullOrEmpty(fileName)) return "";
@@ -347,5 +363,6 @@ namespace Quan_Ly_Nhan_Su.Reports
             }
             return "";
         }
+        #endregion
     }
 }

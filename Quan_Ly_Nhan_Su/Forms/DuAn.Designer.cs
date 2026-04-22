@@ -28,16 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle18 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle19 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle20 = new DataGridViewCellStyle();
             tabControl1 = new TabControl();
             tabDanhSachDuAn = new TabPage();
             panelMain2 = new Panel();
@@ -226,8 +226,8 @@
             // NgayBD
             // 
             NgayBD.DataPropertyName = "NgayBD";
-            dataGridViewCellStyle1.Format = "dd/MM/yyy";
-            NgayBD.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle11.Format = "dd/MM/yyy";
+            NgayBD.DefaultCellStyle = dataGridViewCellStyle11;
             NgayBD.HeaderText = "Ngày BD";
             NgayBD.MinimumWidth = 6;
             NgayBD.Name = "NgayBD";
@@ -235,8 +235,8 @@
             // NgayKTTT
             // 
             NgayKTTT.DataPropertyName = "NgayKTTT";
-            dataGridViewCellStyle2.Format = "dd/MM/yyy";
-            NgayKTTT.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle12.Format = "dd/MM/yyy";
+            NgayKTTT.DefaultCellStyle = dataGridViewCellStyle12;
             NgayKTTT.HeaderText = "Ngày KTTT";
             NgayKTTT.MinimumWidth = 6;
             NgayKTTT.Name = "NgayKTTT";
@@ -244,8 +244,8 @@
             // NgayKTDK
             // 
             NgayKTDK.DataPropertyName = "NgayKTDK";
-            dataGridViewCellStyle3.Format = "dd/MM/yyy";
-            NgayKTDK.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle13.Format = "dd/MM/yyy";
+            NgayKTDK.DefaultCellStyle = dataGridViewCellStyle13;
             NgayKTDK.HeaderText = "Ngày KTDK";
             NgayKTDK.MinimumWidth = 6;
             NgayKTDK.Name = "NgayKTDK";
@@ -253,9 +253,9 @@
             // GiaTri
             // 
             GiaTri.DataPropertyName = "GiaTri";
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "N0";
-            GiaTri.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle14.Format = "N0";
+            GiaTri.DefaultCellStyle = dataGridViewCellStyle14;
             GiaTri.HeaderText = "Giá trị";
             GiaTri.MinimumWidth = 6;
             GiaTri.Name = "GiaTri";
@@ -263,8 +263,8 @@
             // TienDo
             // 
             TienDo.DataPropertyName = "TienDo";
-            dataGridViewCellStyle5.Format = "0\\\\%";
-            TienDo.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle15.Format = "0\\\\%";
+            TienDo.DefaultCellStyle = dataGridViewCellStyle15;
             TienDo.HeaderText = "Tiến độ";
             TienDo.MinimumWidth = 6;
             TienDo.Name = "TienDo";
@@ -307,7 +307,7 @@
             cbTenPhongBan.FlatStyle = FlatStyle.Flat;
             cbTenPhongBan.Font = new Font("Segoe UI", 10.2F);
             cbTenPhongBan.FormattingEnabled = true;
-            cbTenPhongBan.Location = new Point(662, 19);
+            cbTenPhongBan.Location = new Point(725, 21);
             cbTenPhongBan.Name = "cbTenPhongBan";
             cbTenPhongBan.Size = new Size(120, 31);
             cbTenPhongBan.TabIndex = 14;
@@ -315,7 +315,7 @@
             // btnTimKiem
             // 
             btnTimKiem.Anchor = AnchorStyles.None;
-            btnTimKiem.Location = new Point(788, 21);
+            btnTimKiem.Location = new Point(851, 23);
             btnTimKiem.Name = "btnTimKiem";
             btnTimKiem.Size = new Size(94, 29);
             btnTimKiem.TabIndex = 13;
@@ -327,7 +327,7 @@
             // 
             label7.Anchor = AnchorStyles.None;
             label7.AutoSize = true;
-            label7.Location = new Point(544, 26);
+            label7.Location = new Point(607, 27);
             label7.Name = "label7";
             label7.Size = new Size(112, 20);
             label7.TabIndex = 11;
@@ -340,16 +340,16 @@
             cbTenDA.FlatStyle = FlatStyle.Flat;
             cbTenDA.Font = new Font("Segoe UI", 10.2F);
             cbTenDA.FormattingEnabled = true;
-            cbTenDA.Location = new Point(413, 19);
+            cbTenDA.Location = new Point(348, 21);
             cbTenDA.Name = "cbTenDA";
-            cbTenDA.Size = new Size(120, 31);
+            cbTenDA.Size = new Size(253, 31);
             cbTenDA.TabIndex = 10;
             // 
             // label11
             // 
             label11.Anchor = AnchorStyles.None;
             label11.AutoSize = true;
-            label11.Location = new Point(334, 26);
+            label11.Location = new Point(264, 27);
             label11.Name = "label11";
             label11.Size = new Size(78, 20);
             label11.TabIndex = 9;
@@ -362,7 +362,7 @@
             cbMaDA.FlatStyle = FlatStyle.Flat;
             cbMaDA.Font = new Font("Segoe UI", 10.2F);
             cbMaDA.FormattingEnabled = true;
-            cbMaDA.Location = new Point(188, 19);
+            cbMaDA.Location = new Point(126, 21);
             cbMaDA.Name = "cbMaDA";
             cbMaDA.Size = new Size(120, 31);
             cbMaDA.TabIndex = 8;
@@ -371,7 +371,7 @@
             // 
             label12.Anchor = AnchorStyles.None;
             label12.AutoSize = true;
-            label12.Location = new Point(106, 26);
+            label12.Location = new Point(44, 27);
             label12.Name = "label12";
             label12.Size = new Size(76, 20);
             label12.TabIndex = 7;
@@ -582,8 +582,8 @@
             // NgayBD1
             // 
             NgayBD1.DataPropertyName = "NgayBD";
-            dataGridViewCellStyle6.Format = "dd/MM/yyy";
-            NgayBD1.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle16.Format = "dd/MM/yyy";
+            NgayBD1.DefaultCellStyle = dataGridViewCellStyle16;
             NgayBD1.HeaderText = "Ngày BD";
             NgayBD1.MinimumWidth = 6;
             NgayBD1.Name = "NgayBD1";
@@ -591,8 +591,8 @@
             // NgayKTTT1
             // 
             NgayKTTT1.DataPropertyName = "NgayKTTT";
-            dataGridViewCellStyle7.Format = "dd/MM/yyy";
-            NgayKTTT1.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle17.Format = "dd/MM/yyy";
+            NgayKTTT1.DefaultCellStyle = dataGridViewCellStyle17;
             NgayKTTT1.HeaderText = "Ngày KTTT";
             NgayKTTT1.MinimumWidth = 6;
             NgayKTTT1.Name = "NgayKTTT1";
@@ -600,8 +600,8 @@
             // NgayKTDK1
             // 
             NgayKTDK1.DataPropertyName = "NgayKTDK";
-            dataGridViewCellStyle8.Format = "dd/MM/yyy";
-            NgayKTDK1.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle18.Format = "dd/MM/yyy";
+            NgayKTDK1.DefaultCellStyle = dataGridViewCellStyle18;
             NgayKTDK1.HeaderText = "Ngày KTDK";
             NgayKTDK1.MinimumWidth = 6;
             NgayKTDK1.Name = "NgayKTDK1";
@@ -609,9 +609,9 @@
             // GiaTri1
             // 
             GiaTri1.DataPropertyName = "GiaTri";
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle9.Format = "N0";
-            GiaTri1.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle19.Format = "N0";
+            GiaTri1.DefaultCellStyle = dataGridViewCellStyle19;
             GiaTri1.HeaderText = "Giá trị";
             GiaTri1.MinimumWidth = 6;
             GiaTri1.Name = "GiaTri1";
@@ -619,8 +619,8 @@
             // TienDo1
             // 
             TienDo1.DataPropertyName = "TienDo";
-            dataGridViewCellStyle10.Format = "0\\\\%";
-            TienDo1.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle20.Format = "0\\\\%";
+            TienDo1.DefaultCellStyle = dataGridViewCellStyle20;
             TienDo1.HeaderText = "Tiến độ";
             TienDo1.MinimumWidth = 6;
             TienDo1.Name = "TienDo1";
@@ -818,7 +818,8 @@
             // dtNgayBD
             // 
             dtNgayBD.Anchor = AnchorStyles.None;
-            dtNgayBD.Format = DateTimePickerFormat.Short;
+            dtNgayBD.CustomFormat = "dd/MM/yyyy";
+            dtNgayBD.Format = DateTimePickerFormat.Custom;
             dtNgayBD.Location = new Point(659, 13);
             dtNgayBD.Name = "dtNgayBD";
             dtNgayBD.Size = new Size(278, 27);
@@ -864,7 +865,8 @@
             // dtNgayKTTT
             // 
             dtNgayKTTT.Anchor = AnchorStyles.None;
-            dtNgayKTTT.Format = DateTimePickerFormat.Short;
+            dtNgayKTTT.CustomFormat = "dd/MM/yyyy";
+            dtNgayKTTT.Format = DateTimePickerFormat.Custom;
             dtNgayKTTT.Location = new Point(659, 82);
             dtNgayKTTT.Name = "dtNgayKTTT";
             dtNgayKTTT.Size = new Size(278, 27);
@@ -873,7 +875,8 @@
             // dtNgayKTDK
             // 
             dtNgayKTDK.Anchor = AnchorStyles.None;
-            dtNgayKTDK.Format = DateTimePickerFormat.Short;
+            dtNgayKTDK.CustomFormat = "dd/MM/yyyy";
+            dtNgayKTDK.Format = DateTimePickerFormat.Custom;
             dtNgayKTDK.Location = new Point(659, 48);
             dtNgayKTDK.Name = "dtNgayKTDK";
             dtNgayKTDK.Size = new Size(278, 27);

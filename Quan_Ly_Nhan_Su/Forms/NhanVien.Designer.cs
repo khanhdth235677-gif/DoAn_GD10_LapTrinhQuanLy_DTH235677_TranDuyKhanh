@@ -781,6 +781,7 @@
             btnXoay.TextAlign = ContentAlignment.MiddleRight;
             btnXoay.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnXoay.UseVisualStyleBackColor = true;
+            btnXoay.Click += btnXoay_Click;
             // 
             // btnDoiAnh
             // 
@@ -1171,6 +1172,8 @@
             // dtpNgaySinhCT
             // 
             dtpNgaySinhCT.Anchor = AnchorStyles.None;
+            dtpNgaySinhCT.CustomFormat = "dd/MM/yyyy";
+            dtpNgaySinhCT.Format = DateTimePickerFormat.Custom;
             dtpNgaySinhCT.Location = new Point(148, 114);
             dtpNgaySinhCT.Name = "dtpNgaySinhCT";
             dtpNgaySinhCT.Size = new Size(209, 27);
